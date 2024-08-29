@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .grid-background {
+        background-image: linear-gradient(to right, rgba(144, 238, 144, 0.3) 1px, transparent 1px),
+                            linear-gradient(to bottom, rgba(144, 238, 144, 0.3) 1px, transparent 1px);
+        background-size: 50px 50px; /* 设置网格线的间隔 */
+    }
+}
+* {
+    font-family: 'IBM PLex Mono';
+    box-sizing: border-box;
+    cursor: none;
+    padding: 0;
+    margin: 0;
+}
+
+body, html, #root {
+    width: 100%; 
+    height: 100%;
+}
+body {
+    overflow-x: hidden;
+}
+
+.vertival-side-div {
+    writing-mode: vertical-rl;
+    text-orientation: sideways
+}
