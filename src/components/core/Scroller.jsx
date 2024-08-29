@@ -6,7 +6,7 @@ export default function Scroll({ sections }) {
     const sectionRef = useRef(null)
     const triggerRef = useRef(null)
 
-    gsap.registerPlugin(useGSAP)
+    gsap.registerPlugin(useGSAP, ScrollTrigger)
 
     useGSAP(() => {
         function getScrollAmount() {
@@ -37,7 +37,7 @@ export default function Scroll({ sections }) {
     return (
         <>
             <div ref={triggerRef}>
-                <div ref={sectionRef} className="flex" style={{ width: `${sections.length * 100}vw`}}>
+                <div ref={sectionRef} className="flex z-40" style={{ width: `${sections.length * 100}vw`}}>
                     {
                         sections.map((section) => {
                             const { Component, page, height } = section;

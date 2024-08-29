@@ -5,7 +5,6 @@ import SectionThree from "./components/sections/SectionThree";
 import SectionFour from "./components/sections/SectionFour";
 import Scroller from './components/core/Scroller'
 import ScrollBar from "./components/core/ScrollBar";
-
 const layerOne = [
   {Component: SectionOne, page: 1},
   {Component: SectionTwo, page: 2, height: '200vh'},
