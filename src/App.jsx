@@ -8,7 +8,7 @@ import ScrollBar from "./components/core/ScrollBar";
 
 const layerOne = [
   {Component: SectionOne, page: 1},
-  {Component: SectionTwo, page: 2},
+  {Component: SectionTwo, page: 2, height: '200vh'},
 ]
 const layerTwo = [
   {Component: SectionThree, page: 3},

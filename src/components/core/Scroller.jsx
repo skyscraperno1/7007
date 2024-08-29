@@ -40,9 +40,11 @@ export default function Scroll({ sections }) {
                 <div ref={sectionRef} className="flex" style={{ width: `${sections.length * 100}vw`}}>
                     {
                         sections.map((section) => {
-                            const { Component, page } = section;
+                            const { Component, page, height } = section;
                             return (
-                                <section key={page} className='w-screen h-screen overflow-hidden pt-[10vh] flex relative'>
+                                <section key={page} className='w-screen h-screen overflow-hidden pt-[10vh] flex relative' style={{
+                                    height: `${height ? height : '100vh'}`
+                                }}>
                                     <div className='w-[65px] h-screen select-none'></div>
                                     <div className='flex-1 relative overflow-hidden z-50'>
                                         <Component/>
