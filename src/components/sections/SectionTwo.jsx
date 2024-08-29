@@ -8,12 +8,12 @@ const SectionTwo = () => {
   gsap.registerPlugin(useGSAP, ScrollTrigger)
 
   const windowWidth = window.innerWidth
-
+  const windowHeight = window.innerHeight
   useGSAP(() => {
     ScrollTrigger.create({
       trigger: ref.value,
       start: `${windowWidth} top`,
-      end: '+=2000',
+      end: `${windowHeight * 2 + windowWidth} top`,
       pin: true,
       markers: true
     })
