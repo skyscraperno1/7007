@@ -1,0 +1,118 @@
+import { ReactLenis } from "lenis/dist/lenis-react";
+import {
+    motion,
+    useMotionTemplate,
+    useScroll,
+    useTransform,
+    useMotionValueEvent
+} from "framer-motion";
+import Cover from '/Cover.png'
+import Video from '/clip.mp4'
+import { useState } from "react";
+import BoldTitle from "../../core/BoldTitle";
+export const SmoothScrollHero = () => {
+    return (
+        <ReactLenis root options={{ lerp: 0.05 }}>
+            <Hero />
+        </ReactLenis>
+    );
+};
+
+const Hero = () => {
+    return (
+        <div
+            style={{ height: `300vh` }}
+            className="relative w-full"
+        >
+            <CenterImage />
+        </div>
+    );
+};
+
+const CenterImage = () => {
+    const { scrollY } = useScroll();
+    const [shouldShowVideo, setShouldShowVideo] = useState(false);
+
+
+    const startY = window.innerWidth
+    const endY = startY + window.innerHeight * 3
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        if (latest > startY + window.innerHeight) {
+            setShouldShowVideo(true)
+        } else {
+            setShouldShowVideo(false)
+        }
+    })
+
+    const clip1 = useTransform(scrollY, [startY, startY + window.innerHeight], [30, 0]);
+    const clip2 = useTransform(scrollY, [startY, startY + window.innerHeight], [70, 100]);
+    const textLeft = useTransform(scrollY, [startY, startY + window.innerHeight], ['19%', '-10%']);
+    const textRight = useTransform(scrollY, [startY, startY + window.innerHeight], ['15%', '-13%']);
+
+    const clipPath = useMotionTemplate`polygon(${clip1}% ${clip1}%, ${clip2}% ${clip1}%, ${clip2}% ${clip2}%, ${clip1}% ${clip2}%)`;
+
+    const top = useTransform(scrollY,
+        [startY, endY],
+        [0, endY - startY],
+    )
+
+    return (
+        <motion.div
+            className="absolute top-0 h-screen w-full flex justify-center items-center"
+            style={{
+                top,
+            }}
+        >
+            <div className="realtive z-10 w-full overflow-hidden">
+                <motion.div className="absolute left-[15%] p-2"
+                    style={{
+                        left: textLeft
+                    }}
+                >
+                    <BoldTitle content="7007 A.I." color="#FEED01" size="small" />
+                </motion.div>
+                <motion.div
+                    style={{
+                        right: textRight
+                    }}
+                    className="absolute right-[15%]">
+                    <BoldTitle content="NFT Protocol" color="#FEED01" size="small" />
+                </motion.div>
+            </div>
+            <motion.div
+                className="absolute top-0 h-full w-full flex justify-center items-center"
+                style={{
+                    clipPath,
+                }}
+            >
+
+                {shouldShowVideo ? (
+                    <motion.video
+                        className="w-full h-full object-cover"
+                        src={Video}
+                        alt="7007 Video"
+                        autoPlay
+                        loop
+                        muted
+                        transition={{ duration: 0.5 }}
+                        style={{ opacity: 1 }}
+                    />
+                ) : (
+                    <motion.img
+                        className="w-full h-full object-cover"
+                        src={Cover}
+                        alt="7007 Img"
+                        transition={{ duration: 0.5 }}
+                        style={{ opacity: 1 }}
+                    />
+                )}
+            </motion.div>
+        </motion.div>
+
+    );
+};
+
+
+
+
+

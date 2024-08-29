@@ -1,15 +1,18 @@
 import { useRef, useEffect } from 'react'
-import { SmoothScrollHero } from './SectionTwo/ScrollTwo'
+import FixSectionTwo from './SectionTwo/FixSectionTwo';
+import Cover from '/Cover.png'
+import { motion, useScroll, useTransform } from "framer-motion";
+import { SmoothScrollHero } from './SectionTwo/Source'
+
 const SectionTwo = () => {
-  const ref = useRef(null)
-  
-  const windowWidth = window.innerWidth
-  const windowHeight = window.innerHeight
-  
+  const { scrollY } = useScroll();
   return (
     <>
-    <div ref={ref} className="w-full h-full relative top-0 bg-stone-500" >
+    <div className="w-full h-full relative top-0" >
       <SmoothScrollHero />
+      {/* <FixSectionTwo >
+        
+      </FixSectionTwo> */}
     </div>
    </>
   );
