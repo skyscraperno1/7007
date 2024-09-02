@@ -51,7 +51,7 @@ function MainTitle() {
     let timer;
     timer = setInterval(() => {
       setPopIndex((prevNum) => {
-        return getRandomNumber(prevNum);;
+        return getRandomNumber(prevNum);
       });
     }, 1000)
     return () => clearInterval(timer); 

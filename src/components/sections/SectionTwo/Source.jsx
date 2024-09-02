@@ -8,7 +8,7 @@ import {
 } from "framer-motion";
 import Cover from '/Section2/Cover.gif'
 import Video from '/Section2/clip.mp4'
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BoldTitle from "../../core/BoldTitle";
 import RedStar from '/Stars/RedStar.png'
 export const SmoothScrollHero = () => {
@@ -48,11 +48,6 @@ const CenterImage = () => {
             setShouldShowVideo(false)
         }
     })
-
-    useEffect(() => {
-        console.log(leftWidth);
-        
-    }, [leftWidth])
 
     const clip1 = useTransform(scrollY, [startY, startY + window.innerHeight], [30, 0]);
     const clip2 = useTransform(scrollY, [startY, startY + window.innerHeight], [70, 100]);
