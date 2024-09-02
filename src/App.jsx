@@ -1,4 +1,4 @@
-import Navigator from "./components/Navgator";
+import Navigator from "./components/Navigator";
 import SectionOne from "./components/sections/SectionOne";
 import SectionTwo from "./components/sections/SectionTwo";
 import SectionThree from "./components/sections/SectionThree";

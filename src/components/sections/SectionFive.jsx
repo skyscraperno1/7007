@@ -1,4 +1,4 @@
-import bg from '/Section4/page-four-bg.png'
+import bg from '/Section5/page-four-bg.png'
 import ColorBlock from './SectionFive/ColorBlock'
 import styled from 'styled-components'
 
@@ -10,10 +10,10 @@ const BlocksWrapper = styled.div`
     width: 80%;
   }
 `
-const SectionFour = () => {
+const SectionFive = () => {
     return (
         <>
-        <div id="section-four" className='h-full w-full shrink-0 px-10 flex items-center justify-center' style={{ backgroundImage: `url(${bg})` }}>
+        <div id="section-five" className='h-full w-full shrink-0 px-10 flex items-center justify-center' style={{ backgroundImage: `url(${bg})` }}>
             <BlocksWrapper id="color-block">
               <ColorBlock />
             </BlocksWrapper>
@@ -22,4 +22,4 @@ const SectionFour = () => {
     )
 }
 
-export default SectionFour;
+export default SectionFive;

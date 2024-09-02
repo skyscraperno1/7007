@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import ArrowIcon from '/pointers/cursor-icon.png';
+import ArrowIcon from '/Pointers/cursor-icon.png';
 
 const TriangleShape = styled.div`
   width: 0;
@@ -15,7 +15,7 @@ const TriangleShape = styled.div`
     `}
 `;
 const BottomNav = ({ page }) => {
-    const isLast = page === 4
+    const isLast = page === 5
     const isFirst = page === 1
     return (
         <div className='select-none absolute overflow-hidden bg-transparent w-full bottom-0 left-0 z-[100]'>
