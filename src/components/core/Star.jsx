@@ -1,5 +1,5 @@
-import RedStar from '../../assets/RedStar.png'
-import YellowStar from '../../assets/YellowStar.png'
+import RedStar from '/Stars/RedStar.png'
+import YellowStar from '/Stars/YellowStar.png'
 import { motion } from 'framer-motion'
 const Star = ({ color = '#FF0501', rotate = '0' }) => {
     return (

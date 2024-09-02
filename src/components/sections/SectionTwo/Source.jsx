@@ -6,11 +6,11 @@ import {
     useTransform,
     useMotionValueEvent
 } from "framer-motion";
-import Cover from '/Cover.gif'
-import Video from '/clip.mp4'
+import Cover from '/Section2/Cover.gif'
+import Video from '/Section2/clip.mp4'
 import { useEffect, useState } from "react";
 import BoldTitle from "../../core/BoldTitle";
-import RedStar from '../../../assets/RedStar.png'
+import RedStar from '/Stars/RedStar.png'
 export const SmoothScrollHero = () => {
     return (
         <ReactLenis root options={{ lerp: 0.05 }}>

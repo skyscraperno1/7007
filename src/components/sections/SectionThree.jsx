@@ -1,9 +1,9 @@
 import BoldTitle from '../core/BoldTitle';
 import AnimationPop from './SectionThree/AnimationPop'
 import Button from '../core/Button';
-import LeftImg from '../../assets/sectionThree/ShapeLeft.png'
-import RightImg from '../../assets/sectionThree/ShapeRight.png'
-import StarImg from '../../assets/sectionThree/GreenStar.png'
+import LeftImg from '/Section3/ShapeLeft.png'
+import RightImg from '/Section3/ShapeRight.png'
+import StarImg from '/Stars/GreenStar.png'
 import { useState } from 'react'
 import { motion } from 'framer-motion';
 const SectionThree = () => {

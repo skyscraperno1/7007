@@ -1,6 +1,5 @@
-import React from 'react';
 import styled, { css } from 'styled-components';
-import ArrowIcon from '../../assets/cursor-icon.png';
+import ArrowIcon from '/pointers/cursor-icon.png';
 
 const TriangleShape = styled.div`
   width: 0;

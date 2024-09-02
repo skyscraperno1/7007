@@ -1,4 +1,4 @@
-import bg from '../../assets/page-four-bg.png'
+import bg from '/Section4/page-four-bg.png'
 import ColorBlock from './SectionFour/ColorBlock'
 import styled from 'styled-components'
 

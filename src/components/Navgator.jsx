@@ -1,7 +1,7 @@
-import logo from '../assets/logo/GreenLogo.png'
+import logo from '/Logo/GreenLogo.png'
 import Button from './core/Button'
-import XLogo from '../assets/X-logo.svg'
-import TwitterLogo from '../assets/twitter-logo.svg'
+import XLogo from '/Logo/X-logo.svg'
+import TwitterLogo from '/Logo/twitter-logo.svg'
 import { motion } from 'framer-motion';
 
 const RotatingImage = ({ src, alt }) => {

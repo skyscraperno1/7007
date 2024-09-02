@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import AnimationText from './AnimationText';
 import AnimationButton from './AnimationButton';
 
-import Img1 from '../../../assets/sectionThree/testImg/Img1.png'
-import Img2 from '../../../assets/sectionThree/testImg/Img2.png'
-import Img3 from '../../../assets/sectionThree/testImg/Img3.png'
-import Img4 from '../../../assets/sectionThree/testImg/Img4.png'
-import Img5 from '../../../assets/sectionThree/testImg/Img5.png'
-import Img6 from '../../../assets/sectionThree/testImg/Img6.png'
-import Img7 from '../../../assets/sectionThree/testImg/Img7.png'
+import Img1 from '/Section3/bgs/Img1.png'
+import Img2 from '/Section3/bgs/Img2.png'
+import Img3 from '/Section3/bgs/Img3.png'
+import Img4 from '/Section3/bgs/Img4.png'
+import Img5 from '/Section3/bgs/Img5.png'
+import Img6 from '/Section3/bgs/Img6.png'
+import Img7 from '/Section3/bgs/Img7.png'
 const ImgW = 269
 const ImgH = 424
 const images = [

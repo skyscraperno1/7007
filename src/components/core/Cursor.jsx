@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import CursorNormal from '../../assets/cursor.png';
-import CursorPointer from '../../assets/cursor-pointer.png';
+import CursorSrc from '/Pointers/cursor.png';
 import styled from 'styled-components';
 
 const CursorWrapper = styled.div.attrs(props => ({
   style: {
     transform: `translateX(${props.$offset.x}px) translateY(${props.$offset.y}px) scale(2) rotate(${props.$offset.deg}deg)`,
-    backgroundImage: `url(${CursorNormal})`,
+    backgroundImage: `url(${CursorSrc})`,
     top: props.$y,
     left: props.$x,
 

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import MainTitle from './SectionOne/MainTitle';
-import CircleElement from '../../assets/3dElement.png';
+import CircleElement from '/Section1/3dElement.png';
 const SectionWrapper = styled.div`
   position: relative;
   &::before {

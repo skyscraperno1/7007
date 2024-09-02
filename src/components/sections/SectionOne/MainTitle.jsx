@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import ShakeBanner from "./ShakeBanner";
-import BlackLogo from "../../../assets/logo/blackLogo.png";
-import Protocol from "../../../assets/7007Protocol.svg";
+import BlackLogo from "/Logo/BlackLogo.png";
+import Protocol from "/Section1/7007Protocol.svg";
 import HoverImage from "../../core/HoverImg";
 import Star from "../../core/Star";
 const Title = styled.div`
@@ -36,7 +36,6 @@ const TextSpan = styled.span`
 `
 
 function MainTitle() {
-  const [isHovered, setIsHovered] = useState(true);
   const [color, setColor] = useState("#FEED01");
   const [popImg, setPopIndex] = useState(0)
 
@@ -60,22 +59,15 @@ function MainTitle() {
 
   useEffect(() => {
     let interval;
+    let colorSequence = ["#FF0501", "#03D25C", "#FEED01"];
+    let index = 0;
 
-    if (isHovered) {
-      let colorSequence = ["#FF0501", "#03D25C", "#FEED01"];
-      let index = 0;
-
-      interval = setInterval(() => {
-        setColor(colorSequence[index]);
-        index = (index + 1) % colorSequence.length; 
-      }, 500);
-    } else {
-      setColor("#FEED01"); 
-      clearInterval(interval); 
-    }
-
+    interval = setInterval(() => {
+      setColor(colorSequence[index]);
+      index = (index + 1) % colorSequence.length; 
+    }, 500);
     return () => clearInterval(interval); 
-  }, [isHovered]);
+  }, []);
 
   return (
     <div className="relative">
@@ -108,8 +100,6 @@ function MainTitle() {
             <HoverImage src={Protocol} alt="protocol" animation={1 === popImg} />
           </div>
           <TextSpan
-          // onMouseEnter={() => setIsHovered(true)}
-          // onMouseLeave={() => setIsHovered(false)} 
           className="m-pointer relative block z-40" content="Ultimate">
             Ultimate
           </TextSpan>
@@ -123,8 +113,6 @@ function MainTitle() {
             <HoverImage src={Protocol} alt="protocol" animation={2 === popImg}/>
           </div>
           <TextSpan 
-          //  onMouseEnter={() => setIsHovered(true)}
-          //  onMouseLeave={() => setIsHovered(false)}
             className="m-pointer relative block z-40" content="AIGC&ensp;Exchange">
             AIGC&ensp;Exchange
           </TextSpan>
