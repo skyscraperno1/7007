@@ -6,7 +6,7 @@ import {
     useTransform,
     useMotionValueEvent
 } from "framer-motion";
-import Cover from '/Cover.png'
+import Cover from '/Cover.gif'
 import Video from '/clip.mp4'
 import { useEffect, useState } from "react";
 import BoldTitle from "../../core/BoldTitle";
