@@ -1,72 +1,143 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { FaPlay, FaPause } from 'react-icons/fa';
+import { useState, useRef, useEffect } from 'react'
+import { FaPlay, FaPause, FaVolumeMute, FaVolumeUp } from 'react-icons/fa'
 
-import { cn } from '../../lib/utils';
-
-const VideoPlayer = ({ url }) => {
-  const [paused, setPaused] = useState(true);
-  const [loading, setLoading] = useState(true);
-  const [isErr, setIsErr] = useState(false)
-  const playerRef = useRef(null);
+const VideoPlayer = ({
+  src,
+  className = '',
+  autoPlay = true,
+  loop = true,
+  muted = false,
+  controls = false,
+  playsInline = true,
+  showPlayPauseButton = true,
+  showMuteButton = true,
+  loadingText = 'Loading...',
+  errorText = 'Video loading failed',
+  isPlayingExternal,
+  onPlayPause,
+  onLoaded,
+  onError
+}) => {
+  const [isPlaying, setIsPlaying] = useState(
+    isPlayingExternal !== undefined ? isPlayingExternal : false
+  )
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [isMuted, setIsMuted] = useState(muted)
+  const [isHovered, setIsHovered] = useState(false)
+  const videoRef = useRef(null)
 
   useEffect(() => {
-    setLoading(true);
-    const video = playerRef.current;
-    if (video) {
-      video.addEventListener('loadedmetadata', () => {
-        console.log('视频元数据加载完成');
-        setLoading(false)
-      });
+    if (isPlayingExternal !== undefined) {
+      setIsPlaying(isPlayingExternal)
     }
+  }, [isPlayingExternal])
 
-    return () => {
-      video?.removeEventListener('loadedmetadata', null);
-    };
-  }, []);
-
-  const togglePlayPause = () => {
-    if (loading || !playerRef.current) return
-    if (paused) {
-      playerRef.current.play().then(() => setPaused(false)).catch(error => console.error(error));
-    } else {
-      playerRef.current.pause().catch(() => {});
-      setPaused(true);
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = isMuted
+      if (isPlaying) {
+        videoRef.current.play().catch((error) => {
+          console.error('Play was prevented:', error)
+          setIsPlaying(false)
+          onPlayPause && onPlayPause(false)
+        })
+      } else {
+        videoRef.current.pause()
+      }
     }
-  };
+  }, [isPlaying, isMuted, onPlayPause])
+
+  const togglePlay = () => {
+    const newPlayingState = !isPlaying
+    setIsPlaying(newPlayingState)
+    onPlayPause && onPlayPause(newPlayingState)
+  }
+
+  const toggleMute = (e) => {
+    e.stopPropagation()
+    setIsMuted(!isMuted)
+  }
+
+  const handleLoadedData = () => {
+    setIsLoading(false)
+    onLoaded && onLoaded()
+  }
+
+  const handleError = (e) => {
+    console.error(e)
+    setError(errorText)
+    setIsLoading(false)
+    onError && onError(errorText)
+  }
 
   return (
-    <div className={cn("group relative h-full w-full flex items-center justify-center border-black", {'border-[1px]': loading })}>
-       <video
-          ref={playerRef} 
-          src={'dfa'}
-          controls={false}
-          autoPlay={!paused}
-          muted
-          loop
-          width="100%"
-          height="100%"
-          className=''
-          onError={() => {
-            setIsErr(true)
-          }}
-        />
-      {!loading ? (
-        <div className="absolute inset-0 text-xl">Video {isErr ? 'Error' : 'Loading'}...</div>
-      ) : (
-          <div
-            className={`absolute inset-0 flex items-center justify-center bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-300`}
-          >
-            <button
-              className="text-white text-2xl m-pointer"
-              onClick={togglePlayPause}
-              disabled={loading} // 视频加载中时禁用播放按钮
+    <div
+      className={`relative ${className} cursor-none`}
+      onClick={togglePlay}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50">
+          {loadingText}
+        </div>
+      )}
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-red-200 bg-opacity-50">
+          {error}
+        </div>
+      )}
+      <video
+        ref={videoRef}
+        playsInline={playsInline}
+        autoPlay={autoPlay}
+        loop={loop}
+        muted={isMuted}
+        controls={controls}
+        onLoadedData={handleLoadedData}
+        onError={handleError}
+        onPlay={() => {
+          setIsPlaying(true)
+          onPlayPause && onPlayPause(true)
+        }}
+        onPause={() => {
+          setIsPlaying(false)
+          onPlayPause && onPlayPause(false)
+        }}
+        className="w-full h-full object-cover"
+      >
+        <source src={src} />
+        Your browser does not support the video tag.
+      </video>
+      {(isHovered || !isPlaying) && !isLoading && !error && (
+        <>
+          {showPlayPauseButton && (
+            <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+              {isPlaying ? (
+                <FaPause className="text-white text-4xl" />
+              ) : (
+                <FaPlay className="text-white text-4xl" />
+              )}
+            </div>
+          )}
+          {showMuteButton && (
+            <div
+              className="absolute bottom-2 right-2 transition-opacity duration-300"
+              onClick={(e) => e.stopPropagation()}
             >
-              {paused ? <FaPlay className='m-pointer' /> : <FaPause className='m-pointer' />}
-            </button>
-          </div>
+              <button
+                className="text-white text-xl bg-black bg-opacity-50 p-2 rounded-full cursor-none"
+                onClick={toggleMute}
+              >
+                {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default VideoPlayer;
+export default VideoPlayer

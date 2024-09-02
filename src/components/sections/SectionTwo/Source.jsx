@@ -10,6 +10,7 @@ import Cover from '/Cover.png'
 import Video from '/clip.mp4'
 import { useState } from "react";
 import BoldTitle from "../../core/BoldTitle";
+import RedStar from '../../../assets/RedStar.png'
 export const SmoothScrollHero = () => {
     return (
         <ReactLenis root options={{ lerp: 0.05 }}>
@@ -32,7 +33,8 @@ const Hero = () => {
 const CenterImage = () => {
     const { scrollY } = useScroll();
     const [shouldShowVideo, setShouldShowVideo] = useState(false);
-
+    const [leftWidth, setLeftWidth] = useState(['19%', '-10%'])
+    const [rightWidth, setRightWidth] = useState(['15%', '-13%'])
 
     const startY = window.innerWidth
     const endY = startY + window.innerHeight * 3
@@ -46,8 +48,8 @@ const CenterImage = () => {
 
     const clip1 = useTransform(scrollY, [startY, startY + window.innerHeight], [30, 0]);
     const clip2 = useTransform(scrollY, [startY, startY + window.innerHeight], [70, 100]);
-    const textLeft = useTransform(scrollY, [startY, startY + window.innerHeight], ['19%', '-10%']);
-    const textRight = useTransform(scrollY, [startY, startY + window.innerHeight], ['15%', '-13%']);
+    const textLeft = useTransform(scrollY, [startY, startY + window.innerHeight], [...leftWidth])
+    const textRight = useTransform(scrollY, [startY, startY + window.innerHeight], [...rightWidth]);
 
     const clipPath = useMotionTemplate`polygon(${clip1}% ${clip1}%, ${clip2}% ${clip1}%, ${clip2}% ${clip2}%, ${clip1}% ${clip2}%)`;
 
@@ -63,20 +65,33 @@ const CenterImage = () => {
                 top,
             }}
         >
-            <div className="realtive z-10 w-full overflow-hidden">
-                <motion.div className="absolute left-[15%] p-2"
+            <div className="z-10 w-full">
+                <motion.div className="absolute"
                     style={{
-                        left: textLeft
+                        left: textLeft,
                     }}
                 >
-                    <BoldTitle content="7007 A.I." color="#FEED01" size="small" />
+                    <BoldTitle content="7007 A.I." color="#FEED01" size="small" useWidth={(w) => {
+                        w = w + 24
+                        const start  = (window.innerWidth * 0.3 - w) + 'px'
+                        const end = -w + 'px'
+                        setLeftWidth([start, end])
+                    }}/>
+                    <img src={RedStar} className="absolute scale-50 2xl:scale-75" style={{
+                        top: 'calc(-100% - 20px)'
+                    }}/>
                 </motion.div>
                 <motion.div
                     style={{
                         right: textRight
                     }}
-                    className="absolute right-[15%]">
-                    <BoldTitle content="NFT Protocol" color="#FEED01" size="small" />
+                    className="absolute">
+                    <BoldTitle content="NFT Protocol" color="#FEED01" size="small" useWidth={(w) => {
+                        w = w + 30
+                        const start  = (window.innerWidth * 0.3 - w) + 'px'
+                        const end = -w + 'px'
+                        setRightWidth([start, end])
+                    }}/>
                 </motion.div>
             </div>
             <motion.div

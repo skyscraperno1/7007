@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { cn } from "../../lib/utils";
+import { useEffect, useRef } from "react";
 
 const SpanWrapper = styled.span`
     z-index: 49;
@@ -33,8 +34,16 @@ const SpanWrapper = styled.span`
       -webkit-text-stroke: 0;
     }
 `
-const BoldTitle = ({ content, color, size ='big', italic = false }) => {
+const BoldTitle = ({ content, color, size ='big', italic = false, useWidth }) => {
     const isBig = size === 'big'
+    const ref = useRef(null)
+    useEffect(() => {
+        if (typeof useWidth === 'function' && ref.current) {
+            const w = ref.current.getBoundingClientRect().width;
+            useWidth(w)
+        }
+    }, [useWidth])
+
     return (
         <SpanWrapper 
             className={
@@ -48,6 +57,7 @@ const BoldTitle = ({ content, color, size ='big', italic = false }) => {
             }}
             $isBig={isBig}
             content={content}
+            ref={ref}
         >
             {content}
         </SpanWrapper>
