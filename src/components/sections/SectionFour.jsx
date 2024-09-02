@@ -1,7 +1,7 @@
 import MotionPartner from "./SectionFour/MovePartner";
 import BoldTitle from "../core/BoldTitle"
+const titles = ['Stratos', 'Stake stone', '0G LABS', 'Arbitrum', 'Story Protocol', 'RARI CHAIN', 'Eth storage', 'Ora protocol']
 const SectionFour = () => {
-    const arr = Array.from({ length: 8 }, (_, index) => index + 1);
     return (
         <>
             <div id="section-four" className='h-full w-full shrink-0'>
@@ -12,8 +12,8 @@ const SectionFour = () => {
                     height: 'calc(100% - 15vh)'
                 }}>
                     {
-                        arr.map(page => (<div key={'partner_'+page} className="w-full h-full flex items-center justify-center">
-                            <MotionPartner page={page} />
+                        titles.map((title, page) => (<div key={'partner_'+page} className="w-full h-full flex items-center justify-center">
+                            <MotionPartner page={page + 1} title={title}/>
                         </div>
                         ))
                     }
