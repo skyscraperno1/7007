@@ -8,7 +8,7 @@ import {
 } from "framer-motion";
 import Cover from '/Cover.png'
 import Video from '/clip.mp4'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BoldTitle from "../../core/BoldTitle";
 import RedStar from '../../../assets/RedStar.png'
 export const SmoothScrollHero = () => {
@@ -35,16 +35,24 @@ const CenterImage = () => {
     const [shouldShowVideo, setShouldShowVideo] = useState(false);
     const [leftWidth, setLeftWidth] = useState(['19%', '-10%'])
     const [rightWidth, setRightWidth] = useState(['15%', '-13%'])
-
+    const [showPage, setShowPage] = useState(false)
     const startY = window.innerWidth
     const endY = startY + window.innerHeight * 3
     useMotionValueEvent(scrollY, "change", (latest) => {
+        if (!showPage) {
+            setShowPage(true)
+        }
         if (latest > startY + window.innerHeight) {
             setShouldShowVideo(true)
         } else {
             setShouldShowVideo(false)
         }
     })
+
+    useEffect(() => {
+        console.log(leftWidth);
+        
+    }, [leftWidth])
 
     const clip1 = useTransform(scrollY, [startY, startY + window.innerHeight], [30, 0]);
     const clip2 = useTransform(scrollY, [startY, startY + window.innerHeight], [70, 100]);
@@ -57,6 +65,20 @@ const CenterImage = () => {
         [startY, endY],
         [0, endY - startY],
     )
+
+    const setWidth = (w, position) => {
+        if (position === 'left') {
+            w = w + 24
+            const start  = (window.innerWidth * 0.3 - w) + 'px'
+            const end = -w + 'px'
+            setLeftWidth([start, end])
+        } else {
+            w = w + 30
+            const start  = (window.innerWidth * 0.3 - w) + 'px'
+            const end = -w + 'px'
+            setRightWidth([start, end])
+        }
+    }
 
     return (
         <motion.div
@@ -71,14 +93,11 @@ const CenterImage = () => {
                         left: textLeft,
                     }}
                 >
-                    <BoldTitle content="7007 A.I." color="#FEED01" size="small" useWidth={(w) => {
-                        w = w + 24
-                        const start  = (window.innerWidth * 0.3 - w) + 'px'
-                        const end = -w + 'px'
-                        setLeftWidth([start, end])
+                    <BoldTitle showPage={showPage} content="7007 A.I." color="#FEED01" size="small" useWidth={(w) => {
+                       setWidth(w, 'left')
                     }}/>
                     <img src={RedStar} className="absolute scale-50 2xl:scale-75" style={{
-                        top: 'calc(-100% - 20px)'
+                        top: 'calc(-100% - 40px)'
                     }}/>
                 </motion.div>
                 <motion.div
@@ -86,11 +105,8 @@ const CenterImage = () => {
                         right: textRight
                     }}
                     className="absolute">
-                    <BoldTitle content="NFT Protocol" color="#FEED01" size="small" useWidth={(w) => {
-                        w = w + 30
-                        const start  = (window.innerWidth * 0.3 - w) + 'px'
-                        const end = -w + 'px'
-                        setRightWidth([start, end])
+                    <BoldTitle content="NFT Protocol" color="#FEED01" size="small" showPage={showPage} useWidth={(w) => {
+                       setWidth(w, 'right')
                     }}/>
                 </motion.div>
             </div>

@@ -34,15 +34,15 @@ const SpanWrapper = styled.span`
       -webkit-text-stroke: 0;
     }
 `
-const BoldTitle = ({ content, color, size ='big', italic = false, useWidth }) => {
+const BoldTitle = ({ content, color, size ='big', italic = false, useWidth, showPage }) => {
     const isBig = size === 'big'
     const ref = useRef(null)
     useEffect(() => {
-        if (typeof useWidth === 'function' && ref.current) {
+        if (typeof useWidth === 'function' && ref.current && showPage) {
             const w = ref.current.getBoundingClientRect().width;
             useWidth(w)
         }
-    }, [useWidth])
+    }, [showPage])
 
     return (
         <SpanWrapper 
