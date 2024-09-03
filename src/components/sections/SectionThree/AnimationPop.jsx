@@ -17,7 +17,7 @@ const images = [
   { src: Img1, x: `calc(30% - ${ImgW / 2}px)`, y: `calc(65% - ${ImgH / 2}px)`, delay: 2.2 },
   { src: Img2, x: `calc(50% - ${ImgW / 2}px)`, y: `calc(50% - ${ImgH / 2}px)`, delay: 2.2 },
   { src: Img3, x: `calc(70% - ${ImgW / 2}px)`, y: `calc(45% - ${ImgH / 2}px)`, delay: 2.2 },
-  { src: Img4, x: `calc(10% - ${ImgW / 2}px)`, y: `calc(43% - ${ImgH / 2}px)`, delay: 2.7 },
+  { src: Img4, x: `calc(14% - ${ImgW / 2}px)`, y: `calc(43% - ${ImgH / 2}px)`, delay: 2.7 },
   { src: Img5, x: `calc(45% - ${ImgW / 2}px)`, y: `calc(70% - ${ImgH / 2}px)`, delay: 2.7 },
   { src: Img6, x: `calc(90% - ${ImgW / 2}px)`, y: `calc(63% - ${ImgH / 2}px)`, delay: 2.7 },
   { src: Img7, x: `calc(80% - ${ImgW / 2}px)`, y: `calc(52% - ${ImgH / 2}px)`, delay: 3.2 },

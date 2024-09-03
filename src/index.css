@@ -29,3 +29,6 @@ body {
     writing-mode: vertical-rl;
     text-orientation: sideways
 }
+::-webkit-scrollbar {
+    width: 0;
+}

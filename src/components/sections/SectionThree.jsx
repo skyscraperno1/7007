@@ -49,7 +49,7 @@ const SectionThree = () => {
     return (
         <>
             <div id="section-three" className='relative h-full w-full flex flex-col items-center justify-between pt-[7%] pb-[17%]' >
-                <div className='absolute -right-3 -bottom-8 2xl:bottom-1 2xl:right-9 scale-75 2xl:scale-100'>
+                <div className='absolute -right-3 -bottom-8 2xl:bottom-1 2xl:right-9 scale-75 2xl:scale-100 select-none'>
                     <img src={RightImg} alt="Star" />
                 </div>
                 <motion.div
