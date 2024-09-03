@@ -21,7 +21,7 @@ const SectionFour = () => {
                             titles.map((title, page) => (
                                 <div
                                     key={'partner_' + page}
-                                    className="w-full h-full flex items-center justify-center"
+                                    className="w-full h-full flex items-center justify-center scale-75 2xl:scale-100"
 
                                 >
                                     <MotionPartner page={page + 1} title={title} parent={bounceBox} />
