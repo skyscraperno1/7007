@@ -44,13 +44,6 @@ const MotionPartner = ({ page, title }) => {
   })
 
   useEffect(() => {
-    console.log(inView)
-  
-   
-  }, [inView])
-  
-
-  useEffect(() => {
     const rect = ref.current.getBoundingClientRect()
     const parentRect = document.getElementById('section-four').getBoundingClientRect()
     const { offsetX, offsetY } = getOffset(page)
@@ -105,7 +98,7 @@ const MotionPartner = ({ page, title }) => {
         backgroundImage: `url(/Section4/Frames/Frame${page}.png)`
       }}><img className="" src={`/Section4/Partners/Partner${page}.png`} />
       </div>
-      <div className="uppercase text-[31px]">{title}</div>
+      <div className="uppercase text-lg 2xl:text-2xl">{title}</div>
     </motion.div>
   )
 }
