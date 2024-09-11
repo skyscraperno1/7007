@@ -8,7 +8,14 @@ const AnimationButton = ({showButton}) => {
         visible: {
             y: 20,
             opacity: 1,
-            transition: { duration: 1 }
+            rotate: [0, 5, 0, -5, 0],
+            transition: { duration: 1, rotate: {
+                duration: 0.25, 
+                delay: 0.8,
+                repeat: Infinity, 
+                repeatType: 'loop', 
+                ease: 'linear'
+            }}
         }
     };
 
@@ -21,7 +28,7 @@ const AnimationButton = ({showButton}) => {
                     animate={showButton ? "visible" : "hidden"}
                     variants={variants}
                 >
-                    <Button kls="h-20 2xl:h-24 text-3xl 2xl:text-4xl w-72 2xl:w-96" duration={0} onClick={() => { handleClick() }}>trade</Button>
+                    <Button kls="h-20 2xl:h-24 text-3xl 2xl:text-4xl w-72 2xl:w-96" duration={0} onClick={() => { }}>trade</Button>
                 </motion.div>
             }
         </AnimatePresence>

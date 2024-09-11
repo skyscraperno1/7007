@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import ArrowIcon from '/Pointers/cursor-icon.png';
+import { cn } from '../../lib/utils';
 
 const TriangleShape = styled.div`
   width: 0;
@@ -18,7 +19,7 @@ const BottomNav = ({ page }) => {
     const isLast = page === 5
     const isFirst = page === 1
     return (
-        <div className='select-none absolute overflow-hidden bg-transparent w-full bottom-0 left-0 z-[100]'>
+        <div className={cn("select-none absolute overflow-hidden bg-transparent w-full bottom-0 left-0 z-[100]", {'z-30': isLast})}>
             <TriangleShape $isWhite={isFirst} $isLast={isLast} className='flex justify-center items-center'>
                 <div className='items-center text-bold 2xl:text-black font-bold mt-20 2xl:mt-28 hidden sm:flex'>
                     {

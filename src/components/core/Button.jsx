@@ -40,7 +40,6 @@ function Button({ children, duration = 0.4, kls, onClick = () => {} }) {
       initial="rest"
       whileHover="hover"
       animate="rest"
-      children={children}
       onClick={onClick}
       className={cn("h-12 2xl:h-16 flex items-center justify-center uppercase m-pointer text-nowrap bg-themeYellow text-2xl", 
         kls

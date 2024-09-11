@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import BoldTitle from '../../core/BoldTitle';
-import AnimationButton from './AnimationButton';
 const themeGreen = '#03D25C';
 const themeRed = '#FF0501';
 const themeYellow = '#FEED01';
@@ -61,7 +60,7 @@ const AnimationText = ({ showText, showCallback }) => { // 传入 props
         }, intervalTime);
 
         return () => interval && clearInterval(interval);
-    }, [showText, currentTextIndex, secondTextShown]); 
+    }, [showText, currentTextIndex, secondTextShown, showCallback]); 
 
 
     return showText ? (

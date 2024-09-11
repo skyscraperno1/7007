@@ -1,9 +1,10 @@
-import React, { useRef } from "react";
-import gsap from "gsap";
-import { cn, MoveDir } from "../../../lib/utils";
+import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import BoldTitle from '../../core/BoldTitle'
 import Button from "../../core/Button";
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import AnimatedBlock from "./AnimatedBlock" 
+import { makeBtnAnimation, makeCoverAnimation } from "./makeAnimations";
 const BoxContainer = styled.div`
   grid-template-columns: 70% 30%;
   .right {
@@ -19,40 +20,50 @@ const BoxContainer = styled.div`
     }
   }
 `
-
-const AnimatedBlock = ({ color, width = '100%', height = '100%', direction, title, num, children }) => {
-  const blockRef = useRef(null);
-  const handleHover = () => {
-    MoveDir(blockRef.current, direction)
-  };
-  const handleMouseLeave = () => {
-    gsap.to(blockRef.current, { x: 0, y: 0, opacity: 1 });
-  };
-
-  return (
-    <div
-      ref={blockRef}
-      className={cn("box flex justify-center items-center relative", color)}
-      onMouseEnter={handleHover}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        width,
-        height
-      }}
-    >
-      <div className="text-center">
-        <h5 className="text-2xl 2xl:text-3xl">{title}</h5>
-        <h4 className="text-5xl 2xl:text-7xl">{num}</h4>
-      </div>
-      {children}
-    </div>
-  );
-};
-
 const ColorBlock = () => {
+  const btnRef = useRef(null);
+  const [isHovering, setIsHovering] = useState(false);
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", () => {
+    setIsHovering(false)
+  })
+
+  const [insetValues, setInsetValues] = useState('inset(0 0 0 0)');
+  const [translateBtn, setTranslate] = useState({
+    x: 0,
+    y: 0
+  })
+  
+  useEffect(() => {
+    const boxRect = btnRef.current.getBoundingClientRect();
+    const parentRect = document.getElementById('section-five').getBoundingClientRect()
+    const topDistance = boxRect.top - parentRect.top;
+    const bottomDistance = parentRect.bottom - boxRect.bottom;
+    const leftDistance = boxRect.left - parentRect.left;
+    const rightDistance = parentRect.right - boxRect.right;
+    const x = (parentRect.width - boxRect.width) / 2 - boxRect.left + parentRect.left;
+    const y = (parentRect.height - boxRect.height) / 2 - boxRect.top + parentRect.top;
+    setTranslate({
+      x,
+      y
+    })
+    const inset = `inset(${topDistance}px ${rightDistance}px ${bottomDistance}px ${leftDistance}px)`;
+    setInsetValues(inset);
+  }, [])
+ 
   return (
     <BoxContainer className="h-full grid select-none">
-      <AnimatedBlock color="bg-themeGreen"  direction="left" title='ƒ(A.I.) ℝ launch' num='70.07%'> 
+      <motion.div
+        className="z-50 select-none fixed bottom-0 right-0 bg-themeGreen"
+        variants={makeCoverAnimation(insetValues)}
+        animate={isHovering ? 'visible' : 'hidden'}
+        style={{
+          height: '90%',
+          width: 'calc(100vw - 65px)',
+          opacity: 0,
+        }}
+      />
+      <AnimatedBlock bgColor="bg-themeGreen"  direction="left" title='ƒ(A.I.) ℝ launch' num='70.07%'> 
         <div className="absolute top-[-50px] left-[-50px] -rotate-[13deg]">
           <BoldTitle content='$TOOT' color="#FEED01"/>
         </div>
@@ -63,16 +74,25 @@ const ColorBlock = () => {
         </div> 
       </AnimatedBlock>
       <div className="right h-full grid">
-      <AnimatedBlock color="bg-themeRed"  direction="up" title='Ecosystem reward' num='13.93%'>
-        <div className="absolute top-[-40px] 2xl:top-[-50px] right-[-50px]">
+      <AnimatedBlock bgColor="bg-themeRed"  direction="rightUp" title='Ecosystem reward' num='13.93%'>
+        <motion.div 
+          ref={btnRef}
+          onMouseEnter={() => {
+            if(isHovering) return;
+            setIsHovering(true)
+          }}
+          // onMouseLeave={() => setIsHovering(false)}
+          variants={makeBtnAnimation(translateBtn.x, translateBtn.y)}
+          animate={isHovering ? "hover" : "shake"}
+          className="z-[60] m-pointer absolute top-[-40px] 2xl:top-[-50px] right-[-50px]">
           <Button kls="px-8 py-5 bg-themeGreen" duration={0}>
             Buy the token
           </Button>
-        </div>
+        </motion.div>
       </AnimatedBlock>
         <div className="right-bottom grid">
-          <AnimatedBlock color="bg-themeYellow" direction="down" title='LP' num='10%'/>
-          <AnimatedBlock color="bg-themeGreen" width="calc(100% + 44px)" height="calc(100% + 44px)" direction="rightDown" title='Airdrop' num='6%' />
+          <AnimatedBlock bgColor="bg-themeYellow" direction="down" title='LP' num='10%'/>
+          <AnimatedBlock bgColor="bg-themeGreen" width="calc(100% + 44px)" height="calc(100% + 44px)" direction="rightDown" title='Airdrop' num='6%' />
         </div>
       </div>
     </BoxContainer>

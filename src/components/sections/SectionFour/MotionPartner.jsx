@@ -62,7 +62,6 @@ const MotionPartner = ({ page, title }) => {
     ? [-offset.y, position.y]
     : [offset.y, -position.y]
     setAnimation({
-      ...animation,
       x: makeAnimationArr(xArr),
       y: makeAnimationArr(yArr)
     })

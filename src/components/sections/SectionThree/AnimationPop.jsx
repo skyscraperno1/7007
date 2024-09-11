@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import AnimationText from './AnimationText';
@@ -24,10 +24,39 @@ const images = [
   { src: Img1, x: `calc(63% - ${ImgW / 2}px)`, y: `calc(35% - ${ImgH / 2}px)`, delay: 3.2 },
 ];
 
-
+const colors = ['#03D25C', '#FEED01', '#FF0501'];
 const AnimatedScreen = ({ show, canClose }) => {
   const [showText, setShowText] = useState(false);
   const [showButton, setShowButton] = useState(false);
+
+  const colorVariants = {
+    initial: {
+      opacity: 0,
+      transition: {
+        duration: 1,
+      },
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        opacity: {
+          duration: 3
+        },
+        y: {
+          duration: 3
+        },
+      },
+    },
+    exit: {
+      opacity: 0,
+      top: '-100%',
+      display: 'none',
+      transition: {
+        duration: 1,
+      },
+    },
+  };
   const handleAnimationComplete = (index) => {
     if (index === images.length - 1) {
       setTimeout(() => {
@@ -42,18 +71,29 @@ const AnimatedScreen = ({ show, canClose }) => {
       canClose()
     }, 1000)
   }
+  const [colorIndex, setColorIndex] = useState(0);
+  const [interval, defineInterval] = useState(null)
+  const bgChange = () => {
+    let _interval = setInterval(() => {
+      console.log('interval');
+      
+      setColorIndex((prevIndex) => (prevIndex + 1) % colors.length);
+    }, 1000);
+    defineInterval(_interval)
+  }
+  useEffect(() => {
+    if (!show && interval) {
+      clearInterval(interval);
+    }
+  }, [show, interval]);
   return createPortal(
     <AnimatePresence>
       {show && <motion.div
-        initial={{ opacity: 0, display: 'flex' }}
-        animate={{
-          opacity: 1,
-          y: 0
-        }}
-        exit={{ opacity: 0, top: '-100%', display: 'none' }}
-        transition={{
-          duration: show ? 3 : 1,
-        }}
+        variants={colorVariants}
+        animate={show ? 'animate' : 'initial'}
+        initial="initial"
+        exit="exit"
+        style={{ backgroundColor: colors[colorIndex] }}
         id="animation-pop"
         className='fixed bg-themeGreen w-screen h-screen left-0 bottom-0 z-50  flex justify-center items-center'>
         {
@@ -80,6 +120,9 @@ const AnimatedScreen = ({ show, canClose }) => {
           <div className="h-[288px] 2xl:h-[384px]">
             <AnimationText showText={showText} showCallback={() => {
               showCallback()
+              setTimeout(() => {
+                bgChange()
+              }, 1000);
             }} />
           </div>
           <div className='h-20 2xl:h-24'>

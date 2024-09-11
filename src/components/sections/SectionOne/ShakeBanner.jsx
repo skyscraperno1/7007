@@ -11,8 +11,8 @@ const BannerWrapper = styled(motion.div)`
 const ShakeBanner = ({children, bgColor = 'themeRed', fontMamily = ''}) => {
     return (
         <BannerWrapper 
-            animate={{ x: [0, -2, 2, -2, 2, 0] }}
-            transition={{ duration: 0.8, repeat: Infinity, repeatType: 'loop' }}
+            animate={{ x: [0, 5, 0, -5, 0] }}
+            transition={{ duration: 0.25, repeat: Infinity, repeatType: 'loop' }}
             className={twMerge('w-fit h-fit select-none flex items-center justify-center p-2 uppercase border-solid border-black m-pointer text-4xl 2xl:text-5xl', `bg-${bgColor}`, fontMamily)}
         >
             {children}

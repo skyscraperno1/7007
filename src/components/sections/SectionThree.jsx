@@ -1,11 +1,10 @@
 import BoldTitle from '../core/BoldTitle';
 import AnimationPop from './SectionThree/AnimationPop'
 import Button from '../core/Button';
-import LeftImg from '/Section3/ShapeLeft.png'
-import RightImg from '/Section3/ShapeRight.png'
 import StarImg from '/Stars/GreenStar.png'
 import { useState } from 'react'
 import { motion } from 'framer-motion';
+import LottieComponent from './SectionThree/LottieComponent';
 const SectionThree = () => {
     const [show, setShow] = useState(false)
     const [hasSet, setHasSet] = useState(false)
@@ -49,8 +48,8 @@ const SectionThree = () => {
     return (
         <>
             <div id="section-three" className='relative h-full w-full flex flex-col items-center justify-between pt-[7%] pb-[17%]' >
-                <div className='absolute -right-3 -bottom-8 2xl:bottom-1 2xl:right-9 scale-75 2xl:scale-100 select-none'>
-                    <img src={RightImg} alt="Star" />
+                <div className='absolute -right-3 -bottom-8 2xl:bottom-1 2xl:right-9 scale-75 2xl:scale-100 select-none w-[530px] h-[530px]'>
+                    <LottieComponent />
                 </div>
                 <motion.div
                     variants={variants}
@@ -65,13 +64,13 @@ const SectionThree = () => {
                       initial={false} 
                       animate={alertTitle}
                       onAnimationComplete={() => { setAlertTitle('initial')}}
-                    >
+                    >                        
                         <BoldTitle content='ONE PROMPT ONLY!' color="#FF0501" italic />
                     </motion.div>
                 </motion.div>
                 <div className='w-80 2xl:w-96 relative select-none'>
-                    <div className='absolute left-[-30.75rem] 2xl:left-[-46.75rem] top-2  scale-75 2xl:scale-100' >
-                        <img src={LeftImg} alt="Star" />
+                    <div className='absolute left-[-30.75rem] 2xl:left-[-41rem] top-2 rotate-90 scale-75 2xl:scale-100 w-[320px] h-[320px]' >
+                        <LottieComponent />
                     </div>
                     <Button kls="normal-case h-20 2xl:h-24 text-3xl 2xl:text-4xl" duration={0} onClick={() => {handleClick()}}>Prompt</Button>
                 </div>
