@@ -54,7 +54,7 @@ const ColorBlock = () => {
   return (
     <BoxContainer className="h-full grid select-none">
       <motion.div
-        className="z-50 select-none fixed bottom-0 right-0 bg-themeGreen"
+        className="z-50 select-none fixed bottom-0 right-0 bg-themeYellow"
         variants={makeCoverAnimation(insetValues)}
         animate={isHovering ? 'visible' : 'hidden'}
         style={{
@@ -81,11 +81,14 @@ const ColorBlock = () => {
             if(isHovering) return;
             setIsHovering(true)
           }}
+          onClick={() => {
+            setIsHovering(false)
+          }}
           // onMouseLeave={() => setIsHovering(false)}
           variants={makeBtnAnimation(translateBtn.x, translateBtn.y)}
           animate={isHovering ? "hover" : "shake"}
           className="z-[60] m-pointer absolute top-[-40px] 2xl:top-[-50px] right-[-50px]">
-          <Button kls="px-8 py-5 bg-themeGreen" duration={0}>
+          <Button kls="px-8 py-5 bg-themeGreen" duration={0.8}>
             Buy the token
           </Button>
         </motion.div>

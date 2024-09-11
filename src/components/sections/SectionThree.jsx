@@ -57,7 +57,10 @@ const SectionThree = () => {
                     transition={{duration: show ? 2 : 0.1}}
                     className='relative'>
                     <div className='absolute top-[-116px] left-[-131px] 2xl:top-[-102px] 2xl:left-[-137px] scale-75 2xl:scale-100 select-none'>
-                        <img src={StarImg} alt="Star" />
+                        <motion.img src={StarImg} alt="Star" 
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                        />
                     </div>
                     <motion.div
                       variants={alertTileVariants} 
@@ -72,7 +75,7 @@ const SectionThree = () => {
                     <div className='absolute left-[-30.75rem] 2xl:left-[-41rem] top-2 rotate-90 scale-75 2xl:scale-100 w-[320px] h-[320px]' >
                         <LottieComponent />
                     </div>
-                    <Button kls="normal-case h-20 2xl:h-24 text-3xl 2xl:text-4xl" duration={0} onClick={() => {handleClick()}}>Prompt</Button>
+                    <Button kls="normal-case h-20 2xl:h-24 text-3xl 2xl:text-4xl" duration={0.8} onClick={() => {handleClick()}}>Mint</Button>
                 </div>
                 <AnimationPop show={show} canClose={handleClose}/>
             </div>

@@ -65,8 +65,8 @@ const MotionPartner = ({ page, title }) => {
       x: makeAnimationArr(xArr),
       y: makeAnimationArr(yArr)
     })
-    const speedX = 400 + getRandomInt(0, 100)
-    const speedY = 360 + getRandomInt(0, 100)
+    const speedX = 400 + getRandomInt(0, 200)
+    const speedY = 360 + getRandomInt(0, 200)
     
     const transX = getTransition(speedX, xArr)
     const transY = getTransition(speedY, yArr)

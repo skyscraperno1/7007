@@ -16,6 +16,7 @@
     "framer-motion": "^11.0.25",
     "gsap": "^3.12.5",
     "lenis": "^1.1.13",
+    "matter-js": "^0.20.0",
     "react": "^18.2.0",
     "react-countup": "^6.5.3",
     "react-dom": "^18.2.0",

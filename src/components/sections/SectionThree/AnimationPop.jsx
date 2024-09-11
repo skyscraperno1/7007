@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import AnimationText from './AnimationText';
 import AnimationButton from './AnimationButton';
+import MatterCanvas from './MatterCanvas';
 
 import Img1 from '/Section3/bgs/Img1.png'
 import Img2 from '/Section3/bgs/Img2.png'
@@ -24,10 +25,10 @@ const images = [
   { src: Img1, x: `calc(63% - ${ImgW / 2}px)`, y: `calc(35% - ${ImgH / 2}px)`, delay: 3.2 },
 ];
 
-const colors = ['#03D25C', '#FEED01', '#FF0501'];
 const AnimatedScreen = ({ show, canClose }) => {
   const [showText, setShowText] = useState(false);
   const [showButton, setShowButton] = useState(false);
+  const ref = useRef(null);
 
   const colorVariants = {
     initial: {
@@ -69,23 +70,9 @@ const AnimatedScreen = ({ show, canClose }) => {
     setTimeout(() => {
       setShowButton(true)
       canClose()
+      ref.current.bgChange()
     }, 1000)
   }
-  const [colorIndex, setColorIndex] = useState(0);
-  const [interval, defineInterval] = useState(null)
-  const bgChange = () => {
-    let _interval = setInterval(() => {
-      console.log('interval');
-      
-      setColorIndex((prevIndex) => (prevIndex + 1) % colors.length);
-    }, 1000);
-    defineInterval(_interval)
-  }
-  useEffect(() => {
-    if (!show && interval) {
-      clearInterval(interval);
-    }
-  }, [show, interval]);
   return createPortal(
     <AnimatePresence>
       {show && <motion.div
@@ -93,9 +80,8 @@ const AnimatedScreen = ({ show, canClose }) => {
         animate={show ? 'animate' : 'initial'}
         initial="initial"
         exit="exit"
-        style={{ backgroundColor: colors[colorIndex] }}
         id="animation-pop"
-        className='fixed bg-themeGreen w-screen h-screen left-0 bottom-0 z-50  flex justify-center items-center'>
+        className='fixed w-screen h-screen left-0 bottom-0 z-50  flex justify-center items-center'>
         {
           images.map((image, index) => {
             const { src, x, y, delay } = image;
@@ -120,15 +106,15 @@ const AnimatedScreen = ({ show, canClose }) => {
           <div className="h-[288px] 2xl:h-[384px]">
             <AnimationText showText={showText} showCallback={() => {
               showCallback()
-              setTimeout(() => {
-                bgChange()
-              }, 1000);
             }} />
           </div>
-          <div className='h-20 2xl:h-24'>
-          <AnimationButton showButton={showButton} />
+          <div className='h-20 2xl:h-24' onMouseEnter={() => {
+            ref.current.addBox()
+          }}>
+            <AnimationButton showButton={showButton} />
           </div>
         </div>
+        <MatterCanvas ref={ref} show={show}/> 
       </motion.div>
       }
     </AnimatePresence>,

@@ -21,7 +21,7 @@ export const makeBtnAnimation = (x, y) => {
     },
     hover: { 
       rotate: 0,
-      scale: 2,
+      scale: 2.5,
       x,
       y,
       transition: {

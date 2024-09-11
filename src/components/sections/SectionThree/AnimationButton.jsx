@@ -28,7 +28,7 @@ const AnimationButton = ({showButton}) => {
                     animate={showButton ? "visible" : "hidden"}
                     variants={variants}
                 >
-                    <Button kls="h-20 2xl:h-24 text-3xl 2xl:text-4xl w-72 2xl:w-96" duration={0} onClick={() => { }}>trade</Button>
+                    <Button kls="h-20 2xl:h-24 text-3xl 2xl:text-4xl w-72 2xl:w-96" duration={0.8} onClick={() => { }}>trade</Button>
                 </motion.div>
             }
         </AnimatePresence>
