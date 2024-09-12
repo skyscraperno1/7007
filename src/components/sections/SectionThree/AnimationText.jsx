@@ -12,8 +12,8 @@ const titles = [
         {color: themeYellow, text: 'unique'},
     ],
     [
-        {color: themeYellow, text: 'trade with'},
-        {color: themeYellow, text: 'efficiency'},
+        {color: themeRed, text: 'trade with'},
+        {color: themeRed, text: 'efficiency'},
     ],
     [
         {color: themeRed, text: 'up to'},
@@ -22,8 +22,8 @@ const titles = [
         {color: themeGreen, text: 'unique'},
     ],
     [
-        {color: themeRed, text: 'trade with'},
-        {color: themeRed, text: 'efficiency'},
+        {color: themeYellow, text: 'trade with'},
+        {color: themeYellow, text: 'efficiency'},
     ],
     [
         {color: themeYellow, text: 'up to'},
@@ -37,32 +37,7 @@ const titles = [
     ],
 ]
 
-const AnimationText = ({ showText, showCallback, emitIndex }) => { 
-    const [currentTextIndex, setCurrentTextIndex] = useState(0);
-    const [secondTextShown, setSecondTextShown] = useState(false);
-    
-    useEffect(() => {
-        if (!showText) return; 
-
-        let intervalTime = 1000;
-        if (currentTextIndex === 1 && !secondTextShown) {
-            intervalTime = 2000;
-            showCallback()
-        }
-
-        const interval = setInterval(() => {
-            setCurrentTextIndex((prevIndex) => {
-                if (prevIndex === 1) {
-                    setSecondTextShown(true);
-                }
-                emitIndex(prevIndex)
-                return (prevIndex + 1) % titles.length;
-            });
-        }, intervalTime);
-
-        return () => interval && clearInterval(interval);
-    }, [showText, currentTextIndex, secondTextShown]); 
-
+const AnimationText = ({ showText, currentTextIndex }) => { 
 
     return showText ? (
         <>

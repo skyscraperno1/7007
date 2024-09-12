@@ -29,6 +29,7 @@ const SectionFour = () => {
   const [showText, setShowText] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [colorIndex, setColorIndex] = useState(0);
+  const [secondTextShown, setSecondTextShown] = useState(false);
 
   const ref = useRef(null);
 
@@ -39,13 +40,29 @@ const SectionFour = () => {
       }, 1000);
     }
   };
- 
+  
+  useEffect(() => {
+    let timer
+    if (showText) {
+      let intervalTime = 1000;
+      if (colorIndex === 1 && !secondTextShown) {
+        intervalTime = 2000;
+        setTimeout(() => {
+          setShowButton(true)
+        }, 1000)
+      }
+      timer = setInterval(() => {
+        setColorIndex(prevIndex => {
+          if (prevIndex === 1) {
+            setSecondTextShown(true);
+          }
+          return (prevIndex + 1) % colors.length;
+        })
+      }, intervalTime);
+    }
+    return () => timer && clearInterval(timer);
+  }, [showText, secondTextShown, colorIndex])
 
-  const showCallback = () => {
-    setTimeout(() => {
-      setShowButton(true)
-    }, 1000)
-  }
   return (
      <div
         id="section-four"
@@ -73,11 +90,7 @@ const SectionFour = () => {
         }
         <div className='flex flex-col items-center justify-center'>
           <div className="h-[288px] 2xl:h-[384px] mt-20">
-            <AnimationText showText={showText} showCallback={() => {
-              showCallback()
-            }} emitIndex={(index) => {
-              setColorIndex(index)
-            }}/>
+            <AnimationText showText={showText}  currentTextIndex={colorIndex}/>
           </div>
           <div className='h-20 2xl:h-24' onMouseEnter={() => {
             ref.current.addBox()
