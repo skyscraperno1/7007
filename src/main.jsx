@@ -10,4 +10,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <App />
     <Cursor />
   </React.StrictMode>,
+  // <>
+  //   <App />
+  //   <Cursor />
+  // </>,
 )

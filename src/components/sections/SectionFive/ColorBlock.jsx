@@ -36,7 +36,7 @@ const ColorBlock = () => {
   
   useEffect(() => {
     const boxRect = btnRef.current.getBoundingClientRect();
-    const parentRect = document.getElementById('section-five').getBoundingClientRect()
+    const parentRect = document.getElementById('section-six').getBoundingClientRect()
     const topDistance = boxRect.top - parentRect.top;
     const bottomDistance = parentRect.bottom - boxRect.bottom;
     const leftDistance = boxRect.left - parentRect.left;

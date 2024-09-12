@@ -16,7 +16,7 @@ const TriangleShape = styled.div`
     `}
 `;
 const BottomNav = ({ page }) => {
-    const isLast = page === 5
+    const isLast = page === 6
     const isFirst = page === 1
     return (
         <div className={cn("select-none absolute overflow-hidden bg-transparent w-full bottom-0 left-0 z-[100]", {'z-30': isLast})}>

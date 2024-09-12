@@ -37,7 +37,7 @@ const titles = [
     ],
 ]
 
-const AnimationText = ({ showText, showCallback }) => { // 传入 props
+const AnimationText = ({ showText, showCallback, emitIndex }) => { 
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
     const [secondTextShown, setSecondTextShown] = useState(false);
     
@@ -55,12 +55,13 @@ const AnimationText = ({ showText, showCallback }) => { // 传入 props
                 if (prevIndex === 1) {
                     setSecondTextShown(true);
                 }
+                emitIndex(prevIndex)
                 return (prevIndex + 1) % titles.length;
             });
         }, intervalTime);
 
         return () => interval && clearInterval(interval);
-    }, [showText, currentTextIndex, secondTextShown, showCallback]); 
+    }, [showText, currentTextIndex, secondTextShown]); 
 
 
     return showText ? (

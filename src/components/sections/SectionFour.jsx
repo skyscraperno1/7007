@@ -1,38 +1,93 @@
-import MotionPartner from "./SectionFour/MotionPartner";
-import BoldTitle from "../core/BoldTitle"
-import { useRef } from "react";
+import { useState, useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import AnimationText from './SectionThree/AnimationText';
+import AnimationButton from './SectionThree/AnimationButton';
+import MatterCanvas from './SectionThree/MatterCanvas';
 
-const titles = ['Stratos', 'Stake stone', '0G LABS', 'Arbitrum', 'Story Protocol', 'RARI CHAIN', 'Eth storage', 'Ora protocol']
+import Img1 from '/Section3/bgs/Img1.png'
+import Img2 from '/Section3/bgs/Img2.png'
+import Img3 from '/Section3/bgs/Img3.png'
+import Img4 from '/Section3/bgs/Img4.png'
+import Img5 from '/Section3/bgs/Img5.png'
+import Img6 from '/Section3/bgs/Img6.png'
+import Img7 from '/Section3/bgs/Img7.png'
+const ImgW = 269
+const ImgH = 424
+const images = [
+  { src: Img1, x: `calc(24% - ${ImgW / 2}px)`, y: `calc(55% - ${ImgH / 2}px)`, delay: 2.2 },
+  { src: Img2, x: `calc(50% - ${ImgW / 2}px)`, y: `calc(50% - ${ImgH / 2}px)`, delay: 2.2 },
+  { src: Img3, x: `calc(70% - ${ImgW / 2}px)`, y: `calc(45% - ${ImgH / 2}px)`, delay: 2.2 },
+  { src: Img4, x: `calc(10% - ${ImgW / 2}px)`, y: `calc(43% - ${ImgH / 2}px)`, delay: 2.7 },
+  { src: Img5, x: `calc(38% - ${ImgW / 2}px)`, y: `calc(66% - ${ImgH / 2}px)`, delay: 2.7 },
+  { src: Img6, x: `calc(87% - ${ImgW / 2}px)`, y: `calc(68% - ${ImgH / 2}px)`, delay: 2.7 },
+  { src: Img7, x: `calc(80% - ${ImgW / 2}px)`, y: `calc(52% - ${ImgH / 2}px)`, delay: 3.2 },
+  { src: Img1, x: `calc(63% - ${ImgW / 2}px)`, y: `calc(35% - ${ImgH / 2}px)`, delay: 3.2 },
+];
 
+const colors = ['#03D25C', '#FEED01', '#FF0501', '#03D25C', '#FEED01', '#FF0501'];
 const SectionFour = () => {
-    const bounceBox = useRef(null)
+  const [showText, setShowText] = useState(false);
+  const [showButton, setShowButton] = useState(false);
+  const [colorIndex, setColorIndex] = useState(0);
 
-    return (
-        <>
-            <div id="section-four" className='h-full w-full shrink-0'>
-                <div id="bounce-box" className="h-[85vh]">
-                    <div className="w-screen text-center h-[10vh] flex items-end justify-center">
-                        <BoldTitle content='OUR Partners' color="#FF0501" size="small" />
-                    </div>
-                    <div className="grid grid-cols-4 w-full" style={{
-                        height: 'calc(100% - 10vh)'
-                    }}>
-                        {
-                            titles.map((title, page) => (
-                                <div
-                                    key={'partner_' + page}
-                                    className="w-full h-full flex items-center justify-center"
+  const ref = useRef(null);
 
-                                >
-                                    <MotionPartner page={page + 1} title={title} parent={bounceBox} />
-                                </div>
-                            ))
-                        }
-                    </div>
-                </div>
-            </div>
-        </>
-    )
-}
+  const handleAnimationComplete = (index) => {
+    if (index === images.length - 1) {
+      setTimeout(() => {
+        setShowText(true)
+      }, 1000);
+    }
+  };
+ 
+
+  const showCallback = () => {
+    setTimeout(() => {
+      setShowButton(true)
+    }, 1000)
+  }
+  return (
+     <div
+        id="section-four"
+        style={{ backgroundColor: colors[colorIndex] }}
+        className='h-full w-full shrink-0 relative z-10'>
+        {
+          images.map((image, index) => {
+            const { src, x, y, delay } = image;
+            return (
+              <motion.div
+                className="absolute scale-75 2xl:scale-100 will-change-opacity animated-image-container z-[11]"
+                key={`img-${index}`}
+                initial={{ display: 'none' }}
+                animate={{
+                  display: 'block',
+                  transition: { delay },
+                }}
+                onAnimationComplete={() => { handleAnimationComplete(index) }}
+                style={{ top: `${y}`, left: `${x}` }}
+              >
+                <img src={src} />
+              </motion.div>
+            )
+          })
+        }
+        <div className='flex flex-col items-center justify-center'>
+          <div className="h-[288px] 2xl:h-[384px] mt-20">
+            <AnimationText showText={showText} showCallback={() => {
+              showCallback()
+            }} emitIndex={(index) => {
+              setColorIndex(index)
+            }}/>
+          </div>
+          <div className='h-20 2xl:h-24' onMouseEnter={() => {
+            ref.current.addBox()
+          }}>
+            <AnimationButton showButton={showButton} />
+          </div>
+        </div>
+        <MatterCanvas ref={ref} show={true}/> 
+      </div>
+  );
+};
 
 export default SectionFour;

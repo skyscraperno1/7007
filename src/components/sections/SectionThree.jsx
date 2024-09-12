@@ -7,7 +7,6 @@ import { motion } from 'framer-motion';
 import LottieComponent from './SectionThree/LottieComponent';
 const SectionThree = () => {
     const [show, setShow] = useState(false)
-    const [hasSet, setHasSet] = useState(false)
     const [alertTitle, setAlertTitle] = useState('initial')
     const variants = {
         origin: {
@@ -27,13 +26,10 @@ const SectionThree = () => {
     
     
     const handleClick = () => {
-        if (hasSet) {
-            setAlertTitle('animate')
-        } else {
-            setShow(true)
-            setHasSet(true)
-            document.body.style.overflow = 'hidden'
-        }
+        window.scrollTo({
+            top: window.scrollY + window.innerWidth - 61,
+            behavior: 'smooth'
+        });
     
     }
 

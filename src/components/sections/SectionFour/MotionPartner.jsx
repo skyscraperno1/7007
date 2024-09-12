@@ -31,13 +31,13 @@ const MotionPartner = ({ page, title }) => {
     const w = window.innerWidth
     const h = window.innerHeight
     if (inView) {
-      if (latest < w * 1 + h * 3) {
+      if (latest < w * 2 + h * 3) {
         setInView(false)
-      } else if (latest >= w * 3 + h * 3 - 65) {
+      } else if (latest >= w * 4 + h * 3 - 65) {
         setInView(false)
       }
     } else {
-      if (latest >= w * 2 + h * 3 && latest < w * 3 + h * 3 - 65) {
+      if (latest >= w * 3 + h * 3 && latest < w * 4 + h * 3 - 65) {
         setInView(true)
       } 
     }
@@ -45,7 +45,7 @@ const MotionPartner = ({ page, title }) => {
 
   useEffect(() => {
     const rect = ref.current.getBoundingClientRect()
-    const parentRect = document.getElementById('section-four').getBoundingClientRect()
+    const parentRect = document.getElementById('section-five').getBoundingClientRect()
     const { offsetX, offsetY } = getOffset(page)
     const offset = {
       x: Math.abs(rect[offsetX] - parentRect[offsetX]),

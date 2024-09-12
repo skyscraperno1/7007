@@ -27,6 +27,7 @@ const AnimationButton = ({showButton}) => {
                     initial="hidden"
                     animate={showButton ? "visible" : "hidden"}
                     variants={variants}
+                    className='relative z-30'
                 >
                     <Button kls="h-20 2xl:h-24 text-3xl 2xl:text-4xl w-72 2xl:w-96" duration={0.8} onClick={() => { }}>trade</Button>
                 </motion.div>
