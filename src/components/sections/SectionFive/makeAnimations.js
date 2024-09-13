@@ -24,6 +24,7 @@ export const makeBtnAnimation = (x, y) => {
       scale: 2.5,
       x,
       y,
+      zIndex: 60,
       transition: {
         rotate: {
           delay: 0
