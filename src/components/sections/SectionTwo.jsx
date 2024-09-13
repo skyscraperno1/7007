@@ -39,7 +39,7 @@ const SectionTwo = ({ currentSection }) => {
     gsap.registerPlugin(ScrollTrigger);
     gsap.set(sectionRef.current, { x: 0 });
     gsap.set(imageRef.current, {
-      clipPath: "inset(25% 25% 25% 25%)", // 初始裁剪一半
+      clipPath: "inset(25% 25% 25% 25% round 2px)", // 初始裁剪一半
     });
     const width = window.innerWidth;
     const headerHeight = window.innerHeight * 0.1;
@@ -59,7 +59,7 @@ const SectionTwo = ({ currentSection }) => {
         if (imageRef.current) {
           const insetValue = 25 - 25 * progress;
           gsap.set(imageRef.current, {
-            clipPath: `inset(${insetValue}% ${insetValue}% ${insetValue}% ${insetValue}%)`,
+            clipPath: `inset(${insetValue}% ${insetValue}% ${insetValue}% ${insetValue}% round 2px)`,
           });
         }
         if (titleLeftRef.current && titleRightRef.current) {
