@@ -1,38 +1,53 @@
 import MotionPartner from "./SectionFour/MotionPartner";
-import BoldTitle from "../core/BoldTitle"
-import { useRef } from "react";
+import BoldTitle from "../core/BoldTitle";
+import { useEffect, useState } from "react";
 
-const titles = ['Stratos', 'Stake stone', '0G LABS', 'Arbitrum', 'Story Protocol', 'RARI CHAIN', 'Eth storage', 'Ora protocol']
+const titles = [
+  "Stratos",
+  "Stake stone",
+  "0G LABS",
+  "Arbitrum",
+  "Story Protocol",
+  "RARI CHAIN",
+  "Eth storage",
+  "Ora protocol",
+];
 
-const SectionFive = () => {
-    const bounceBox = useRef(null)
-
-    return (
-        <>
-            <div id="section-five" className='h-full w-full shrink-0'>
-                <div id="bounce-box" className="h-[85vh]">
-                    <div className="w-screen text-center h-[10vh] flex items-end justify-center">
-                        <BoldTitle content='OUR Partners' color="#FF0501" size="small" />
-                    </div>
-                    <div className="grid grid-cols-4 w-full" style={{
-                        height: 'calc(100% - 10vh)'
-                    }}>
-                        {
-                            titles.map((title, page) => (
-                                <div
-                                    key={'partner_' + page}
-                                    className="w-full h-full flex items-center justify-center"
-
-                                >
-                                    <MotionPartner page={page + 1} title={title} parent={bounceBox} />
-                                </div>
-                            ))
-                        }
-                    </div>
-                </div>
-            </div>
-        </>
-    )
-}
+const SectionFive = ({ currentSection }) => {
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (currentSection === 6) {
+      setInView(true);
+    } else {
+      setInView(false);
+    }
+  }, [currentSection]);
+  return (
+    <>
+      <div id="section-five" className="h-full w-full shrink-0">
+        <div id="bounce-box" className="h-[85vh]">
+          <div className="w-screen text-center h-[10vh] flex items-end justify-center">
+            <BoldTitle content="OUR Partners" color="#FF0501" size="small" />
+          </div>
+          <div
+            className="grid grid-cols-4 w-full"
+            style={{
+              height: "calc(100% - 10vh)",
+            }}
+          >
+            {titles.map((title, page) => (
+              <div
+                key={"partner_" + page}
+                className="w-full h-full flex items-center justify-center"
+              >
+                <MotionPartner page={page + 1} title={title} show={inView} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default SectionFive;

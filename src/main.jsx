@@ -6,12 +6,12 @@ import './fonts.css'
 import Cursor from './components/core/Cursor'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-    <Cursor />
-  </React.StrictMode>,
-  // <>
+  // <React.StrictMode>
   //   <App />
   //   <Cursor />
-  // </>,
+  // </React.StrictMode>,
+  <>
+    <App />
+    <Cursor />
+  </>,
 )

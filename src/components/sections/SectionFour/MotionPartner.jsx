@@ -1,9 +1,8 @@
-import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { getDelay, getOffset, getTransition, makeAnimationArr, getRandomInt } from './getAnimation'
-const MotionPartner = ({ page, title }) => {
+const MotionPartner = ({ page, title, show }) => {
   const ref = useRef(null)
-  const [inView, setInView] = useState(false)
   const [animation, setAnimation] = useState({
     x: 0,
     y: 0,
@@ -25,22 +24,6 @@ const MotionPartner = ({ page, title }) => {
       times: [],
       delay: 0
     },
-  })
-  const { scrollY } = useScroll()
-  useMotionValueEvent(scrollY, 'change', (latest) => {
-    const w = window.innerWidth
-    const h = window.innerHeight
-    if (inView) {
-      if (latest < w * 2 + h * 3) {
-        setInView(false)
-      } else if (latest >= w * 4 + h * 3 - 65) {
-        setInView(false)
-      }
-    } else {
-      if (latest >= w * 3 + h * 3 && latest < w * 4 + h * 3 - 65) {
-        setInView(true)
-      } 
-    }
   })
 
   useEffect(() => {
@@ -90,8 +73,8 @@ const MotionPartner = ({ page, title }) => {
     <motion.div
       ref={ref}
       className="flex flex-col items-center justify-between select-none"
-      transition={inView ? transition: {}}
-      animate={inView ? animation : { x: 0, y: 0}}
+      transition={show ? transition: {}}
+      animate={show ? animation : { x: 0, y: 0}}
     >
       <div className="bg-no-repeat bg-center h-[200px] w-[210px] flex items-center justify-center" style={{
         backgroundImage: `url(/Section4/Frames/Frame${page}.png)`

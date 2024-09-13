@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import AnimationText from './SectionThree/AnimationText';
 import AnimationButton from './SectionThree/AnimationButton';
 import MatterCanvas from './SectionThree/MatterCanvas';
-
 import Img1 from '/Section3/bgs/Img1.png'
 import Img2 from '/Section3/bgs/Img2.png'
 import Img3 from '/Section3/bgs/Img3.png'
@@ -25,14 +24,21 @@ const images = [
 ];
 
 const colors = ['#03D25C', '#FEED01', '#FF0501', '#03D25C', '#FEED01', '#FF0501'];
-const SectionFour = () => {
+const SectionFour = ({currentSection}) => {
+  const [inView, setInView] = useState(false)
   const [showText, setShowText] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [colorIndex, setColorIndex] = useState(0);
   const [secondTextShown, setSecondTextShown] = useState(false);
+  useEffect(() => {
+    if (currentSection === 5) {
+      setInView(true)
+    } else {
+      setInView(false)
+    }
+}, [currentSection])
 
   const ref = useRef(null);
-
   const handleAnimationComplete = (index) => {
     if (index === images.length - 1) {
       setTimeout(() => {
@@ -43,7 +49,10 @@ const SectionFour = () => {
   
   useEffect(() => {
     let timer
-    if (showText) {
+    if (!inView) {
+      timer && clearInterval(timer);
+    } 
+    if (showText && inView) {
       let intervalTime = 1000;
       if (colorIndex === 1 && !secondTextShown) {
         intervalTime = 2000;
@@ -61,7 +70,7 @@ const SectionFour = () => {
       }, intervalTime);
     }
     return () => timer && clearInterval(timer);
-  }, [showText, secondTextShown, colorIndex])
+  }, [showText, secondTextShown, colorIndex, inView])
 
   return (
      <div
@@ -98,7 +107,7 @@ const SectionFour = () => {
             <AnimationButton showButton={showButton} />
           </div>
         </div>
-        <MatterCanvas ref={ref} show={true}/> 
+        <MatterCanvas ref={ref}/> 
       </div>
   );
 };
