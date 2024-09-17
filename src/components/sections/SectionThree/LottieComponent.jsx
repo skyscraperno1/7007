@@ -1,15 +1,43 @@
-import animationData from './data-fox-combined.json'
+import  { useEffect, useState } from 'react';
 import Lottie from 'react-lottie';
-const defaultOptions = {
-  loop: true,
-  autoplay: true,
-  animationData: animationData, // 你的 Lottie 动画 JSON 数据
-  rendererSettings: {
-    preserveAspectRatio: 'xMidYMid slice'
-  }
-};
-const LottieComponent = () => {
-  return <Lottie options={defaultOptions} height='100%' width='100%' />
-}
+import animationData from './data-fox-combined.json';
+const LottieComponent = ({ play, delay = 0}) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  useEffect(() => {
+    if (!play) {
+      setIsPlaying(false)
+      return
+    }
+    setTimeout(() => {
+      setIsPlaying(true)
+    }, delay)
+  }, [play, delay])
 
-export default LottieComponent
+  const handelMouseEnter = () => {
+    if (delay !== 0 && !isPlaying) {
+      setIsPlaying(true)
+    }
+  }
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: false, 
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  };
+
+  return (
+    <div className='w-full h-full' onMouseEnter={handelMouseEnter.bind(null)}>
+      <Lottie
+        options={defaultOptions}
+        height='100%'
+        width='100%'
+        isStopped={!isPlaying} 
+      />
+    </div>
+  );
+};
+
+export default LottieComponent;
