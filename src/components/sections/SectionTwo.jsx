@@ -50,8 +50,6 @@ const SectionTwo = ({ currentSection }) => {
       end: `${2 * width - headerHeight} top`,
       scrub: 1,
       onUpdate: (self) => {
-        console.log(leftTitleWidth);
-        
         const progress = self.progress;
         gsap.set(sectionRef.current, {
           x: progress * width,

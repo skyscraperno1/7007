@@ -5,6 +5,7 @@ import BlackLogo from "/Logo/BlackLogo.png";
 import Protocol from "/Section1/7007Protocol.svg";
 import HoverImage from "../../core/HoverImg";
 import Star from "../../core/Star";
+import { motion } from 'framer-motion'
 const Title = styled.div`
   font-family: "IBM Plex Mono";
   z-index: 49;
@@ -38,7 +39,8 @@ const TextSpan = styled.span`
 function MainTitle() {
   const [color, setColor] = useState("#FEED01");
   const [popImg, setPopIndex] = useState(0)
-
+  const [isHover, setHover] = useState(false);
+ 
   const getRandomNumber = (oldCount) => {
     const newCount = Math.floor(Math.random() * 3) + 1;
     if (newCount === oldCount) {
@@ -59,15 +61,27 @@ function MainTitle() {
 
   useEffect(() => {
     let interval;
-    let colorSequence = ["#FF0501", "#03D25C", "#FEED01"];
-    let index = 0;
 
-    interval = setInterval(() => {
-      setColor(colorSequence[index]);
-      index = (index + 1) % colorSequence.length; 
-    }, 500);
+    if (!isHover) {
+      if (interval) clearInterval(interval);
+      let colorSequence = ["#FF0501", "#FEED01", "#03D25C"];
+      let index = 0;
+      interval = setInterval(() => {
+        setColor(colorSequence[index]);
+        index = (index + 1) % colorSequence.length; 
+      }, 750);
+    } else {
+      if (interval) clearInterval(interval);
+      let colorSequence = ["#FF0501", "#03D25C"];
+      let index = 0;
+      interval = setInterval(() => {
+        setColor(colorSequence[index]);
+        index = (index + 1) % colorSequence.length; 
+      }, 500);
+    }
+    
     return () => clearInterval(interval); 
-  }, []);
+  }, [isHover]);
 
   return (
     <div className="relative">
@@ -81,9 +95,12 @@ function MainTitle() {
             Caution!
           </ShakeBanner>
         </div>
-        <img
+        <motion.img
           src={BlackLogo}
           alt="logo"
+          initial={{ rotate: 0 }} 
+          whileHover={{ rotate: -20 }} 
+          transition={{ type: "spring", stiffness: 500 }} 
           className="m-pointer absolute top-[-90px] left-[470px] 2xl:top-[-105px] 2xl:left-[604px] scale-75 2xl:scale-100"
         />
       </div>
@@ -100,7 +117,9 @@ function MainTitle() {
             <HoverImage src={Protocol} alt="protocol" animation={1 === popImg} />
           </div>
           <TextSpan
-          className="m-pointer relative block z-40" content="Ultimate">
+             onMouseEnter={() => setHover(true)}
+             onMouseLeave={() => setHover(false)}
+            className="m-pointer relative block z-40" content="Ultimate">
             Ultimate
           </TextSpan>
         </div>
@@ -113,6 +132,8 @@ function MainTitle() {
             <HoverImage src={Protocol} alt="protocol" animation={2 === popImg}/>
           </div>
           <TextSpan 
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
             className="m-pointer relative block z-40" content="AIGC&ensp;Exchange">
             AIGC&ensp;Exchange
           </TextSpan>

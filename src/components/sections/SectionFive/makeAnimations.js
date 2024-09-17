@@ -20,14 +20,17 @@ export const makeBtnAnimation = (x, y) => {
       transition: { duration: 0.25, repeat: Infinity, repeatType: 'loop', ease: 'linear' }
     },
     hover: { 
-      rotate: 0,
-      scale: 2.5,
+      rotate: [0, 5, 0, -5, 0],
+      scale: 4,
       x,
       y,
       zIndex: 60,
       transition: {
-        rotate: {
-          delay: 0
+        rotate: { 
+          duration: 0.25, 
+          repeat: Infinity, 
+          repeatType: 'loop', 
+          ease: 'linear' 
         },
         scale: {
           delay: 1.2,

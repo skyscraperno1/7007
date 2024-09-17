@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import CursorSrc from '/Pointers/cursor.png';
+import CursorSrc from '/Pointers/cursor.jpg';
 import styled from 'styled-components';
 
 const CursorWrapper = styled.div.attrs(props => ({
@@ -31,9 +31,9 @@ const Cursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isPointer, setPointer] = useState(false);
   const [offset, setOffset] = useState({
-    x: -3,
-    y: 7,
-    deg: 180
+    x: -22,
+    y: 5,
+    deg: 0
   });
 
   useEffect(() => {
@@ -47,15 +47,15 @@ const Cursor = () => {
       if (e.target.classList.contains('m-pointer') || (e.target.parentNode && e.target.parentNode?.classList?.contains('m-pointer'))) {
         setPointer(true);
         setOffset({
-          x: -30,
-          y: 9,
-          deg: 220
+          x: 5,
+          y: 8,
+          deg: -40
         })
       } else {
         setOffset({
-          x: -3,
-          y: 7,
-          deg: 180
+          x: -22,
+          y: 5,
+          deg: 0
         })
         setPointer(false);
       }

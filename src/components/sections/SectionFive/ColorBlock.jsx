@@ -63,11 +63,11 @@ const ColorBlock = () => {
           opacity: 0,
         }}
       />
-      <AnimatedBlock bgColor="bg-themeGreen"  direction="left" title='ƒ(A.I.) ℝ launch' num='70.07%'> 
+      <AnimatedBlock bgColor="bg-themeGreen"  direction="left" title='ƒ(A.I.) ℝ launch' num='70.07%' height='calc(100% - 5px)'> 
         <div className="absolute top-[-50px] left-[-50px] -rotate-[13deg]">
           <BoldTitle content='$TOOT' color="#FEED01"/>
         </div>
-        <div className='flex justify-start flex-col items-start absolute bottom-[-36px] left-[-50px]'>
+        <div className='flex justify-start flex-col items-start absolute bottom-[-24px] left-[-50px]'>
           <BoldTitle content='Total supply:' size='small' color="#FF0501" italic/>
           <BoldTitle content='Total allocation from' size='small' color="#FF0501" italic/>
           <BoldTitle content='ƒ(A.I.) ℝ launch / 0.7007' size='small' color="#FF0501" italic/>
@@ -84,7 +84,6 @@ const ColorBlock = () => {
           onClick={() => {
             setIsHovering(false)
           }}
-          // onMouseLeave={() => setIsHovering(false)}
           variants={makeBtnAnimation(translateBtn.x, translateBtn.y)}
           animate={isHovering ? "hover" : "shake"}
           className="z-[60] m-pointer absolute top-[-40px] 2xl:top-[-50px] right-[-50px]">

@@ -1,15 +1,31 @@
 import { cn } from "../../../lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from 'framer-motion'
 
 const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, title, num, children }) => {
   const [hover, setHover] = useState(false);
+  const [initial, setInitial] = useState({ x: 0, y: 0, opacity: 1 })
+  useEffect(() => {
+    switch (direction) {
+      case 'left':
+        setInitial({...initial, x: 5 })
+        break;
+      case 'down':
+        setInitial({...initial, y: -5})
+        break;
+      case 'rightDown':
+        setInitial({...initial, x: -5, y: -5})
+        break;
+      default:
+        break;
+    }
+  }, [direction])
   const variants = {
-    initial: { x: 0, y: 0, opacity: 1 },
-    left: { x: -20, opacity: 0.9 },
+    initial: initial,
+    left: { x: -15, opacity: 0.9 },
     rightUp: { y: -20, opacity: 0.9 },
-    down: { y: 20, opacity: 0.9 },
-    rightDown: { x: 20, y: 20, opacity: 0.9 },
+    down: { y: 15, opacity: 0.9 },
+    rightDown: { x: 15, y: 15, opacity: 0.9 },
   };
   const handleHover = (e) => {
     if (e.target === e.currentTarget || e.target.classList.contains('inner-title')) {
@@ -22,7 +38,7 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
   const handleMouseLeave = () => {
     setHover(false)
   };
-
+ 
   return (
     <motion.div
       className={cn("box flex justify-center items-center relative m-pointer", bgColor)}
