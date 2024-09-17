@@ -37,7 +37,7 @@ const SectionThree = ({ currentSection }) => {
                 <div className='-rotate-[30deg] absolute scale-75 2xl:scale-100 right-0 w-[530px] h-[530px]'>
                     <LottieComponent play={inView}/>
                 </div>
-                <div className='rotate-[210deg] absolute mt-[200px] scale-75 2xl:scale-100 left-0 w-[320px] h-[320px]'>
+                <div className='rotate-[210deg] absolute mt-[150px] 2xl:mt-[200px] scale-75 2xl:scale-100 left-0 w-[320px] h-[320px]'>
                     <LottieComponent play={inView} delay={2000}/>
                 </div>
             </div>
