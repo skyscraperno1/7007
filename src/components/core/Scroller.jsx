@@ -48,9 +48,8 @@ export default function Scroll({ sections }) {
                         sections.map((section) => {
                             const { Component, page } = section;
                             return (
-                                <section key={page} className='w-screen h-screen pt-[10vh] flex relative' id={`section-${page}`}>
-                                    <div className='w-[65px] h-screen select-none'></div>
-                                    <div className='flex-1 relative z-40'>
+                                <section key={page} className='w-screen h-screen pt-[10vh] relative' id={`section-${page}`}>
+                                    <div className='h-full relative z-40 ml-[65px]' style={{ width: 'calc(100% - 65px)' }}>
                                         <Component currentSection={currentSection}/>
                                     </div>
                                     <BottomNav page={page}/>
