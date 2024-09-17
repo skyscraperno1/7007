@@ -30,5 +30,5 @@ body {
     text-orientation: sideways
 }
 ::-webkit-scrollbar {
-    width: 0;
+    /* width: 0; */
 }

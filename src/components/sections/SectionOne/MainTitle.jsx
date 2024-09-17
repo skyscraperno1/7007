@@ -73,6 +73,9 @@ function MainTitle() {
     } else {
       if (interval) clearInterval(interval);
       let colorSequence = ["#FF0501", "#03D25C"];
+      if (color === '#FF0501') {
+        colorSequence = colorSequence.reverse()
+      }
       let index = 0;
       interval = setInterval(() => {
         setColor(colorSequence[index]);
