@@ -1,5 +1,5 @@
 import Matter from "matter-js";
-import { getRandomInt } from "../SectionFour/getAnimation";
+import { getRandomInt } from "../SectionFive/getAnimation";
 
 function getRandomFloat(min, max) {
   return Math.random() * (max - min) + min;

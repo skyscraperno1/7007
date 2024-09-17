@@ -1,4 +1,4 @@
-import MotionPartner from "./SectionFour/MotionPartner";
+import MotionPartner from "./SectionFive/MotionPartner";
 import BoldTitle from "../core/BoldTitle";
 import { useEffect, useState } from "react";
 

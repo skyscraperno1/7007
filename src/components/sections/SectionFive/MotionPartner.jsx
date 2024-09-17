@@ -77,8 +77,8 @@ const MotionPartner = ({ page, title, show }) => {
       animate={show ? animation : { x: 0, y: 0}}
     >
       <div className="bg-no-repeat bg-center h-[200px] w-[210px] flex items-center justify-center" style={{
-        backgroundImage: `url(/Section4/Frames/Frame${page}.png)`
-      }}><img className="" src={`/Section4/Partners/Partner${page}.png`} />
+        backgroundImage: `url(/Section5/Frames/Frame${page}.png)`
+      }}><img className="" src={`/Section5/Partners/Partner${page}.png`} />
       </div>
       <div className="uppercase text-lg 2xl:text-2xl">{title}</div>
     </motion.div>
