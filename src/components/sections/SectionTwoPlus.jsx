@@ -6,33 +6,7 @@ import useResourceByName, {
 import { motion, AnimatePresence } from "framer-motion";
 import { IoClose } from "react-icons/io5";
 import { FaPlay, FaPause } from "react-icons/fa";
-import styled from "styled-components";
-
-// Styled component for the progress bar
-const ProgressBar = styled.input.attrs(props => ({
-  type: 'range',
-  style: {
-    background: `linear-gradient(to right, #4CAF50 ${props.$progress}%, #ddd ${props.$progress}%)`
-  }
-}))`
-  width: 100%;
-  appearance: none;
-  height: 6px;
-  border-radius: 3px;
-  outline: none;
-  transition: background 0.2s;
-
-  &::-webkit-slider-thumb {
-    appearance: none;
-    width: 0;
-    height: 0;
-  }
-
-  &::-moz-range-thumb {
-    width: 0;
-    height: 0;
-  }
-`;
+import { ProgressBar } from "./SectionTwo/ProgressBar";
 
 const SectionTwoPlus = ({ currentSection }) => {
   const Video = useResourceByName("full_video.mp4", RESOURCE_TYPES.VIDEO);
@@ -40,14 +14,10 @@ const SectionTwoPlus = ({ currentSection }) => {
   const [showVideo, setShowVideo] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  
+  const [showControls, setShowControls] = useState(false);
+
   const videoRef = useRef(null);
   const animationFrameRef = useRef(null);
-
-  const videoContainerVariants = {
-    hidden: { y: "100%" },
-    visible: { y: 0 },
-  };
 
   useEffect(() => {
     if (currentSection === 3) {
@@ -74,7 +44,7 @@ const SectionTwoPlus = ({ currentSection }) => {
         videoRef.current.play();
         animationFrameRef.current = requestAnimationFrame(updateProgressBar);
       }
-      setIsPlaying(!isPlaying);
+      setIsPlaying(prev => !prev);
     }
   };
 
@@ -105,6 +75,14 @@ const SectionTwoPlus = ({ currentSection }) => {
     }
   }, [showVideo]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowVideo(false)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <div
       className={cn(
@@ -123,45 +101,63 @@ const SectionTwoPlus = ({ currentSection }) => {
             initial="hidden"
             animate="visible"
             exit="hidden"
-            variants={videoContainerVariants}
+            variants={{
+              hidden: { y: "100%" },
+              visible: { y: 0 },
+            }}
             transition={{ duration: 0.5 }}
+           
           >
             <video
               ref={videoRef}
               className="w-full h-full object-fill rounded-lg"
               src={Video}
               autoPlay
+              loop
               onPlay={() => animationFrameRef.current = requestAnimationFrame(updateProgressBar)}
               onPause={() => cancelAnimationFrame(animationFrameRef.current)}
+              onMouseEnter={() => setShowControls(true)} 
+              onMouseLeave={() => setShowControls(false)}
             />
-            <div className="absolute bottom-14 right-0 left-0 px-[15%] z-100">
-              <div className="flex items-center justify-between h-8 gap-4">
-                <div className="flex bg-slate-600 flex-1 h-full items-center p-2 rounded">
-                  <div
-                    onClick={handlePlayPause}
-                    className="text-white text-xl mr-4 m-pointer"
-                  >
-                    {isPlaying ? (
-                      <FaPause className="m-pointer" />
-                    ) : (
-                      <FaPlay className="m-pointer" />
-                    )}
+            <AnimatePresence>
+              {showControls && (
+                <motion.div
+                  className="absolute bottom-24 right-0 left-0 px-[20%] z-100"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1 }}
+                  onMouseEnter={() => setShowControls(true)} 
+                >
+                  <div className="flex items-center justify-between h-8 gap-4">
+                    <div className="flex bg-slate-600/75 flex-1 h-full items-center p-2 rounded">
+                      <div
+                        className="text-white text-xl mr-4 m-pointer"
+                        onClick={handlePlayPause}
+                      >
+                        {isPlaying ? (
+                          <FaPause className="m-pointer" />
+                        ) : (
+                          <FaPlay className="m-pointer" />
+                        )}
+                      </div>
+                      <ProgressBar
+                        $progress={progress}
+                        onChange={handleProgressChange}
+                      />
+                    </div>
+                    <div className="bg-slate-600/75 h-full flex items-center p-2 rounded px-1">
+                      <div
+                        className="text-white text-2xl cursor-pointer"
+                        onClick={handleClose}
+                      >
+                        <IoClose className="m-pointer" />
+                      </div>
+                    </div>
                   </div>
-                  <ProgressBar
-                    $progress={progress}
-                    onChange={handleProgressChange}
-                  />
-                </div>
-                <div className="bg-slate-600 h-full flex items-center p-2 rounded px-1">
-                  <div
-                    onClick={handleClose}
-                    className="text-white text-2xl m-pointer"
-                  >
-                    <IoClose className="m-pointer" />
-                  </div>
-                </div>
-              </div>
-            </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>
