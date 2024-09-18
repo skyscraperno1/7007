@@ -102,12 +102,12 @@ const SectionFour = ({ currentSection }) => {
       timer && clearInterval(timer);
     }
     if (showText && inView) {
-      let intervalTime = 1000;
+      let intervalTime = 500;
       if (colorIndex === 1 && !secondTextShown) {
-        intervalTime = 2000;
+        intervalTime = 1000;
         setTimeout(() => {
           setShowButton(true);
-        }, 1000);
+        }, 500);
       }
       timer = setInterval(() => {
         setColorIndex((prevIndex) => {

@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../../core/Button';
 
-const AnimationButton = ({showButton}) => {
+const AnimationButton = ({ showButton }) => {
 
     const variants = {
         hidden: { y: 50, opacity: 0 },
@@ -9,13 +9,16 @@ const AnimationButton = ({showButton}) => {
             y: 20,
             opacity: 1,
             rotate: [0, 5, 0, -5, 0],
-            transition: { duration: 1, rotate: {
-                duration: 0.25, 
-                delay: 0.8,
-                repeat: Infinity, 
-                repeatType: 'loop', 
-                ease: 'linear'
-            }}
+            transition: { 
+                duration: 0.5, 
+                rotate: {
+                    duration: 0.25, 
+                    delay: 0.25,
+                    repeat: Infinity, 
+                    repeatType: 'loop', 
+                    ease: 'linear'
+                }
+            }
         }
     };
 

@@ -28,14 +28,17 @@ const SectionThree = ({ currentSection }) => {
                     <div className='absolute top-[-116px] left-[-131px] 2xl:top-[-102px] 2xl:left-[-137px] scale-75 2xl:scale-100 select-none'>
                         <motion.img src={StarImg} alt="Star" 
                             animate={{ rotate: 360 }}
-                            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                            transition={{ duration: 7.5, repeat: Infinity, ease: "linear" }}
                         />
                     </div>
                     <BoldTitle content='ONE PROMPT ONLY!' color="#FF0501" italic />
                 </div>
-                <div className="mt-32">
+                <motion.div className="mt-32" animate={{
+                     rotate: [0, 5, 0, -5, 0],
+                     transition: { duration: 0.25, repeat: Infinity, repeatType: 'loop', ease: 'linear' }
+                }}>
                     <Button kls="w-80 normal-case h-20 2xl:h-24 text-3xl 2xl:text-4xl" duration={0.8} onClick={() => {handleClick()}}>Mint</Button>
-                </div>
+                </motion.div>
                 <div className='mt-[3%] -rotate-[30deg] absolute scale-75 2xl:scale-100 right-0 w-[530px] h-[530px]'>
                     <LottieComponent play={inView}/>
                 </div>

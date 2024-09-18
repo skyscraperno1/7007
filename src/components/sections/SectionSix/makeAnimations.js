@@ -6,7 +6,7 @@ export const makeCoverAnimation = (clipPath) => {
         opacity: 1,
         clipPath: 'inset(0 0 0 0)',
         transition: {
-          duration: 1,
+          duration: .5,
           ease: 'easeInOut'
         }
     }
@@ -33,18 +33,18 @@ export const makeBtnAnimation = (x, y) => {
           ease: 'linear' 
         },
         scale: {
-          delay: 1.2,
-          duration: 0.5,
+          delay: .75,
+          duration: 0.1,
           ease: 'easeInOut'
         },
         x: {
-          delay: .4,
-          duration: .8,
+          delay: .25,
+          duration: .5,
           ease: 'easeInOut'
         },
         y: {
-          delay: .4,
-          duration: .8,
+          delay: .25,
+          duration: .5,
           ease: 'easeInOut'
         }
       }

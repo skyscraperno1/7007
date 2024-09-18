@@ -130,7 +130,7 @@ function MainTitle() {
         <div
         >
           <div className="absolute top-[168px] left-[-109px]  2xl:top-[253px] 2xl:left-[-113px] z-50 scale-75 2xl:scale-100">
-            <Star rotate='44' />
+            <Star rotate='44' duration={10}/>
           </div>
           <div className="absolute top-[178px] left-[58px] 2xl:top-[220px] 2xl:left-[130px] scale-75 2xl:scale-100">
             <HoverImage src={Protocol} alt="protocol" animation={2 === popImg}/>

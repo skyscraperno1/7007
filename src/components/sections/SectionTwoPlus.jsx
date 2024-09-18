@@ -114,8 +114,14 @@ const SectionTwoPlus = ({ currentSection }) => {
               src={Video}
               autoPlay
               loop
-              onPlay={() => animationFrameRef.current = requestAnimationFrame(updateProgressBar)}
-              onPause={() => cancelAnimationFrame(animationFrameRef.current)}
+              onPlay={() => {
+                animationFrameRef.current = requestAnimationFrame(updateProgressBar)
+                setIsPlaying(true)
+              }}
+              onPause={() => {
+                cancelAnimationFrame(animationFrameRef.current)
+                setIsPlaying(false)
+              }}
               onMouseEnter={() => setShowControls(true)} 
               onMouseLeave={() => setShowControls(false)}
             />
