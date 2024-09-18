@@ -73,9 +73,12 @@ const VideoPlayer = ({
 
   return (
     <div
-      className={`relative ${className} cursor-none`}
+      className={`relative ${className} cursor-none z-100`}
       onClick={togglePlay}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => {
+        setIsHovered(true)
+        console.log(123)
+      }}
       onMouseLeave={() => setIsHovered(false)}
     >
       {isLoading && (
@@ -95,6 +98,7 @@ const VideoPlayer = ({
         loop={loop}
         muted={isMuted}
         controls={controls}
+        alt="7007 Video"
         onLoadedData={handleLoadedData}
         onError={handleError}
         onPlay={() => {

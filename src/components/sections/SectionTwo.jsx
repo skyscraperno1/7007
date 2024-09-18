@@ -80,14 +80,16 @@ const SectionTwo = ({ currentSection }) => {
   return (
     <div ref={sectionRef} className="w-full h-full" id="section-two">
       {showVideo ? (
-        <video
-          className="w-full h-full object-fill"
-          src={Video}
-          alt="7007 Video"
-          autoPlay
-          loop
-          muted
-        />
+        <div className="w-full h-full video-wrapper">
+          <video
+              className="w-full h-full object-fill"
+              src={Video}
+              alt="7007 Video"
+              autoPlay
+              loop
+              muted
+            />
+        </div>
       ) : (
         <div className="w-full h-full relative flex items-center">
           <div

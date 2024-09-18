@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import AnimationText from "./SectionFour/AnimationText";
 import AnimationButton from "./SectionFour/AnimationButton";
-import MatterCanvas from "./SectionThree/MatterCanvas";
+import MatterCanvas from "./SectionFour/MatterCanvas";
 import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName';
 const ImgW = 269;
 const ImgH = 424;
