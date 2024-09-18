@@ -18,6 +18,8 @@ const resources = {
     '/Stars/YellowStar.png',
     // Section2
     '/Section2/Cover.gif',
+    '/Section2/play.svg',
+    '/Section2/close.svg',
     // Section3
     '/Stars/GreenStar.png',
     // Section4
@@ -51,6 +53,7 @@ const resources = {
   ],
   videos: [
     '/Section2/clip.mp4',
+    '/Section2/full_video.mp4',
   ],
   fonts: [
     {
