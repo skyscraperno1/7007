@@ -39,10 +39,10 @@ const SectionThree = ({ currentSection }) => {
                 }}>
                     <Button kls="w-80 normal-case h-20 2xl:h-24 text-3xl 2xl:text-4xl" duration={0.8} onClick={() => {handleClick()}}>Mint</Button>
                 </motion.div>
-                <div className='mt-[3%] -rotate-[30deg] absolute scale-75 2xl:scale-100 right-0 w-[530px] h-[530px]'>
+                <div className='mt-0 2xl:mt-[3%] -rotate-[30deg] absolute scale-[65%] 2xl:scale-100 right-0 w-[530px] h-[530px]'>
                     <LottieComponent play={inView}/>
                 </div>
-                <div className='rotate-[200deg] absolute mt-[165px] 2xl:mt-[220px] scale-75 2xl:scale-100 left-0 ml-16 w-[360px] h-[360px]'>
+                <div className='rotate-[200deg] absolute mt-[140px] 2xl:mt-[220px] scale-[65%] 2xl:scale-100 left-0 ml-4 2xl:ml-16 w-[360px] h-[360px]'>
                     <LottieComponent play={inView} delay={2000}/>
                 </div>
             </div>
