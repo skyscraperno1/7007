@@ -56,7 +56,7 @@ function MainTitle() {
       setPopIndex((prevNum) => {
         return getRandomNumber(prevNum);
       });
-    }, 1000)
+    }, 500)
     return () => clearInterval(timer); 
   }, [])
 
