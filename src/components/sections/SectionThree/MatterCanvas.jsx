@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { init } from './useMatter'
-import ImgA from '/Section3/Eth.png'
-import ImgB from '/Section3/ShapeRight.png'
+import ImgA from '/Section4/Img1.png'
+import ImgB from '/Section4/Img2.png'
 const MatterCanvas = forwardRef((_, ref) => {
   const matter = useRef(null)
   const canvasRef = useRef(null);

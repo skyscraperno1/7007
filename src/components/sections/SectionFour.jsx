@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import AnimationText from "./SectionThree/AnimationText";
-import AnimationButton from "./SectionThree/AnimationButton";
+import AnimationText from "./SectionFour/AnimationText";
+import AnimationButton from "./SectionFour/AnimationButton";
 import MatterCanvas from "./SectionThree/MatterCanvas";
-import Img1 from "/Section3/bgs/Img1.png";
-import Img2 from "/Section3/bgs/Img2.png";
-import Img3 from "/Section3/bgs/Img3.png";
-import Img4 from "/Section3/bgs/Img4.png";
-import Img5 from "/Section3/bgs/Img5.png";
-import Img6 from "/Section3/bgs/Img6.png";
-import Img7 from "/Section3/bgs/Img7.png";
+import Img1 from "/Section4/Img1.png";
+import Img2 from "/Section4/Img2.png";
+import Img3 from "/Section4/Img3.png";
+import Img4 from "/Section4/Img4.png";
+import Img5 from "/Section4/Img5.png";
+import Img6 from "/Section4/Img6.png";
+import Img7 from "/Section4/Img7.png";
 const ImgW = 269;
 const ImgH = 424;
 const images = [

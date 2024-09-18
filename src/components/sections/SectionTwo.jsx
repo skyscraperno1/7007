@@ -4,8 +4,8 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Video from "/Section2/clip.mp4";
 import BoldTitle from "../core/BoldTitle";
 import RedStar from "/Stars/RedStar.png";
-
 const SectionTwo = ({ currentSection }) => {
+  
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
   const titleLeftRef = useRef(null);

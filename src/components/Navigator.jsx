@@ -6,7 +6,12 @@ import { motion } from 'framer-motion';
 
 const RotatingImage = ({ src, alt }) => {
   return (
-    <div className='m-pointer hidden sm:block'>
+    <div className='m-pointer hidden sm:block' onClick={() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+     });
+    }}>
       <motion.img
         src={src}
         alt={alt}

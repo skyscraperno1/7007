@@ -69,7 +69,7 @@ function MainTitle() {
       interval = setInterval(() => {
         setColor(colorSequence[index]);
         index = (index + 1) % colorSequence.length; 
-      }, 750);
+      }, 500);
     } else {
       if (interval) clearInterval(interval);
       let colorSequence = ["#FF0501", "#03D25C"];
@@ -80,7 +80,7 @@ function MainTitle() {
       interval = setInterval(() => {
         setColor(colorSequence[index]);
         index = (index + 1) % colorSequence.length; 
-      }, 500);
+      }, 350);
     }
     
     return () => clearInterval(interval); 

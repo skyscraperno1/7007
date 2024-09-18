@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import BoldTitle from '../../core/BoldTitle';
 const themeGreen = '#03D25C';

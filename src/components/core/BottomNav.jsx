@@ -8,6 +8,7 @@ const TriangleShape = styled.div`
   border-right: 50vw solid transparent;
   border-bottom: 10vh solid ${(props) => props.$isWhite ? 'white' : 'transparent'};
   position: relative;
+  margin-left: ${(props) => props.$isWhite ? '0' : '32.5px'};
   ${(props) =>
     props.$isLast &&
     css`
@@ -18,8 +19,8 @@ const BottomNav = ({ page }) => {
     const isLast = page === 6
     const isFirst = page === 1
     return (
-        <div className="select-none absolute overflow-hidden bg-transparent w-full bottom-0 left-0 z-[100]">
-            <TriangleShape $isWhite={isFirst} $isLast={isLast} className='flex justify-center items-center'>
+        <div className="select-none absolute overflow-hidden bg-transparent w-full bottom-0 left-0 z-[100]" style={{ display: page === 2.1 && 'none' }}>
+            <TriangleShape $isWhite={isFirst} $isLast={isLast} className='flex justify-center items-center' style={{ marginLeft: page === 5 && '65px'}}>
                 <div className='items-center text-bold 2xl:text-black font-bold mt-20 2xl:mt-28 hidden sm:flex'>
                     {
                         !isFirst && 

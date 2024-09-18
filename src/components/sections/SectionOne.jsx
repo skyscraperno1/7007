@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import MainTitle from './SectionOne/MainTitle';
-import CircleElement from '/Section1/3dElement.png';
+import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName';
 const SectionWrapper = styled.div`
   position: relative;
   &::before {
@@ -18,18 +18,17 @@ const SectionWrapper = styled.div`
 `;
 
 const ElementBg = styled.div`
-  background-image: url(${CircleElement});
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 35%;
 `;
 
 const SectionOne = () => {
-
+  const imageSrc = useResourceByName('3dElement.png', RESOURCE_TYPES.IMAGE);
   return (
     <>
       <SectionWrapper id="section-one" className='relative h-full w-full bg-themeGreen overflow-hidden z-[90]'>
-        <ElementBg className='relative z-10 h-full w-screen flex items-center justify-center'>
+        <ElementBg className='relative z-10 h-full w-screen flex items-center justify-center' style={{ backgroundImage: `url(${imageSrc})` }}>
           <MainTitle />
         </ElementBg>
       </SectionWrapper>
