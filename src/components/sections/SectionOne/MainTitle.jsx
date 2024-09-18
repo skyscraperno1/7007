@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import ShakeBanner from "./ShakeBanner";
-import BlackLogo from "/Logo/BlackLogo.png";
-import Protocol from "/Section1/7007Protocol.svg";
+import useResourceByName, { RESOURCE_TYPES } from "../../../hook/useResourceByName";
 import HoverImage from "../../core/HoverImg";
 import Star from "../../core/Star";
 import { motion } from 'framer-motion'
@@ -37,6 +36,8 @@ const TextSpan = styled.span`
 `
 
 function MainTitle() {
+  const BlackLogo = useResourceByName("BlackLogo.png", RESOURCE_TYPES.IMAGE);
+  const Protocol = useResourceByName("7007Protocol.svg", RESOURCE_TYPES.IMAGE);
   const [color, setColor] = useState("#FEED01");
   const [popImg, setPopIndex] = useState(0)
   const [isHover, setHover] = useState(false);

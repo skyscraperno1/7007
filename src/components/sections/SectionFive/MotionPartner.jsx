@@ -1,7 +1,16 @@
 import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { getDelay, getOffset, getTransition, makeAnimationArr, getRandomInt } from './getAnimation'
+import useResourceByName, { RESOURCE_TYPES } from '../../../hook/useResourceByName'
+
+const generateImagePairs = (count) => {
+  return Array.from({ length: count }, (_, i) => ({
+    frame: useResourceByName(`Frame${i + 1}.png`, RESOURCE_TYPES.IMAGE),
+    partner: useResourceByName(`Partner${i + 1}.png`, RESOURCE_TYPES.IMAGE),
+  }));
+};
 const MotionPartner = ({ page, title, show }) => {
+  const images = generateImagePairs(8)
   const ref = useRef(null)
   const [animation, setAnimation] = useState({
     x: 0,
@@ -77,8 +86,8 @@ const MotionPartner = ({ page, title, show }) => {
       animate={show ? animation : { x: 0, y: 0}}
     >
       <div className="bg-no-repeat bg-center h-[200px] w-[210px] flex items-center justify-center" style={{
-        backgroundImage: `url(/Section5/Frames/Frame${page}.png)`
-      }}><img className="" src={`/Section5/Partners/Partner${page}.png`} />
+        backgroundImage: `url(${images[page -1].frame})`
+      }}><img className="" src={`${images[page -1].partner}`} />
       </div>
       <div className="uppercase text-lg 2xl:text-2xl">{title}</div>
     </motion.div>

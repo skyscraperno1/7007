@@ -1,10 +1,12 @@
 import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import Video from "/Section2/clip.mp4";
 import BoldTitle from "../core/BoldTitle";
-import RedStar from "/Stars/RedStar.png";
+import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName';
+
 const SectionTwo = ({ currentSection }) => {
+  const RedStar = useResourceByName('RedStar.png', RESOURCE_TYPES.IMAGE);
+  const Video = useResourceByName('clip.mp4', RESOURCE_TYPES.VIDEO);
   
   const sectionRef = useRef(null);
   const imageRef = useRef(null);

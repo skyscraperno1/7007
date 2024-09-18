@@ -1,10 +1,12 @@
 import BoldTitle from '../core/BoldTitle';
 import Button from '../core/Button';
-import StarImg from '/Stars/GreenStar.png'
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import LottieComponent from './SectionThree/LottieComponent';
+import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName';
+
 const SectionThree = ({ currentSection }) => {
+    const StarImg = useResourceByName('GreenStar.png', RESOURCE_TYPES.IMAGE);
     const handleClick = () => {
         window.scrollTo({
             top: window.innerWidth * 4 - 100,

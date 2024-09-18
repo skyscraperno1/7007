@@ -28,6 +28,26 @@ const resources = {
     '/Section4/Img5.png',
     '/Section4/Img6.png',
     '/Section4/Img7.png',
+    '/Section4/Img8.png',
+    // Section5
+    '/Section5/Frames/Frame1.png',
+    '/Section5/Frames/Frame2.png',
+    '/Section5/Frames/Frame3.png',
+    '/Section5/Frames/Frame4.png',
+    '/Section5/Frames/Frame5.png',
+    '/Section5/Frames/Frame6.png',
+    '/Section5/Frames/Frame7.png',
+    '/Section5/Frames/Frame8.png',
+    '/Section5/Partners/Partner1.png',
+    '/Section5/Partners/Partner2.png',
+    '/Section5/Partners/Partner3.png',
+    '/Section5/Partners/Partner4.png',
+    '/Section5/Partners/Partner5.png',
+    '/Section5/Partners/Partner6.png',
+    '/Section5/Partners/Partner7.png',
+    '/Section5/Partners/Partner8.png',
+    // Section6
+    '/Section6/page-six-bg.png'
   ],
   videos: [
     '/Section2/clip.mp4',

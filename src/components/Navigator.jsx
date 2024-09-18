@@ -1,8 +1,6 @@
-import logo from '/Logo/GreenLogo.png'
 import Button from './core/Button'
-import XLogo from '/Logo/X-logo.svg'
-import TwitterLogo from '/Logo/twitter-logo.svg'
 import { motion } from 'framer-motion';
+import useResourceByName, { RESOURCE_TYPES } from '../hook/useResourceByName';
 
 const RotatingImage = ({ src, alt }) => {
   return (
@@ -25,7 +23,9 @@ const RotatingImage = ({ src, alt }) => {
   );
 };
 function Navigator() {
-
+  const logo = useResourceByName('GreenLogo.png', RESOURCE_TYPES.IMAGE)
+  const XLogo = useResourceByName('X-logo.svg', RESOURCE_TYPES.IMAGE)
+  const TwitterLogo = useResourceByName('twitter-logo.svg', RESOURCE_TYPES.IMAGE)
   return (
     <header className="top-0 z-40 w-full h-[10vh] flex justify-between items-center pl-24 pr-6 py-2 select-none bg-white fixed border-b-4 border-black">
       <RotatingImage src={logo} alt="7007" />

@@ -1,7 +1,8 @@
-import RedStar from '/Stars/RedStar.png'
-import YellowStar from '/Stars/YellowStar.png'
 import { motion } from 'framer-motion'
+import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName'
 const Star = ({ color = '#FF0501', rotate = '0' }) => {
+    const RedStar = useResourceByName('RedStar.png', RESOURCE_TYPES.IMAGE)
+    const YellowStar = useResourceByName('YellowStar.png', RESOURCE_TYPES.IMAGE)
     return (
         <div style={{ transform: `rotate(${rotate}deg)` }} >
             <motion.img 
