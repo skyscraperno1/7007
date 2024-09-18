@@ -35,13 +35,13 @@ const resources = {
   fonts: [
     {
       family: 'IBM Plex Mono',
-      url: '/src/assets/fonts/IBMPlexMono-Bold.ttf',
+      url: '/fonts/IBMPlexMono-Bold.ttf',
       style: 'normal',
       weight: 'bold'
     },
     {
       family: 'IBM Plex Mono Bold Italic',
-      url: '/src/assets/fonts/IBMPlexMono-BoldItalic.ttf',
+      url: '/fonts/IBMPlexMono-BoldItalic.ttf',
       style: 'italic',
       weight: 'bold'
     },
@@ -50,13 +50,17 @@ const resources = {
 
 const useLoading = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [loadedResources, setLoadedResources] = useState(null);
+  const [loadedResources, setLoadedResources] = useState({
+    images: [],
+    videos: [],
+    fonts: [],
+  });
 
   const loadImage = (src) => {
     return new Promise((resolve, reject) => {
       const img = new Image();
-      img.onload = resolve;
-      img.onerror = reject;
+      img.onload = () => resolve({ src, status: 'fulfilled' });
+      img.onerror = () => reject({ src, status: 'rejected' });
       img.src = src;
     });
   };
@@ -65,8 +69,8 @@ const useLoading = () => {
     return new Promise((resolve, reject) => {
       const video = document.createElement('video');
       video.src = src;
-      video.onloadeddata = resolve;
-      video.onerror = reject;
+      video.onloadeddata = () => resolve({ src, status: 'fulfilled' });
+      video.onerror = () => reject({ src, status: 'rejected' });
     });
   };
 
@@ -80,9 +84,9 @@ const useLoading = () => {
       fontFace.load()
         .then(() => {
           document.fonts.add(fontFace);
-          resolve();
+          resolve({ font, status: 'fulfilled' });
         })
-        .catch(reject);
+        .catch(() => reject({ font, status: 'rejected' }));
     });
   };
 
@@ -93,9 +97,17 @@ const useLoading = () => {
     const videoPromises = resources.videos.map(loadVideo);
     const fontPromises = resources.fonts.map(loadFont);
 
-    Promise.all([...imagePromises, ...videoPromises, ...fontPromises])
-      .then(() => {
-        setLoadedResources(resources);
+    Promise.allSettled([...imagePromises, ...videoPromises, ...fontPromises])
+      .then((results) => {
+        const loadedImages = results.filter(result => result.status === 'fulfilled' && result.value.src).map(result => result.value.src);
+        const loadedVideos = results.filter(result => result.status === 'fulfilled' && result.value.src).map(result => result.value.src);
+        const loadedFonts = results.filter(result => result.status === 'fulfilled' && result.value.font).map(result => result.value.font);
+
+        setLoadedResources({
+          images: loadedImages,
+          videos: loadedVideos,
+          fonts: loadedFonts,
+        });
         setIsLoading(false);
       })
       .catch((error) => {
