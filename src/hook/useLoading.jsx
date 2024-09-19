@@ -85,7 +85,16 @@ const useLoading = () => {
     videos: [],
     fonts: [],
   });
-
+  const [startTime] = useState(Date.now()); 
+  const finishLoading = (elapsedTime) => {
+    if (elapsedTime < 1000) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000 - elapsedTime);
+    } else {
+      setIsLoading(false); 
+    }
+  };
   const loadImage = (src) => {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -138,17 +147,15 @@ const useLoading = () => {
           videos: loadedVideos,
           fonts: loadedFonts,
         });
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000);
+        const elapsedTime = Date.now() - startTime;
+        finishLoading(elapsedTime);
       })
       .catch((error) => {
         console.log('resource load error:', error);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000);
+        const elapsedTime = Date.now() - startTime;
+        finishLoading(elapsedTime);
       });
-  }, []);
+  }, [startTime]);
 
   useEffect(() => {
     loadResources();
