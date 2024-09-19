@@ -11,8 +11,7 @@ import ScrollBar from "./components/core/ScrollBar";
 import Cursor from "./components/core/Cursor";
 import ResourcesProvider from "./hook/ResourcesProvider";
 import useResources from "./hook/useResources";
-import { motion, AnimatePresence } from "framer-motion";
-import logo from '/Logo/GreenLogo.png'
+import LoadingScreen from "./components/core/LoadingScreen";
 
 const sections = [
   { Component: SectionOne, page: 1 },
@@ -24,42 +23,17 @@ const sections = [
   { Component: SectionSix, page: 6 },
 ];
 
-const LoadingScreen = () => {
-  return (
-    <motion.div 
-      className="bg-themeGreen w-screen h-screen fixed z-[1000] flex items-center justify-center"
-      initial={{ y: 0 }}
-      animate={{ y: 0 }}
-      exit={{ y: '-100vh' }}
-      transition={{ duration: 0.5 }}
-    >
-      <motion.img
-        src={logo}
-        alt="logo"
-        className="w-[65px]"
-        animate={{ rotate: 360 }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-      />
-    </motion.div>
-  );
-};
 
 const AppContent = () => {
   const { isLoading } = useResources();
 
   return (
     <>
-      <AnimatePresence>
-        {isLoading && <LoadingScreen />}
-      </AnimatePresence>
+      <LoadingScreen isLoading={isLoading}/>
       <Navigator />
       <Scroller sections={sections} />
       <ScrollBar baseVelocity={2}>Ultimate AIGC Exchange&nbsp;</ScrollBar>
-      <Cursor />
+      {!isLoading && <Cursor />}
     </>
   );
 };
