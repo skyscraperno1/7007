@@ -2,15 +2,17 @@ import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { init } from './useMatter'
 import ImgA from '/Section4/Img1.png'
 import ImgB from '/Section4/Img2.png'
+import useResourceByName, { RESOURCE_TYPES } from '../../../hook/useResourceByName';
 const MatterCanvas = forwardRef((_, ref) => {
   const matter = useRef(null)
   const canvasRef = useRef(null);
-
+  const circle_black = useResourceByName('circle_black.png', RESOURCE_TYPES.IMAGE);
+  const circle_white = useResourceByName('circle_white.png', RESOURCE_TYPES.IMAGE);
   
   useImperativeHandle(ref, () => ({
     addBox: () => {
       if (matter.current) {
-        matter.current.addImg(ImgA, ImgB)
+        matter.current.addCircle(circle_black, circle_white)
       }
     }
   }));

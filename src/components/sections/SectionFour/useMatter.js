@@ -4,6 +4,10 @@ import { getRandomInt } from "../SectionFive/getAnimation";
 function getRandomFloat(min, max) {
   return Math.random() * (max - min) + min;
 }
+
+function getRandom() {
+  return Math.random() > 0.5;
+}
 export const init = (canvas) => {
   const Engine = Matter.Engine,
     Render = Matter.Render,
@@ -15,7 +19,6 @@ export const init = (canvas) => {
 
   const width = canvas.getBoundingClientRect().width;
   const height = canvas.getBoundingClientRect().height;
-
   const engine = Engine.create(),
     world = engine.world;
 
@@ -25,7 +28,6 @@ export const init = (canvas) => {
     options: {
       width,
       height,
-      showAngleIndicator: true,
       background: "transparent",
       wireframes: false,
     },
@@ -45,18 +47,14 @@ export const init = (canvas) => {
       isStatic: true,
     }
   );
-  const ceiling = Bodies.rectangle(width / 2, 0, width, 10, { isStatic: true });
-  const leftWall = Bodies.rectangle(0, height / 2, 10, height, {
-    isStatic: true,
-  });
-  const rightWall = Bodies.rectangle(width, height / 2, 10, height, {
-    isStatic: true,
-  });
-  ceiling.render.visible = false;
-  ground.render.visible = false;
+  // const ceiling = Bodies.rectangle(width / 2, 0, width, 10, { isStatic: true });
+  const leftWall = Bodies.rectangle(0, height / 2, 10, height, { isStatic: true });
+  const rightWall = Bodies.rectangle(width, height / 2, 10, height, { isStatic: true });
+  // ceiling.render.visible = false;
+  // ground.render.visible = false;
   rightWall.render.visible = false;
   leftWall.render.visible = false;
-  Composite.add(world, [ground, ceiling, leftWall, rightWall]);
+  Composite.add(world, [ground, leftWall, rightWall]);
 
   const mouse = Mouse.create(render.canvas),
     mouseConstraint = MouseConstraint.create(engine, {
@@ -72,25 +70,25 @@ export const init = (canvas) => {
   Composite.add(world, mouseConstraint);
   mouse.element.removeEventListener('wheel', mouse.mousewheel);
   mouse.element.removeEventListener('DOMMouseScroll', mouse.mousewheel);
-  const addImg = (pathA, pathB) => {
-    const numImages = getRandomInt(1, 5)
-    for (let i = 0; i < numImages; i++) {
-      const x = Math.random() * width; // 随机生成图片的x坐标
-      const scale = getRandomFloat(0.25, 0.75)
-  
-      const newPolygon = Bodies.polygon(x, 0, 3, 60, {
+  const addCircle = (circle_black, circle_white) => {
+    for (let i = 0; i < 4; i++) {
+      const x = Math.random() * width; 
+      const newCircle = Bodies.circle(x, 0, 75, {
         render: {
           sprite: {
-            texture: Math.random() > .5 ? pathA : pathB,
-            xScale: scale,
-            yScale: scale,
+            texture: getRandom() ? circle_black : circle_white,
           },
         },
       });
+      Composite.add(world, newCircle);
+    }
+    for (let j = 0; j < 6; j++) {
+      const x = Math.random() * width;
+      const newPolygon = Bodies.rectangle(x, 0, 60, 60);
       Composite.add(world, newPolygon);
     }
   };
   return {
-    addImg,
+    addCircle,
   };
 };
