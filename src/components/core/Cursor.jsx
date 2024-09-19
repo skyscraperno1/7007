@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
-import CursorSrc from '/Pointers/cursor.png';
 import styled from 'styled-components';
+import useResourceByName, { RESOURCE_TYPES } from "../../hook/useResourceByName";
 
 const CursorWrapper = styled.div.attrs(props => ({
   style: {
     transform: `translateX(${props.$offset.x}px) translateY(${props.$offset.y}px) scale(2) rotate(${props.$offset.deg}deg)`,
-    backgroundImage: `url(${CursorSrc})`,
     top: props.$y,
     left: props.$x,
-
   }
 }))`
   position: fixed;
@@ -28,6 +26,7 @@ const CursorWrapper = styled.div.attrs(props => ({
 `;
 
 const Cursor = () => {
+  const CursorSrc = useResourceByName('cursor.png', RESOURCE_TYPES.IMAGE);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isPointer, setPointer] = useState(false);
   const [offset, setOffset] = useState({
@@ -68,10 +67,12 @@ const Cursor = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
     };
-  }, []); // 将 offset 作为依赖项传入 useEffect
+  }, []);
 
   return (
-    <CursorWrapper id="cursor" $x={position.x} $y={position.y} $pointer={isPointer ? 1 : 0}  $offset={offset}/>
+    <CursorWrapper id="cursor" $x={position.x} $y={position.y} $pointer={isPointer ? 1 : 0}  $offset={offset} style={{
+      backgroundImage: `url(${CursorSrc})`
+    }}/>
   );
 };
 
