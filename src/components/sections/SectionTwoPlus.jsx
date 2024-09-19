@@ -15,6 +15,27 @@ const SectionTwoPlus = ({ currentSection }) => {
   const [progress, setProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [showControls, setShowControls] = useState(false);
+  let timeoutId;
+  const [isScrolling, setIsScrolling] = useState(false);
+  const handleScroll = () => {
+    setShowVideo(false)
+    setIsScrolling(true);
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null
+    }
+    timeoutId = setTimeout(() => {
+      setIsScrolling(false);
+    }, 800); 
+
+  }
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      timeoutId && clearTimeout(timeoutId);
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   const videoRef = useRef(null);
   const animationFrameRef = useRef(null);
@@ -75,21 +96,15 @@ const SectionTwoPlus = ({ currentSection }) => {
     }
   }, [showVideo]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowVideo(false)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+
 
   return (
     <div
       className={cn(
         "w-full h-full relative overflow-hidden pointer-events-none",
         {
-          "m-pointer": inView && !showVideo,
-          "pointer-events-auto": inView,
+          "m-pointer": inView && !showVideo && !isScrolling,
+          "pointer-events-auto": inView && !isScrolling,
         }
       )}
       onClick={() => setShowVideo(true)}

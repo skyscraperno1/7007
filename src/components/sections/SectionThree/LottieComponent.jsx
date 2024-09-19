@@ -29,7 +29,7 @@ const LottieComponent = ({ play, delay = 0}) => {
   };
 
   return (
-    <div className='w-full h-full' onMouseEnter={handelMouseEnter.bind(null)}>
+    <div className='w-full h-full cursor-none' onMouseEnter={handelMouseEnter.bind(null)}>
       <Lottie
         options={defaultOptions}
         height='100%'
