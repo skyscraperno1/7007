@@ -138,11 +138,15 @@ const useLoading = () => {
           videos: loadedVideos,
           fonts: loadedFonts,
         });
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
       })
       .catch((error) => {
         console.log('resource load error:', error);
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
       });
   }, []);
 
