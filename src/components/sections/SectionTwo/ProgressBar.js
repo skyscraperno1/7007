@@ -12,6 +12,7 @@ export const ProgressBar = styled.input.attrs(props => ({
   border-radius: 3px;
   outline: none;
   transition: background 0.2s;
+  cursor: none;
 
   &::-webkit-slider-thumb {
     appearance: none;

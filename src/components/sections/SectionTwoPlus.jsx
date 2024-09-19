@@ -154,7 +154,7 @@ const SectionTwoPlus = ({ currentSection }) => {
                     </div>
                     <div className="bg-slate-600/75 h-full flex items-center p-2 rounded px-1">
                       <div
-                        className="text-white text-2xl cursor-pointer"
+                        className="text-white text-2xl"
                         onClick={handleClose}
                       >
                         <IoClose className="m-pointer" />
