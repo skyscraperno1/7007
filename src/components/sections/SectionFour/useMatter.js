@@ -70,6 +70,36 @@ export const init = (canvas) => {
   Composite.add(world, mouseConstraint);
   mouse.element.removeEventListener('wheel', mouse.mousewheel);
   mouse.element.removeEventListener('DOMMouseScroll', mouse.mousewheel);
+  let interval;
+  const addImg = (pathA, pathB) => {
+    const x = Math.random() * width; 
+    const radius = 75; 
+    let currentTexture = pathA;
+    const newCircle = Bodies.circle(x, 0, radius, {
+      render: {
+        sprite: {
+          texture: currentTexture,
+        },
+      },
+    });
+    Composite.add(world, newCircle);
+    interval = setInterval(() => {
+      currentTexture = currentTexture === pathA ? pathB : pathA;
+      newCircle.render.sprite.texture = currentTexture; 
+    }, 1000);
+  };
+
+  const addEth = () => {
+    const x = Math.random() * width;
+    const radius = 75;
+    const verticesPath = `0,${-radius} ${radius},0 0,${radius} ${-radius},0`;
+    const vertices = Matter.Vertices.fromPath(verticesPath);
+    const newDiamond = Matter.Bodies.fromVertices(x, 0, vertices);
+    Composite.add(world, newDiamond);
+  }
+  const clearTimer = () => {
+    interval && clearInterval(interval);
+  }
   const addCircle = (circle_black, circle_white) => {
     for (let i = 0; i < 4; i++) {
       const x = Math.random() * width; 
@@ -90,5 +120,8 @@ export const init = (canvas) => {
   };
   return {
     addCircle,
+    addImg,
+    clearTimer,
+    addEth,
   };
 };
