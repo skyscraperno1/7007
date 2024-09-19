@@ -3,59 +3,75 @@ import Matter from "matter-js";
 function getRandom() {
   return Math.random() > 0.5;
 }
-export const init = (canvas) => {
-  const Engine = Matter.Engine,
-    Render = Matter.Render,
-    Runner = Matter.Runner,
-    Composite = Matter.Composite,
-    MouseConstraint = Matter.MouseConstraint,
-    Mouse = Matter.Mouse,
-    Bodies = Matter.Bodies;
 
-  const width = canvas.getBoundingClientRect().width;
-  const height = canvas.getBoundingClientRect().height;
-  const engine = Engine.create(),
-    world = engine.world;
-
-  const render = Render.create({
-    element: canvas,
-    engine: engine,
-    options: {
-      width,
-      height,
-      background: "transparent",
-      wireframes: false,
-    },
-  });
-
-  Render.run(render);
-
-  var runner = Runner.create();
-  Runner.run(runner, engine);
-
-  const ground = Bodies.rectangle(
-    width / 2,
-    height - window.innerHeight / 10,
-    width,
-    10,
-    {
-      isStatic: true,
+class MatterScene {
+  constructor(canvas) {
+    if (MatterScene.instance) {
+      return MatterScene.instance; 
     }
-  );
-  // const ceiling = Bodies.rectangle(width / 2, 0, width, 10, { isStatic: true });
-  const leftWall = Bodies.rectangle(0, height / 2, 10, height, {
-    isStatic: true,
-  });
-  const rightWall = Bodies.rectangle(width, height / 2, 10, height, {
-    isStatic: true,
-  });
-  ground.render.visible = false;
-  rightWall.render.visible = false;
-  leftWall.render.visible = false;
-  Composite.add(world, [ground, leftWall, rightWall]);
 
-  const mouse = Mouse.create(render.canvas),
-    mouseConstraint = MouseConstraint.create(engine, {
+    this.Engine = Matter.Engine;
+    this.Render = Matter.Render;
+    this.Runner = Matter.Runner;
+    this.Composite = Matter.Composite;
+    this.MouseConstraint = Matter.MouseConstraint;
+    this.Mouse = Matter.Mouse;
+    this.Bodies = Matter.Bodies;
+
+    this.width = canvas.getBoundingClientRect().width;
+    this.height = canvas.getBoundingClientRect().height;
+    this.engine = this.Engine.create();
+    this.world = this.engine.world;
+
+    this.render = this.Render.create({
+      element: canvas,
+      engine: this.engine,
+      options: {
+        width: this.width,
+        height: this.height,
+        background: "transparent",
+        wireframes: false,
+      },
+    });
+
+    this.timer = null;
+    this.bigDiamonds = [];
+    this.smDiamonds = [];
+    this.toggleTexture = true;
+
+    this.initialize();
+
+    MatterScene.instance = this;
+  }
+
+  initialize() {
+    this.Render.run(this.render);
+    const runner = this.Runner.create();
+    this.Runner.run(runner, this.engine);
+
+    const ground = this.Bodies.rectangle(
+      this.width / 2,
+      this.height - window.innerHeight / 10,
+      this.width,
+      10,
+      { isStatic: true }
+    );
+
+    const leftWall = this.Bodies.rectangle(0, this.height / 2, 10, this.height, {
+      isStatic: true,
+    });
+    const rightWall = this.Bodies.rectangle(this.width, this.height / 2, 10, this.height, {
+      isStatic: true,
+    });
+
+    ground.render.visible = false;
+    rightWall.render.visible = false;
+    leftWall.render.visible = false;
+
+    this.Composite.add(this.world, [ground, leftWall, rightWall]);
+
+    const mouse = this.Mouse.create(this.render.canvas);
+    const mouseConstraint = this.MouseConstraint.create(this.engine, {
       mouse: mouse,
       constraint: {
         stiffness: 0.2,
@@ -65,91 +81,80 @@ export const init = (canvas) => {
       },
     });
 
-  Composite.add(world, mouseConstraint);
-  mouse.element.removeEventListener("wheel", mouse.mousewheel);
-  mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
-  const addCircle = (
-    circle_black,
-    circle_white,
-    eth_lg,
-    eth_sm,
-    eth_lg_gray,
-    eth_sm_gray
-  ) => {
-    let circles = [];
+    this.Composite.add(this.world, mouseConstraint);
+    mouse.element.removeEventListener("wheel", mouse.mousewheel);
+    mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
+  }
+
+  makeCircle(x, texture) {
+    return this.Bodies.circle(x, 0, 75, {
+      render: {
+        sprite: {
+          texture,
+        },
+      },
+    });
+  }
+
+  makeDiamond(width, height, x, texture) {
+    const vertices = [
+      { x: x, y: -height / 2 },
+      { x: x + width / 2, y: 0 },
+      { x: x, y: height / 2 },
+      { x: x - width / 2, y: 0 },
+    ];
+    return this.Bodies.fromVertices(x, 0, vertices, {
+      render: {
+        sprite: {
+          texture,
+        },
+      },
+    });
+  }
+
+  addCircle(circle_black, circle_white, eth_lg, eth_sm, eth_lg_gray, eth_sm_gray) {
     for (let i = 0; i < 4; i++) {
-      const x = Math.random() * width;
-      const newCircle = Bodies.circle(x, 0, 75, {
-        render: {
-          sprite: {
-            texture: getRandom() ? circle_black : circle_white,
-          },
-        },
-      });
-      circles.push(newCircle);
+      const x = Math.random() * this.width;
+      const texture = getRandom() ? circle_black : circle_white;
+      const newCircle = this.makeCircle(x, texture);
+      this.Composite.add(this.world, newCircle);
     }
-    let toggleTexture = true;
-    let big_diamonds = [];
-    const _height = 447;
-    const _width = 306;
+
     for (let j = 0; j < 3; j++) {
-      const x = Math.random() * width;
-      const y = 0;
-
-      const vertices = [
-        { x: x, y: y - _height / 2 },
-        { x: x + _width / 2, y: y },
-        { x: x, y: y + _height / 2 },
-        { x: x - _width / 2, y: y },
-      ];
-
-      const newDiamond = Bodies.fromVertices(x, y, vertices, {
-        render: {
-          sprite: {
-            texture: eth_lg,
-          },
-        },
-      });
-
-      big_diamonds.push(newDiamond); 
+      const x = Math.random() * this.width;
+      const newDiamond = this.makeDiamond(306, 447, x, eth_lg);
+      this.bigDiamonds.push(newDiamond);
+      this.Composite.add(this.world, newDiamond);
     }
 
-    let sm_diamonds = [];
-    const h = 300;
-    const w = 200;
     for (let j = 0; j < 3; j++) {
-      const x = Math.random() * width;
-      const y = 0;
-
-      const vertices = [
-        { x: x, y: y - h / 2 },
-        { x: x + w / 2, y: y },
-        { x: x, y: y + h / 2 },
-        { x: x - w / 2, y: y },
-      ];
-
-      const newDiamond = Bodies.fromVertices(x, y, vertices, {
-        render: {
-          sprite: {
-            texture: eth_sm,
-          },
-        },
-      });
-
-      sm_diamonds.push(newDiamond); 
+      const x = Math.random() * this.width;
+      const newDiamond = this.makeDiamond(200, 300, x, eth_sm);
+      this.smDiamonds.push(newDiamond);
+      this.Composite.add(this.world, newDiamond);
     }
-    setInterval(() => {
-      big_diamonds.forEach((diamond) => {
-        diamond.render.sprite.texture = toggleTexture ? eth_lg_gray : eth_lg;
-      });
-      sm_diamonds.forEach((diamond) => {
-        diamond.render.sprite.texture = toggleTexture ? eth_sm_gray : eth_sm;
-      });
-      toggleTexture = !toggleTexture;
-    }, 1000); 
-    Composite.add(world, [...circles, ...big_diamonds, ...sm_diamonds]);
-  };
-  return {
-    addCircle,
-  };
+
+    if (!this.timer) {
+      this.timer = setInterval(() => {
+        this.bigDiamonds.forEach((diamond) => {
+          diamond.render.sprite.texture = this.toggleTexture ? eth_lg_gray : eth_lg;
+        });
+        this.smDiamonds.forEach((diamond) => {
+          diamond.render.sprite.texture = this.toggleTexture ? eth_sm_gray : eth_sm;
+        });
+        this.toggleTexture = !this.toggleTexture;
+      }, 1000);
+    }
+  }
+
+  clearTimer() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+  }
+}
+
+export const init = (canvas) => {
+  return new MatterScene(canvas);
 };

@@ -161,8 +161,7 @@ const SectionFour = ({ currentSection }) => {
             ref.current.addBox();
           }}
           onClick={() => {
-            ref.current.addBox();
-            ref.current.addBox();
+            ref.current.clearTimer();
           }}
         >
           <AnimationButton showButton={showButton} />

@@ -16,6 +16,11 @@ const MatterCanvas = forwardRef((_, ref) => {
       if (matter.current) {
         matter.current.addCircle(circle_black, circle_white, eth_lg, eth_sm, eth_lg_gray, eth_sm_gray)
       }
+    },
+    clearTimer: () => {
+      if (matter.current) {
+        matter.current.clearTimer()
+      }
     }
   }));
 
