@@ -1,9 +1,4 @@
 import Matter from "matter-js";
-import { getRandomInt } from "../SectionFive/getAnimation";
-
-function getRandomFloat(min, max) {
-  return Math.random() * (max - min) + min;
-}
 
 function getRandom() {
   return Math.random() > 0.5;
@@ -48,10 +43,13 @@ export const init = (canvas) => {
     }
   );
   // const ceiling = Bodies.rectangle(width / 2, 0, width, 10, { isStatic: true });
-  const leftWall = Bodies.rectangle(0, height / 2, 10, height, { isStatic: true });
-  const rightWall = Bodies.rectangle(width, height / 2, 10, height, { isStatic: true });
-  // ceiling.render.visible = false;
-  // ground.render.visible = false;
+  const leftWall = Bodies.rectangle(0, height / 2, 10, height, {
+    isStatic: true,
+  });
+  const rightWall = Bodies.rectangle(width, height / 2, 10, height, {
+    isStatic: true,
+  });
+  ground.render.visible = false;
   rightWall.render.visible = false;
   leftWall.render.visible = false;
   Composite.add(world, [ground, leftWall, rightWall]);
@@ -68,41 +66,19 @@ export const init = (canvas) => {
     });
 
   Composite.add(world, mouseConstraint);
-  mouse.element.removeEventListener('wheel', mouse.mousewheel);
-  mouse.element.removeEventListener('DOMMouseScroll', mouse.mousewheel);
-  let interval;
-  const addImg = (pathA, pathB) => {
-    const x = Math.random() * width; 
-    const radius = 75; 
-    let currentTexture = pathA;
-    const newCircle = Bodies.circle(x, 0, radius, {
-      render: {
-        sprite: {
-          texture: currentTexture,
-        },
-      },
-    });
-    Composite.add(world, newCircle);
-    interval = setInterval(() => {
-      currentTexture = currentTexture === pathA ? pathB : pathA;
-      newCircle.render.sprite.texture = currentTexture; 
-    }, 1000);
-  };
-
-  const addEth = () => {
-    const x = Math.random() * width;
-    const radius = 75;
-    const verticesPath = `0,${-radius} ${radius},0 0,${radius} ${-radius},0`;
-    const vertices = Matter.Vertices.fromPath(verticesPath);
-    const newDiamond = Matter.Bodies.fromVertices(x, 0, vertices);
-    Composite.add(world, newDiamond);
-  }
-  const clearTimer = () => {
-    interval && clearInterval(interval);
-  }
-  const addCircle = (circle_black, circle_white) => {
+  mouse.element.removeEventListener("wheel", mouse.mousewheel);
+  mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
+  const addCircle = (
+    circle_black,
+    circle_white,
+    eth_lg,
+    eth_sm,
+    eth_lg_gray,
+    eth_sm_gray
+  ) => {
+    let circles = [];
     for (let i = 0; i < 4; i++) {
-      const x = Math.random() * width; 
+      const x = Math.random() * width;
       const newCircle = Bodies.circle(x, 0, 75, {
         render: {
           sprite: {
@@ -110,18 +86,70 @@ export const init = (canvas) => {
           },
         },
       });
-      Composite.add(world, newCircle);
+      circles.push(newCircle);
     }
-    for (let j = 0; j < 6; j++) {
+    let toggleTexture = true;
+    let big_diamonds = [];
+    const _height = 447;
+    const _width = 306;
+    for (let j = 0; j < 3; j++) {
       const x = Math.random() * width;
-      const newPolygon = Bodies.rectangle(x, 0, 60, 60);
-      Composite.add(world, newPolygon);
+      const y = 0;
+
+      const vertices = [
+        { x: x, y: y - _height / 2 },
+        { x: x + _width / 2, y: y },
+        { x: x, y: y + _height / 2 },
+        { x: x - _width / 2, y: y },
+      ];
+
+      const newDiamond = Bodies.fromVertices(x, y, vertices, {
+        render: {
+          sprite: {
+            texture: eth_lg,
+          },
+        },
+      });
+
+      big_diamonds.push(newDiamond); // 将新建的菱形添加到数组中
     }
+
+    let sm_diamonds = [];
+    const h = 300;
+    const w = 200;
+    for (let j = 0; j < 3; j++) {
+      const x = Math.random() * width;
+      const y = 0;
+
+      const vertices = [
+        { x: x, y: y - h / 2 },
+        { x: x + w / 2, y: y },
+        { x: x, y: y + h / 2 },
+        { x: x - w / 2, y: y },
+      ];
+
+      const newDiamond = Bodies.fromVertices(x, y, vertices, {
+        render: {
+          sprite: {
+            texture: eth_sm,
+          },
+        },
+      });
+
+      sm_diamonds.push(newDiamond); // 将新建的菱形添加到数组中
+    }
+    setInterval(() => {
+      big_diamonds.forEach((diamond) => {
+        diamond.render.sprite.texture = toggleTexture ? eth_lg_gray : eth_lg; // 切换纹理
+      });
+      sm_diamonds.forEach((diamond) => {
+        diamond.render.sprite.texture = toggleTexture ? eth_sm_gray : eth_sm; // 切换纹理
+      });
+      toggleTexture = !toggleTexture; // 切换状态
+    }, 1000); // 每 1000 毫秒（1 秒）切换一次
+    Composite.add(world, [...circles, ...big_diamonds, ...sm_diamonds]);
   };
   return {
     addCircle,
-    addImg,
-    clearTimer,
-    addEth,
   };
 };

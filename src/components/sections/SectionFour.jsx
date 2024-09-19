@@ -160,6 +160,10 @@ const SectionFour = ({ currentSection }) => {
           onMouseEnter={() => {
             ref.current.addBox();
           }}
+          onClick={() => {
+            ref.current.addBox();
+            ref.current.addBox();
+          }}
         >
           <AnimationButton showButton={showButton} />
         </div>

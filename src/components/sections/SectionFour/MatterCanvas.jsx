@@ -6,11 +6,15 @@ const MatterCanvas = forwardRef((_, ref) => {
   const canvasRef = useRef(null);
   const circle_black = useResourceByName('circle_black.png', RESOURCE_TYPES.IMAGE);
   const circle_white = useResourceByName('circle_white.png', RESOURCE_TYPES.IMAGE);
+  const eth_lg = useResourceByName('eth_lg.png', RESOURCE_TYPES.IMAGE);
+  const eth_sm = useResourceByName('eth_sm.png', RESOURCE_TYPES.IMAGE);
+  const eth_lg_gray = useResourceByName('eth_lg_gray.png', RESOURCE_TYPES.IMAGE);
+  const eth_sm_gray = useResourceByName('eth_sm_gray.png', RESOURCE_TYPES.IMAGE);
   
   useImperativeHandle(ref, () => ({
     addBox: () => {
       if (matter.current) {
-        matter.current.addEth(circle_black, circle_white)
+        matter.current.addCircle(circle_black, circle_white, eth_lg, eth_sm, eth_lg_gray, eth_sm_gray)
       }
     }
   }));
