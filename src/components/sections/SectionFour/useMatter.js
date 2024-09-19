@@ -111,7 +111,7 @@ export const init = (canvas) => {
         },
       });
 
-      big_diamonds.push(newDiamond); // 将新建的菱形添加到数组中
+      big_diamonds.push(newDiamond); 
     }
 
     let sm_diamonds = [];
@@ -136,17 +136,17 @@ export const init = (canvas) => {
         },
       });
 
-      sm_diamonds.push(newDiamond); // 将新建的菱形添加到数组中
+      sm_diamonds.push(newDiamond); 
     }
     setInterval(() => {
       big_diamonds.forEach((diamond) => {
-        diamond.render.sprite.texture = toggleTexture ? eth_lg_gray : eth_lg; // 切换纹理
+        diamond.render.sprite.texture = toggleTexture ? eth_lg_gray : eth_lg;
       });
       sm_diamonds.forEach((diamond) => {
-        diamond.render.sprite.texture = toggleTexture ? eth_sm_gray : eth_sm; // 切换纹理
+        diamond.render.sprite.texture = toggleTexture ? eth_sm_gray : eth_sm;
       });
-      toggleTexture = !toggleTexture; // 切换状态
-    }, 1000); // 每 1000 毫秒（1 秒）切换一次
+      toggleTexture = !toggleTexture;
+    }, 1000); 
     Composite.add(world, [...circles, ...big_diamonds, ...sm_diamonds]);
   };
   return {
