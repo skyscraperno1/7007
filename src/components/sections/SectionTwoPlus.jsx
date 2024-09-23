@@ -146,7 +146,7 @@ const SectionTwoPlus = ({ currentSection }) => {
                   onMouseEnter={() => setShowControls(true)} 
                 >
                   <div className="flex items-center justify-between h-8 gap-4">
-                    <div className="flex bg-gray-400/75 flex-1 h-full items-center p-2 rounded">
+                    <div className="flex bg-gray-300/75 flex-1 h-full items-center p-2 rounded">
                       <div
                         className="text-white text-xl mr-4 m-pointer"
                         onClick={handlePlayPause}
@@ -162,7 +162,7 @@ const SectionTwoPlus = ({ currentSection }) => {
                         onChange={handleProgressChange}
                       />
                     </div>
-                    <div className="bg-gray-400/75 h-full flex items-center p-2 rounded px-1">
+                    <div className="bg-gray-300/75 h-full flex items-center p-2 rounded px-1">
                       <div
                         className="text-white text-2xl"
                         onClick={handleClose}

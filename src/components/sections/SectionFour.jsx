@@ -75,6 +75,7 @@ const SectionFour = ({ currentSection }) => {
     },
   ];
   const [inView, setInView] = useState(false);
+  const [isSeen, setISSeen] = useState(false);
   const [showText, setShowText] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [colorIndex, setColorIndex] = useState(0);
@@ -82,6 +83,7 @@ const SectionFour = ({ currentSection }) => {
   useEffect(() => {
     if (currentSection === 5) {
       setInView(true);
+      setISSeen(true)
     } else {
       setInView(false);
     }
@@ -125,10 +127,10 @@ const SectionFour = ({ currentSection }) => {
     <div
       id="section-four"
       style={{ backgroundColor: colors[colorIndex] }}
-      className="h-full w-full shrink-0 relative z-10"
+      className="h-full w-full shrink-0 relative z-10 overflow-hidden"
     >
       <AnimatePresence>
-        {inView &&
+        {(inView || isSeen) &&
           images.map((image, index) => {
             const { src, x, y, delay } = image;
             return (

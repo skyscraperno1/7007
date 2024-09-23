@@ -86,7 +86,7 @@ const useLoading = () => {
     fonts: [],
   });
   const [startTime] = useState(Date.now());
-  const [estimatedLoadingTime, setEstimatedLoadingTime] = useState(2000);
+  const [estimatedLoadingTime, setEstimatedLoadingTime] = useState(1000);
   const [progress, setProgress] = useState(0);
 
   const finishLoading = (elapsedTime) => {
@@ -202,7 +202,7 @@ const useLoading = () => {
 
         const averageSpeed = totalSpeed / successfulResults.length;
         const estimatedTime = totalSize / averageSpeed;
-        const _estimatedLoadingTime = Math.max(estimatedTime, 2000);
+        const _estimatedLoadingTime = Math.max(estimatedTime, 1000);
         setEstimatedLoadingTime(_estimatedLoadingTime);
 
         const elapsedTime = Date.now() - startTime;
