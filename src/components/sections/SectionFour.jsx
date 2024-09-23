@@ -163,13 +163,14 @@ const SectionFour = ({ currentSection }) => {
             ref.current.addBox();
           }}
           onClick={() => {
-            ref.current.clearTimer();
+            ref.current.addBox();
+            ref.current.addBox();
           }}
         >
           <AnimationButton showButton={showButton} />
         </div>
       </div>
-      <MatterCanvas ref={ref} />
+      <MatterCanvas ref={ref} colorIndex={colorIndex}/>
     </div>
   );
 };

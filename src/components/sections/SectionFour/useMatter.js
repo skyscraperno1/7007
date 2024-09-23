@@ -34,7 +34,6 @@ class MatterScene {
       },
     });
 
-    this.timer = null;
     this.bigDiamonds = [];
     this.smDiamonds = [];
     this.toggleTexture = true;
@@ -112,7 +111,7 @@ class MatterScene {
     });
   }
 
-  addCircle(circle_black, circle_white, eth_sm, eth_sm_gray) {
+  addCircle(circle_black, circle_white, eth_sm) {
     for (let i = 0; i < 4; i++) {
       const x = Math.random() * this.width;
       const texture = getRandom() ? circle_black : circle_white;
@@ -125,12 +124,6 @@ class MatterScene {
       const newDiamond = this.makeDiamond(200, 300, x, eth_sm);
       this.smDiamonds.push(newDiamond);
       this.Composite.add(this.world, newDiamond);
-    }
-
-    if (!this.timer) {
-      this.timer = setInterval(() => {
-        this.handleTextureTransition(eth_sm, eth_sm_gray);
-      }, 1000);
     }
   }
 
@@ -161,13 +154,6 @@ class MatterScene {
     });
 
     this.toggleTexture = !this.toggleTexture;
-  }
-
-  clearTimer() {
-    if (this.timer) {
-      clearInterval(this.timer);
-      this.timer = null;
-    }
   }
 }
 
