@@ -6,7 +6,7 @@
     .grid-background {
         background-image: linear-gradient(to right, rgba(144, 238, 144, 0.3) 1px, transparent 1px),
                             linear-gradient(to bottom, rgba(144, 238, 144, 0.3) 1px, transparent 1px);
-        background-size: 50px 50px; /* 设置网格线的间隔 */
+        background-size: 50px 50px;
     }
 }
 * {

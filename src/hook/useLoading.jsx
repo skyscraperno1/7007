@@ -31,13 +31,13 @@ const resources = {
     '/Section4/Img6.png',
     '/Section4/Img7.png',
     '/Section4/Img8.png',
-    '/Section4/circle_black.png', 
-    '/Section4/circle_white.png', 
+    '/Section4/circle_black.png',
+    '/Section4/circle_white.png',
     '/Section4/eth_lg.png', //440 * 547
     '/Section4/eth_sm.png', //299 * 369
     '/Section4/eth_lg_gray.png', //442 * 547
     '/Section4/eth_sm_gray.png', //294 * 355
-    
+
     // Section5
     '/Section5/Frames/Frame1.png',
     '/Section5/Frames/Frame2.png',
@@ -85,16 +85,42 @@ const useLoading = () => {
     videos: [],
     fonts: [],
   });
-  const [startTime] = useState(Date.now()); 
+  const [startTime] = useState(Date.now());
+  const [estimatedLoadingTime, setEstimatedLoadingTime] = useState(2000);
+  const [progress, setProgress] = useState(0);
+
   const finishLoading = (elapsedTime) => {
-    if (elapsedTime < 1000) {
+    if (elapsedTime < estimatedLoadingTime) {
       setTimeout(() => {
         setIsLoading(false);
-      }, 1000 - elapsedTime);
+      }, estimatedLoadingTime - elapsedTime);
     } else {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   };
+
+  const fetchResourceSize = (url) => {
+    return fetch(url, { method: 'HEAD' })
+      .then(response => parseInt(response.headers.get('Content-Length'), 10))
+      .catch(() => 0);
+  };
+
+  const loadResource = (loadFunction, srcOrFont, size) => {
+    return new Promise((resolve, reject) => {
+      const startTime = Date.now();
+      loadFunction(srcOrFont)
+        .then((result) => {
+          const elapsedTime = Date.now() - startTime;
+          const speed = size / elapsedTime;
+          resolve({ ...result, elapsedTime, speed });
+        })
+        .catch((error) => {
+          const elapsedTime = Date.now() - startTime;
+          reject({ ...error, elapsedTime });
+        });
+    });
+  };
+
   const loadImage = (src) => {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -129,14 +155,37 @@ const useLoading = () => {
     });
   };
 
-  const loadResources = useCallback(() => {
+  const loadResources = useCallback(async () => {
     setIsLoading(true);
+    setProgress(0);
 
-    const imagePromises = resources.images.map(loadImage);
-    const videoPromises = resources.videos.map(loadVideo);
-    const fontPromises = resources.fonts.map(loadFont);
+    const imageSizes = await Promise.all(resources.images.map(fetchResourceSize));
+    const videoSizes = await Promise.all(resources.videos.map(fetchResourceSize));
+    const fontSizes = resources.fonts.map(() => 0);
 
-    Promise.allSettled([...imagePromises, ...videoPromises, ...fontPromises])
+    const totalSize = [...imageSizes, ...videoSizes, ...fontSizes].reduce((acc, size) => acc + size, 0);
+
+    const totalResources = resources.images.length + resources.videos.length + resources.fonts.length;
+    let loadedResourcesCount = 0;
+
+    const updateProgress = () => {
+      loadedResourcesCount += 1;
+      setProgress((loadedResourcesCount / totalResources) * 100);
+    };
+    const loadFontPromises = resources.fonts.map((font, index) =>
+      loadResource(loadFont, font, fontSizes[index])
+        .finally(updateProgress)
+    );
+    const loadImagePromises = resources.images.map((src, index) =>
+      loadResource(loadImage, src, imageSizes[index])
+        .finally(updateProgress)
+    );
+    const loadVideoPromises = resources.videos.map((src, index) =>
+      loadResource(loadVideo, src, videoSizes[index])
+        .finally(updateProgress)
+    );
+
+    Promise.allSettled([...loadFontPromises, ...loadImagePromises, ...loadVideoPromises])
       .then((results) => {
         const loadedImages = results.filter(result => result.status === 'fulfilled' && result.value.src).map(result => result.value.src);
         const loadedVideos = results.filter(result => result.status === 'fulfilled' && result.value.src).map(result => result.value.src);
@@ -147,6 +196,15 @@ const useLoading = () => {
           videos: loadedVideos,
           fonts: loadedFonts,
         });
+
+        const successfulResults = results.filter(result => result.status === 'fulfilled');
+        const totalSpeed = successfulResults.reduce((acc, curr) => acc + (curr.value ? curr.value.speed : 0), 0);
+
+        const averageSpeed = totalSpeed / successfulResults.length;
+        const estimatedTime = totalSize / averageSpeed;
+        const _estimatedLoadingTime = Math.max(estimatedTime, 2000);
+        setEstimatedLoadingTime(_estimatedLoadingTime);
+
         const elapsedTime = Date.now() - startTime;
         finishLoading(elapsedTime);
       })
@@ -161,7 +219,7 @@ const useLoading = () => {
     loadResources();
   }, [loadResources]);
 
-  return { isLoading, resources: loadedResources };
+  return { isLoading, progress, resources: loadedResources, estimatedLoadingTime };
 };
 
 export default useLoading;

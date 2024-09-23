@@ -112,20 +112,15 @@ const SectionTwoPlus = ({ currentSection }) => {
       <AnimatePresence>
         {showVideo && (
           <motion.div
-            className="w-full h-full bg-themeGreen p-8 relative flex items-center justify-center"
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            variants={{
-              hidden: { y: "100%" },
-              visible: { y: 0 },
-            }}
+            className="w-full h-full relative flex items-center justify-center"
+            initial={{ x: "-100vw" }} 
+            animate={{ x: 0 }}     
+            exit={{ x: "100vw" }}  
             transition={{ duration: 0.5 }}
-           
           >
             <video
               ref={videoRef}
-              className="w-full h-full object-fill rounded-lg"
+              className="w-full h-full object-fill"
               src={Video}
               autoPlay
               loop
@@ -143,7 +138,7 @@ const SectionTwoPlus = ({ currentSection }) => {
             <AnimatePresence>
               {showControls && (
                 <motion.div
-                  className="absolute bottom-24 right-0 left-0 px-[20%] z-100"
+                  className="absolute bottom-24 right-0 left-0 px-[35%] z-100"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -151,7 +146,7 @@ const SectionTwoPlus = ({ currentSection }) => {
                   onMouseEnter={() => setShowControls(true)} 
                 >
                   <div className="flex items-center justify-between h-8 gap-4">
-                    <div className="flex bg-slate-600/75 flex-1 h-full items-center p-2 rounded">
+                    <div className="flex bg-gray-400/75 flex-1 h-full items-center p-2 rounded">
                       <div
                         className="text-white text-xl mr-4 m-pointer"
                         onClick={handlePlayPause}
@@ -167,7 +162,7 @@ const SectionTwoPlus = ({ currentSection }) => {
                         onChange={handleProgressChange}
                       />
                     </div>
-                    <div className="bg-slate-600/75 h-full flex items-center p-2 rounded px-1">
+                    <div className="bg-gray-400/75 h-full flex items-center p-2 rounded px-1">
                       <div
                         className="text-white text-2xl"
                         onClick={handleClose}

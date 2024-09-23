@@ -25,11 +25,10 @@ const sections = [
 
 
 const AppContent = () => {
-  const { isLoading } = useResources();
-
+  const { isLoading, progress } = useResources();
   return (
     <>
-      <LoadingScreen isLoading={isLoading}/>
+      <LoadingScreen isLoading={isLoading} progress={progress}/>
       <Navigator />
       <Scroller sections={sections} />
       <ScrollBar baseVelocity={2}>Ultimate AIGC Exchange&nbsp;</ScrollBar>

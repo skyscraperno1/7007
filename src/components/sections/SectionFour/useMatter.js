@@ -7,7 +7,7 @@ function getRandom() {
 class MatterScene {
   constructor(canvas) {
     if (MatterScene.instance) {
-      return MatterScene.instance; 
+      return MatterScene.instance;
     }
 
     this.Engine = Matter.Engine;
@@ -112,19 +112,12 @@ class MatterScene {
     });
   }
 
-  addCircle(circle_black, circle_white, eth_lg, eth_sm, eth_lg_gray, eth_sm_gray) {
+  addCircle(circle_black, circle_white, eth_sm, eth_sm_gray) {
     for (let i = 0; i < 4; i++) {
       const x = Math.random() * this.width;
       const texture = getRandom() ? circle_black : circle_white;
       const newCircle = this.makeCircle(x, texture);
       this.Composite.add(this.world, newCircle);
-    }
-
-    for (let j = 0; j < 3; j++) {
-      const x = Math.random() * this.width;
-      const newDiamond = this.makeDiamond(306, 447, x, eth_lg);
-      this.bigDiamonds.push(newDiamond);
-      this.Composite.add(this.world, newDiamond);
     }
 
     for (let j = 0; j < 3; j++) {
@@ -136,15 +129,38 @@ class MatterScene {
 
     if (!this.timer) {
       this.timer = setInterval(() => {
-        this.bigDiamonds.forEach((diamond) => {
-          diamond.render.sprite.texture = this.toggleTexture ? eth_lg_gray : eth_lg;
-        });
-        this.smDiamonds.forEach((diamond) => {
-          diamond.render.sprite.texture = this.toggleTexture ? eth_sm_gray : eth_sm;
-        });
-        this.toggleTexture = !this.toggleTexture;
+        this.handleTextureTransition(eth_sm, eth_sm_gray);
       }, 1000);
     }
+  }
+
+  handleTextureTransition(textureA, textureB) {
+    this.smDiamonds.forEach((diamond) => {
+      const currentTexture = this.toggleTexture ? textureA : textureB;
+      const targetTexture = this.toggleTexture ? textureB : textureA;
+
+      const steps = 10; // 简化为10步
+      const duration = 1000; // 过渡时长 1000 ms
+      const interval = duration / steps;
+      let alpha = 0;
+
+      // 用于修改透明度效果
+      const transition = setInterval(() => {
+        alpha += 1 / steps;
+        diamond.render.sprite.opacity = alpha; // 更新透明度
+        diamond.render.sprite.texture = currentTexture;
+
+        if (alpha >= 1) {
+          clearInterval(transition);
+
+          // 在过渡完成后改变为目标纹理
+          diamond.render.sprite.texture = targetTexture;
+          diamond.render.sprite.opacity = 1.0; // 确保透明度回归满值
+        }
+      }, interval);
+    });
+
+    this.toggleTexture = !this.toggleTexture;
   }
 
   clearTimer() {

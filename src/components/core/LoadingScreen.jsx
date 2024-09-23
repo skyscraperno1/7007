@@ -1,38 +1,55 @@
 import { motion, AnimatePresence } from "framer-motion";
-import logo from '/Logo/GreenLogo.png'
-import { useEffect } from "react";
+import LoadingSrc from '/Logo/Loading.mp4';
+import { useEffect, useState } from "react";
 
-const LoadingScreen = ({ isLoading }) => {
+const LoadingScreen = ({ isLoading, progress }) => {
+  const [afterLoading, setAfterLoading] = useState(true);
   useEffect(() => {
-    if (isLoading) {
+    if (!isLoading) {
+      setTimeout(() => {
+        setAfterLoading(false)
+      }, 1000);
+    }
+  }, [isLoading, progress]);
+  useEffect(() => {
+    if (afterLoading) {
       document.body.style.overflow = "hidden"; 
       document.body.style.cursor = ""; 
     } else {
       document.body.style.overflow = "";
       document.body.style.cursor = "none";
     }
-  }, [isLoading]);
+  }, [afterLoading]);
   return (
     <AnimatePresence>
-      {isLoading && (
+      {afterLoading && (
         <motion.div
-          className="bg-themeGreen w-screen h-screen fixed z-[1000] flex items-center justify-center"
-          initial={{ y: 0 }}
-          animate={{ y: 0 }}
-          exit={{ y: "-100vh" }}
+          className="bg-white w-screen h-screen fixed z-[1000] flex items-center justify-center"
+          initial={{ x: 0 }} 
+          exit={{ x: "100vw" }}
           transition={{ duration: 0.5 }}
         >
-          <motion.img
-            src={logo}
-            alt="logo"
-            className="w-[65px]"
-            animate={{ rotate: 360 }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
+          <div className="relative flex justify-center">
+            <motion.video
+              src={LoadingSrc}
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              alt="logo"
+              className="w-full"
+              autoPlay
+              muted
+              loop
+            />
+          </div>
+          <motion.div 
+              className="absolute top-[90%] w-full text-center text-black text-base user-select-none"
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: progress === 100 ? 0 : 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              {Math.min(progress, 100).toFixed(0)}%
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

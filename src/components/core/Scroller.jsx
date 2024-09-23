@@ -28,7 +28,7 @@ export default function Scroll({ sections }) {
             animation: tween,
             // ease: 'none',
             pin: true,
-            scrub: 0.5,
+            scrub: 0.05,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
                 const progress = self.progress;

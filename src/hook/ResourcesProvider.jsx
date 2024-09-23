@@ -4,9 +4,9 @@ import useLoading from './useLoading';
 const ResourcesContext = createContext();
 
 const ResourcesProvider = ({ children }) => {
-  const { isLoading, resources } = useLoading();
+  const { isLoading, resources, progress } = useLoading();
 
-  const value = useMemo(() => ({ isLoading, resources }), [isLoading, resources]);
+  const value = useMemo(() => ({ isLoading, resources, progress }), [isLoading, resources, progress]);
 
   return (
     <ResourcesContext.Provider value={value}>
