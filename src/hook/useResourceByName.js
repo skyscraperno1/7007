@@ -1,6 +1,6 @@
 
 import { useMemo } from 'react';
-import useResources from './useResources';
+import { useResources } from './useContext';
 
 export const RESOURCE_TYPES = {
   FONT: 'fonts',

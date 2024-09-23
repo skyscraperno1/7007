@@ -12,7 +12,7 @@ import { wrap } from "@motionone/utils";
 
 
 
-export default function ScrollBar({ children, baseVelocity = 100 }) {
+export default function ScrollBar({ children, baseVelocity = 100, isMobile }) {
   const baseX = useMotionValue(0);
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);
@@ -42,19 +42,20 @@ export default function ScrollBar({ children, baseVelocity = 100 }) {
 
     baseX.set(baseX.get() + moveBy);
   });
- 
+
+  const verticalSideDiv = Array.from({ length: 8 }, (v, k) => (
+    <div className={isMobile ? "" : "vertical-side-div"} key={k}>
+      {children}
+    </div>
+  ));
+
+  
   return (
     <div className="fixed top-0 left-0 z-[999] bg-white overflow-hidden leading-[0.8] flex flex-nowrap m-0 whitespace-nowrap select-none w-[65px] border-r-4 border-black">
-      <motion.div className="w-full text-bold uppercase text-3xl flex items-center justify-center whitespace-nowrap flex-col" style={{ y: x }}>
-        <div className="vertival-side-div">{children}</div>
-        <div className="vertival-side-div">{children}</div>
-        <div className="vertival-side-div">{children}</div>
-        <div className="vertival-side-div">{children}</div>
-        <div className="vertival-side-div">{children}</div>
-        <div className="vertival-side-div">{children}</div>
-        <div className="vertival-side-div">{children}</div>
-        <div className="vertival-side-div">{children}</div>
-        <div className="vertival-side-div">{children}</div>
+      <motion.div 
+        className="w-full text-bold uppercase text-3xl flex items-center justify-center whitespace-nowrap flex-col" style={
+        !isMobile ? { y: x } : { x }}>
+        {verticalSideDiv}
       </motion.div>
     </div>
   );

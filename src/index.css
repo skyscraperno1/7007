@@ -24,7 +24,7 @@ body {
     overflow-x: hidden;
 }
 
-.vertival-side-div {
+.vertical-side-div {
     writing-mode: vertical-rl;
     text-orientation: sideways
 }

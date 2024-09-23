@@ -33,12 +33,14 @@ const HoverBackground = styled(motion.div)`
   z-index: 0;
 `;
 
-function Button({ children, duration = 0.4, kls, onClick = () => {} }) {
+function Button({ children, duration = 0.4, kls, onClick = () => {}, isMobile }) {
   const isText = useMemo(() => typeof children === 'string' , [children])
+  const whileInteractive = isMobile ? { whileTap: "hover" } : { whileHover: "hover" };
+  const _duration = isMobile ? 0.15 : duration;
   return (
     <ButtonWrapper
       initial="rest"
-      whileHover="hover"
+      {...whileInteractive}
       animate="rest"
       onClick={onClick}
       className={cn("h-12 2xl:h-16 flex items-center justify-center uppercase m-pointer text-nowrap bg-themeYellow text-2xl", 
@@ -52,7 +54,7 @@ function Button({ children, duration = 0.4, kls, onClick = () => {} }) {
            rest: { x: '-100%' },
            hover: { x: 0 },
          }}
-         transition={{ duration: 0.4, ease: 'easeInOut' }}
+         transition={{ duration: _duration, ease: 'easeInOut' }}
        />
       }
       {isText ? <span className='select-none'>{children}</span> : children}

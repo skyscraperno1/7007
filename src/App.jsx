@@ -10,9 +10,9 @@ import Scroller from "./components/core/Scroller";
 import ScrollBar from "./components/core/ScrollBar";
 import Cursor from "./components/core/Cursor";
 import ResourcesProvider from "./hook/ResourcesProvider";
-import useResources from "./hook/useResources";
+import { useResources, useIsMobile } from "./hook/useContext";
 import LoadingScreen from "./components/core/LoadingScreen";
-
+import MobileProvider from "./hook/MobileProvider";
 const sections = [
   { Component: SectionOne, page: 1 },
   { Component: SectionTwo, page: 2 },
@@ -26,13 +26,14 @@ const sections = [
 
 const AppContent = () => {
   const { isLoading, progress } = useResources();
+  const isMobile = useIsMobile();
   return (
     <>
       <LoadingScreen isLoading={isLoading} progress={progress}/>
-      <Navigator />
-      <Scroller sections={sections} />
-      <ScrollBar baseVelocity={2}>Ultimate AIGC Exchange&nbsp;</ScrollBar>
-      {!isLoading && <Cursor />}
+      <Navigator isMobile={isMobile} />
+      <Scroller sections={sections} isMobile={isMobile} />
+      <ScrollBar baseVelocity={2} isMobile={isMobile}>Ultimate AIGC Exchange&nbsp;</ScrollBar>
+      {!isLoading && !isMobile && <Cursor />}
     </>
   );
 };
@@ -40,7 +41,9 @@ const AppContent = () => {
 export default function App() {
   return (
     <ResourcesProvider>
-      <AppContent />
+      <MobileProvider>
+        <AppContent />
+      </MobileProvider>
     </ResourcesProvider>
   );
 }
