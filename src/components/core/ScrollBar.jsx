@@ -49,12 +49,15 @@ export default function ScrollBar({ children, baseVelocity = 100, isMobile }) {
     </div>
   ));
 
+  const mainStyle = isMobile 
+  ? { width: '100%', borderBottomWidth: '4px', height: '49px', marginTop: '74px'}
+  : { width: '65px', borderRightWidth: '4px', height: '100%' }
   
   return (
-    <div className="fixed top-0 left-0 z-[999] bg-white overflow-hidden leading-[0.8] flex flex-nowrap m-0 whitespace-nowrap select-none w-[65px] border-r-4 border-black">
+    <div className="fixed top-0 left-0 z-[999] bg-white overflow-hidden leading-[0.8] flex flex-nowrap m-0 whitespace-nowrap select-none border-black" style={mainStyle}>
       <motion.div 
         className="w-full text-bold uppercase text-3xl flex items-center justify-center whitespace-nowrap flex-col" style={
-        !isMobile ? { y: x } : { x }}>
+        !isMobile ? { y: x,  flexDirection: 'column' } : { x, flexDirection: 'row' }}>
         {verticalSideDiv}
       </motion.div>
     </div>
