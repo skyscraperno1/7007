@@ -50,7 +50,7 @@ export default function ScrollBar({ children, baseVelocity = 100, isMobile }) {
   ));
 
   const mainStyle = isMobile 
-  ? { width: '100%', borderBottomWidth: '4px', height: '49px', marginTop: '74px'}
+  ? { borderBottomWidth: '4px', height: '49px', marginTop: '74px'}
   : { width: '65px', borderRightWidth: '4px', height: '100%' }
   
   return (

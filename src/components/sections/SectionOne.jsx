@@ -20,16 +20,16 @@ const SectionWrapper = styled.div`
 const ElementBg = styled.div`
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 35%;
+  background-size: ${(props) => props.$isMobile ? '50%' : '35%'};
 `;
 
-const SectionOne = () => {
+const SectionOne = ({ isMobile }) => {
   const imageSrc = useResourceByName('3dElement.png', RESOURCE_TYPES.IMAGE);
   return (
     <>
       <SectionWrapper id="section-one" className='relative h-full w-full bg-themeGreen overflow-hidden z-[90]'>
-        <ElementBg className='relative z-10 h-full w-screen flex items-center justify-center' style={{ backgroundImage: `url(${imageSrc})` }}>
-          <MainTitle />
+        <ElementBg className='relative z-10 h-full w-screen flex items-center justify-center' style={{ backgroundImage: `url(${imageSrc})` }} $isMobile={isMobile}>
+          <MainTitle isMobile={isMobile}/>
         </ElementBg>
       </SectionWrapper>
     </>

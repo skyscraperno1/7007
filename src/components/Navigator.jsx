@@ -47,7 +47,7 @@ function Navigator({ isMobile }) {
             {
               showMenu && (
                 <motion.div 
-                  className="fixed bg-themeGreen w-full z-[200] top-[74px] pt-4 flex flex-col justify-start items-center" style={{ height: 'calc(100vh - 74px)'}}
+                  className="fixed bg-themeGreen w-full z-[200] top-[123px] pt-4 flex flex-col justify-start items-center" style={{ height: 'calc(100vh - 123px)'}}
                   initial={{ x: '100%' }}
                   animate={{ x: 0 }}
                   exit={{ x: '100%' }}

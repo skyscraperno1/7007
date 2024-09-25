@@ -23,7 +23,7 @@ const SectionThree = ({ currentSection }) => {
     }, [currentSection]);
     return (
         <>
-            <div id="section-three" className='relative h-full w-full flex flex-col items-center justify-start z-50 pt-[10%]' >
+            <div id="section-three" className='relative h-full w-full flex flex-col items-center justify-start z-50 pt-[10%] overflow-hidden' >
                 <div className='relative'>
                     <div className='absolute top-[-116px] left-[-131px] 2xl:top-[-102px] 2xl:left-[-137px] scale-75 2xl:scale-100 select-none'>
                         <motion.img src={StarImg} alt="Star" 

@@ -15,8 +15,8 @@ import LoadingScreen from "./components/core/LoadingScreen";
 import MobileProvider from "./hook/MobileProvider";
 const sections = [
   { Component: SectionOne, page: 1 },
-  { Component: SectionTwo, page: 2 },
-  { Component: SectionTwoPlus, page: 2.1 },
+  // { Component: SectionTwo, page: 2 },
+  // { Component: SectionTwoPlus, page: 2.1 },
   { Component: SectionThree, page: 3 },
   { Component: SectionFour, page: 4 },
   { Component: SectionFive, page: 5 },

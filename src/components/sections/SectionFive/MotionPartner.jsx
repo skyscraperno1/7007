@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { getDelay, getOffset, getTransition, makeAnimationArr, getRandomInt } from './getAnimation'
 import useResourceByName, { RESOURCE_TYPES } from '../../../hook/useResourceByName'
+import { cn } from '../../../lib/utils'
 
 const generateImagePairs = (count) => {
   return Array.from({ length: count }, (_, i) => ({
@@ -9,7 +10,7 @@ const generateImagePairs = (count) => {
     partner: useResourceByName(`Partner${i + 1}.png`, RESOURCE_TYPES.IMAGE),
   }));
 };
-const MotionPartner = ({ page, title, show }) => {
+const MotionPartner = ({ page, title, show, isMobile }) => {
   const images = generateImagePairs(8)
   const ref = useRef(null)
   const [animation, setAnimation] = useState({
@@ -81,11 +82,11 @@ const MotionPartner = ({ page, title, show }) => {
   return (
     <motion.div
       ref={ref}
-      className="flex flex-col items-center justify-between select-none"
+      className={cn("flex flex-col items-center justify-between select-none", {"scale-50": isMobile})}
       transition={show ? transition: {}}
       animate={show ? animation : { x: 0, y: 0}}
     >
-      <div className="bg-no-repeat bg-center h-[200px] w-[210px] flex items-center justify-center" style={{
+      <div className={cn("bg-no-repeat bg-center h-[200px] w-[210px] flex items-center justify-center", {'scale-50': isMobile})} style={{
         backgroundImage: `url(${images[page -1].frame})`
       }}><img className="" src={`${images[page -1].partner}`} />
       </div>

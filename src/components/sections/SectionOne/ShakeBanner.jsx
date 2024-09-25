@@ -8,12 +8,13 @@ const BannerWrapper = styled(motion.div)`
         border-width: 5px;
     }
 `;
-const ShakeBanner = ({children, bgColor = 'themeRed', fontFamily = ''}) => {
+const ShakeBanner = ({children, bgColor = 'themeRed'}) => {
     return (
         <BannerWrapper 
             animate={{ x: [0, 5, 0, -5, 0] }}
             transition={{ duration: 0.25, repeat: Infinity, repeatType: 'loop' }}
-            className={twMerge('w-fit h-fit select-none flex items-center justify-center p-2 uppercase border-solid border-black m-pointer text-4xl 2xl:text-5xl', `bg-${bgColor}`, fontFamily)}
+            className={twMerge('w-fit h-fit select-none flex items-center justify-center p-2 uppercase border-solid border-black m-pointer text-4xl 2xl:text-5xl', `bg-${bgColor}`)}
+            style={{ fontFamily: 'IBM Plex Mono Bold Italic'}}
         >
             {children}
         </BannerWrapper>

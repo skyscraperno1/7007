@@ -40,26 +40,29 @@ export default function Scroll({ sections, isMobile }) {
             scrollTween?.kill()
         }
     }, [])
+    const wrapperStyle = isMobile
+        ? { height: 'calc(100% - 123px)', width: '100vw', marginTop: '123px' }
+        : { height: '90vh', width: 'calc(100% - 65px)', marginTop: '10vh', marginLeft: '65px' }
     return (
-        <>
+        <div className='overflow-hidden'>
             <div ref={triggerRef}>
                 <div ref={sectionRef} className="flex z-40" style={{ width: `${sections.length * 100}vw`}}>
                     {
                         sections.map((section) => {
                             const { Component, page } = section;
                             return (
-                                <section key={page} className='w-screen h-screen relative' id={`section-${page}`} style={{ paddingTop: isMobile ? '74px' : '10vh'}}>
-                                    <div className='h-full relative z-40' style={{ width: isMobile ? '100%' : 'calc(100% - 65px)', marginLeft: isMobile ? '0px' : '65px' }}>
-                                        <Component currentSection={currentSection}/>
+                                <section key={page} className='relative w-screen h-screen' id={`section-${page}`} >
+                                    <div className='h-full w-full relative z-40' style={wrapperStyle}>
+                                        <Component currentSection={currentSection} isMobile={isMobile}/>
                                     </div>
-                                    <BottomNav page={page}/>
+                                    <BottomNav page={page} isMobile={isMobile}/>
                                 </section>
                             )
                         })
                     }
                 </div>
             </div>
-        </>
+        </div>
 
     )
 }

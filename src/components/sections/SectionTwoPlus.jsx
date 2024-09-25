@@ -8,7 +8,7 @@ import { IoClose } from "react-icons/io5";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { ProgressBar } from "./SectionTwo/ProgressBar";
 
-const SectionTwoPlus = ({ currentSection }) => {
+const SectionTwoPlus = ({ currentSection, isMobile }) => {
   const Video = useResourceByName("full_video.mp4", RESOURCE_TYPES.VIDEO);
   const [inView, setInView] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
@@ -105,6 +105,7 @@ const SectionTwoPlus = ({ currentSection }) => {
         {
           "m-pointer": inView && !showVideo && !isScrolling,
           "pointer-events-auto": inView && !isScrolling,
+          // "bg-slate-400": isMobile
         }
       )}
       onClick={() => setShowVideo(true)}
