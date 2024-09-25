@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import LoadingSrc from '/Logo/Loading.mp4';
 import { useEffect, useState } from "react";
 
-const LoadingScreen = ({ isLoading, progress }) => {
+const LoadingScreen = ({ isLoading, progress, isMobile }) => {
   const [afterLoading, setAfterLoading] = useState(true);
   useEffect(() => {
     if (!isLoading) {
@@ -43,7 +43,8 @@ const LoadingScreen = ({ isLoading, progress }) => {
             />
           </div>
           <motion.div 
-              className="absolute top-[90%] w-full text-center text-black text-base user-select-none"
+              className="absolute w-full text-center text-black text-base user-select-none"
+              style={{top: isMobile ? '80%' : '90%'}}
               initial={{ opacity: 0 }} 
               animate={{ opacity: progress === 100 ? 0 : 1 }}
               transition={{ duration: 0.5 }}

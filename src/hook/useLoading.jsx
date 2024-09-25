@@ -124,19 +124,21 @@ const useLoading = () => {
 
   const loadImage = (src) => {
     return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve({ src, status: 'fulfilled' });
-      img.onerror = () => reject({ src, status: 'rejected' });
-      img.src = src;
+      import(src).then(() => {
+        resolve({ src, status: 'fulfilled'})
+      }).catch(() => {
+        reject({ src, status: 'rejected' });
+      })
     });
   };
 
   const loadVideo = (src) => {
     return new Promise((resolve, reject) => {
-      const video = document.createElement('video');
-      video.src = src;
-      video.onloadeddata = () => resolve({ src, status: 'fulfilled' });
-      video.onerror = () => reject({ src, status: 'rejected' });
+      import(src).then(() => {
+        resolve({ src, status: 'fulfilled'})
+      }).catch(() => {
+        reject({ src, status: 'rejected' });
+      })
     });
   };
 

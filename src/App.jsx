@@ -26,10 +26,11 @@ let sections = [
 const AppContent = () => {
   const { isLoading, progress } = useResources();
   const isMobile = useIsMobile();
+  isMobile && import ('./fonts.css');
   sections = isMobile ? sections.filter(item => item.page !== 3 && item.page !== 6) : sections;
   return (
     <>
-      <LoadingScreen isLoading={isLoading} progress={progress}/>
+      <LoadingScreen isLoading={isLoading} progress={progress} isMobile={isMobile}/>
       <Navigator isMobile={isMobile} />
       <Scroller sections={sections} isMobile={isMobile} isLoading={isLoading}/>
       <ScrollBar baseVelocity={2} isMobile={isMobile}>Ultimate AIGC Exchange&nbsp;</ScrollBar>
