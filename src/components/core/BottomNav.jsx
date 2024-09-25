@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
-import ArrowIcon from "/Pointers/cursor-icon.png";
+import useResourceByName, { RESOURCE_TYPES} from "../../hook/useResourceByName";
+
 
 const TriangleShape = styled.div`
   width: 0;
@@ -19,17 +20,18 @@ const TriangleShape = styled.div`
 const BottomNav = ({ page, isMobile }) => {
   const isLast = page === 6;
   const isFirst = page === 1;
+  const ArrowIcon = useResourceByName('cursor-icon.png', RESOURCE_TYPES.IMAGE)
   return (
     <div
       className="bottom-nav select-none absolute overflow-hidden bg-transparent w-full bottom-0 left-0 z-[100]"
-      // style={{ display: page === 2.1 && 'none' }}
+      style={{ display: page === 2.1 && 'none' }}
     >
       {isMobile ? (
         <div className="flex justify-center items-center text-base text-bold font-bold">
           {!isFirst && (
             <div
               className="w-12 h-8 mb-2 py-1 scale-90"
-              // style={{ transform: "rotateY(180deg)" }}
+              style={{ transform: "rotateY(180deg)" }}
             >
               <img
                 src={ArrowIcon}
@@ -56,13 +58,13 @@ const BottomNav = ({ page, isMobile }) => {
           $isWhite={isFirst}
           $isLast={isLast}
           className="flex justify-center items-center"
-          // style={{ marginLeft: page === 5 && "65px" }}
+          style={{ marginLeft: page === 5 && "65px" }}
         >
           <div className="items-center text-bold 2xl:text-black font-bold mt-20 2xl:mt-28 hidden sm:flex">
             {!isFirst && (
               <div
                 className="w-12 h-8 mb-2 py-1 hidden md:inline"
-                // style={{ transform: "rotateY(180deg)" }}
+                style={{ transform: "rotateY(180deg)" }}
               >
                 <img
                   src={ArrowIcon}

@@ -17,12 +17,13 @@ const titles = [
 const SectionFive = ({ currentSection, isMobile }) => {
   const [inView, setInView] = useState(false);
   useEffect(() => {
-    if (currentSection === 6) {
+    const targetSection = isMobile ? 5 : 6
+    if (currentSection === targetSection) {
       setInView(true);
     } else {
       setInView(false);
     }
-  }, [currentSection]);
+  }, [currentSection, isMobile]);
   return (
     <>
       <div id="section-five" className="h-full w-full overflow-hidden">

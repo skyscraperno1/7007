@@ -4,9 +4,11 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import BoldTitle from "../core/BoldTitle";
 import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName';
 
-const SectionTwo = ({ currentSection }) => {
+const SectionTwo = ({ currentSection, isMobile }) => {
   const RedStar = useResourceByName('RedStar.png', RESOURCE_TYPES.IMAGE);
   const Video = useResourceByName('clip.mp4', RESOURCE_TYPES.VIDEO);
+  const PlayBtn = useResourceByName('PlayBtn.png', RESOURCE_TYPES.IMAGE)
+  const Cover = useResourceByName('Cover.gif', RESOURCE_TYPES.IMAGE)
   
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
@@ -41,10 +43,10 @@ const SectionTwo = ({ currentSection }) => {
     gsap.registerPlugin(ScrollTrigger);
     gsap.set(sectionRef.current, { x: 0 });
     gsap.set(imageRef.current, {
-      clipPath: "inset(25% 25% 25% 25% round 2px)", // 初始裁剪一半
+      clipPath: "inset(25% 25% 25% 25% round 2px)",
     });
     const width = window.innerWidth;
-    const headerHeight = window.innerHeight * 0.1;
+    const headerHeight = isMobile ? 123 : window.innerHeight * 0.1;
     if (!sectionRef.current) return;
     ScrollTrigger.create({
       trigger: sectionRef.current,
@@ -77,46 +79,53 @@ const SectionTwo = ({ currentSection }) => {
     });
   }, [leftTitleWidth, rightTitleWidth]);
 
+  const _height = isMobile 
+   ? { height: 'auto'}
+   : { height: '100%'}
+
   return (
     <div ref={sectionRef} className="w-full h-full" id="section-two">
       {showVideo ? (
         <div className="w-full h-full video-wrapper">
-          <video
-              className="w-full h-full object-fill"
-              src={Video}
-              alt="7007 Video"
-              autoPlay
-              loop
-              muted
-            />
-        </div>
+        <video
+            className="w-full h-full object-fill"
+            src={Video}
+            alt="7007 Video"
+            autoPlay
+            loop
+            muted
+          />
+      </div>
       ) : (
         <div className="w-full h-full relative flex items-center">
           <div
-            className="absolute"
+            className="absolute z-10"
             ref={titleLeftRef}
             style={{ left: `calc(25% - ${leftTitleWidth + 10}px)` }}
           >
-            <BoldTitle content="7007 A.I." color="#FEED01" size="small" />
+            <BoldTitle content="7007 A.I." color="#FEED01" size="small" xs={isMobile}/>
             <img
               src={RedStar}
               className="absolute scale-50 2xl:scale-75"
               style={{
-                top: "calc(-100% - 40px)",
+                top: `calc(-100% - ${isMobile ? '8' : '40'}px)`,
               }}
             />
           </div>
           <div
             ref={imageRef}
-            className="zoom-image w-full h-full bg-no-repeat bg-cover relative -z-10"
-            style={{ backgroundImage: `url(/Section2/Cover.gif)` }}
-          ></div>
+            className="zoom-image w-full h-full relative flex items-center justify-center"
+            style={_height}
+          >
+            <img className="w-full" src={Cover} style={_height}/>
+            <img className='play-btn w-auto h-1/6 m-pointer absolute' src={PlayBtn}></img>
+          </div>
           <div
-            className="absolute right-0"
+            className="absolute right-0 z-10"
             ref={titleRightRef}
             style={{ right: `calc(25% - ${rightTitleWidth + 10}px)` }}
           >
-            <BoldTitle content="NFT Protocol" color="#FEED01" size="small" />
+            <BoldTitle content="NFT Protocol" color="#FEED01" size="small" xs={isMobile}/>
           </div>
         </div>
       )}

@@ -20,6 +20,7 @@ const resources = {
     '/Section2/Cover.gif',
     '/Section2/play.svg',
     '/Section2/close.svg',
+    '/Section2/PlayBtn.png',
     // Section3
     '/Stars/GreenStar.png',
     // Section4

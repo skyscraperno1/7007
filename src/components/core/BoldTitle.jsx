@@ -27,9 +27,18 @@ const SpanWrapper = styled.span`
     -webkit-text-stroke: 0;
   }
 `;
-const BoldTitle = ({ content, color, size = "big", italic = false }) => {
+const BoldTitle = ({
+  content,
+  color,
+  size = "big",
+  italic = false,
+  xs = false,
+}) => {
   const isBig = size === "big";
-
+  
+  const xsStyle = xs 
+    ? {WebkitTextStroke: '3px #000', textShadow: '-3px -2px 0px #000'}
+    : {} 
   return (
     <SpanWrapper
       className={cn(
@@ -37,10 +46,12 @@ const BoldTitle = ({ content, color, size = "big", italic = false }) => {
         `${
           isBig ? "text-7xl 2xl:text-8xl uppercase" : "text-3xl 2xl:text-4xl"
         }`,
-        { italic: italic }
+        { italic: italic },
+        { "text-sm": xs }
       )}
       style={{
         color: color,
+        ...xsStyle
       }}
       $isBig={isBig}
       content={content}

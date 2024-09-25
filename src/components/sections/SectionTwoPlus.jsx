@@ -27,7 +27,6 @@ const SectionTwoPlus = ({ currentSection, isMobile }) => {
     timeoutId = setTimeout(() => {
       setIsScrolling(false);
     }, 800); 
-
   }
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)

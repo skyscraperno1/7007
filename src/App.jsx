@@ -13,25 +13,25 @@ import ResourcesProvider from "./hook/ResourcesProvider";
 import { useResources, useIsMobile } from "./hook/useContext";
 import LoadingScreen from "./components/core/LoadingScreen";
 import MobileProvider from "./hook/MobileProvider";
-const sections = [
+let sections = [
   { Component: SectionOne, page: 1 },
-  // { Component: SectionTwo, page: 2 },
-  // { Component: SectionTwoPlus, page: 2.1 },
+  { Component: SectionTwo, page: 2 },
+  { Component: SectionTwoPlus, page: 2.1 },
   { Component: SectionThree, page: 3 },
   { Component: SectionFour, page: 4 },
   { Component: SectionFive, page: 5 },
   { Component: SectionSix, page: 6 },
 ];
 
-
 const AppContent = () => {
   const { isLoading, progress } = useResources();
   const isMobile = useIsMobile();
+  sections = isMobile ? sections.filter(item => item.page !== 3 && item.page !== 6) : sections;
   return (
     <>
       <LoadingScreen isLoading={isLoading} progress={progress}/>
       <Navigator isMobile={isMobile} />
-      <Scroller sections={sections} isMobile={isMobile} />
+      <Scroller sections={sections} isMobile={isMobile} isLoading={isLoading}/>
       <ScrollBar baseVelocity={2} isMobile={isMobile}>Ultimate AIGC Exchange&nbsp;</ScrollBar>
       {!isLoading && !isMobile && <Cursor />}
     </>

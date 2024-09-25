@@ -14,7 +14,7 @@ const colors = [
   "#FEED01",
   "#FF0501",
 ];
-const SectionFour = ({ currentSection }) => {
+const SectionFour = ({ currentSection, isMobile }) => {
   const Img1 = useResourceByName('Img1.png', RESOURCE_TYPES.IMAGE);
   const Img2 = useResourceByName('Img2.png', RESOURCE_TYPES.IMAGE);
   const Img3 = useResourceByName('Img3.png', RESOURCE_TYPES.IMAGE);
@@ -81,13 +81,14 @@ const SectionFour = ({ currentSection }) => {
   const [colorIndex, setColorIndex] = useState(0);
   const [secondTextShown, setSecondTextShown] = useState(false);
   useEffect(() => {
-    if (currentSection === 5) {
+    const targetSection = isMobile ? 4 : 5;
+  if (currentSection === targetSection) {
       setInView(true);
       setISSeen(true)
     } else {
       setInView(false);
     }
-  }, [currentSection]);
+  }, [currentSection, isMobile]);
 
   const ref = useRef(null);
   const handleAnimationComplete = (index) => {
@@ -127,7 +128,7 @@ const SectionFour = ({ currentSection }) => {
     <div
       id="section-four"
       style={{ backgroundColor: colors[colorIndex] }}
-      className="h-full w-full shrink-0 relative z-10 overflow-hidden"
+      className="h-full w-full relative z-10 overflow-hidden"
     >
       <AnimatePresence>
         {(inView || isSeen) &&
