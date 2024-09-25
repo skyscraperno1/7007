@@ -10,9 +10,8 @@ import Scroller from "./components/core/Scroller";
 import ScrollBar from "./components/core/ScrollBar";
 import Cursor from "./components/core/Cursor";
 import ResourcesProvider from "./hook/ResourcesProvider";
-import { useResources, useIsMobile } from "./hook/useContext";
+import { useResources } from "./hook/useContext";
 import LoadingScreen from "./components/core/LoadingScreen";
-import MobileProvider from "./hook/MobileProvider";
 let sections = [
   { Component: SectionOne, page: 1 },
   { Component: SectionTwo, page: 2 },
@@ -24,8 +23,7 @@ let sections = [
 ];
 
 const AppContent = () => {
-  const { isLoading, progress } = useResources();
-  const isMobile = useIsMobile();
+  const { isLoading, progress, isMobile } = useResources();
   isMobile && import ('./fonts.css');
   sections = isMobile ? sections.filter(item => item.page !== 3 && item.page !== 6) : sections;
   return (
@@ -42,9 +40,7 @@ const AppContent = () => {
 export default function App() {
   return (
     <ResourcesProvider>
-      <MobileProvider>
-        <AppContent />
-      </MobileProvider>
+      <AppContent/>
     </ResourcesProvider>
   );
 }

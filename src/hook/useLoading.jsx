@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const resources = {
+export const _resources = {
   images: [
     // Navigator
     '/Logo/GreenLogo.png',
@@ -79,7 +79,7 @@ const resources = {
   ],
 };
 
-const useLoading = () => {
+const useLoading = (isMobile) => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadedResources, setLoadedResources] = useState({
     images: [],
@@ -89,7 +89,6 @@ const useLoading = () => {
   const [startTime] = useState(Date.now());
   const [estimatedLoadingTime, setEstimatedLoadingTime] = useState(1000);
   const [progress, setProgress] = useState(0);
-
   const finishLoading = (elapsedTime) => {
     if (elapsedTime < estimatedLoadingTime) {
       setTimeout(() => {
@@ -124,10 +123,10 @@ const useLoading = () => {
 
   const loadImage = (src) => {
     return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve({ src, status: 'fulfilled' });
-      img.onerror = () => reject({ src, status: 'rejected' });
-      img.src = src;
+        const img = new Image();
+        img.onload = () => resolve({ src, status: 'fulfilled' });
+        img.onerror = () => reject({ src, status: 'rejected' });
+        img.src = src;
     });
   };
 
@@ -159,29 +158,29 @@ const useLoading = () => {
   const loadResources = useCallback(async () => {
     setIsLoading(true);
     setProgress(0);
-
-    const imageSizes = await Promise.all(resources.images.map(fetchResourceSize));
-    const videoSizes = await Promise.all(resources.videos.map(fetchResourceSize));
-    const fontSizes = resources.fonts.map(() => 0);
+   
+    const imageSizes = await Promise.all(_resources.images.map(fetchResourceSize));
+    const videoSizes = await Promise.all(_resources.videos.map(fetchResourceSize));
+    const fontSizes = _resources.fonts.map(() => 0);
 
     const totalSize = [...imageSizes, ...videoSizes, ...fontSizes].reduce((acc, size) => acc + size, 0);
 
-    const totalResources = resources.images.length + resources.videos.length + resources.fonts.length;
+    const totalResources = _resources.images.length + _resources.videos.length + _resources.fonts.length;
     let loadedResourcesCount = 0;
 
     const updateProgress = () => {
       loadedResourcesCount += 1;
       setProgress((loadedResourcesCount / totalResources) * 100);
     };
-    const loadFontPromises = resources.fonts.map((font, index) =>
+    const loadFontPromises = _resources.fonts.map((font, index) =>
       loadResource(loadFont, font, fontSizes[index])
         .finally(updateProgress)
     );
-    const loadImagePromises = resources.images.map((src, index) =>
+    const loadImagePromises = _resources.images.map((src, index) =>
       loadResource(loadImage, src, imageSizes[index])
         .finally(updateProgress)
     );
-    const loadVideoPromises = resources.videos.map((src, index) =>
+    const loadVideoPromises = _resources.videos.map((src, index) =>
       loadResource(loadVideo, src, videoSizes[index])
         .finally(updateProgress)
     );
@@ -215,6 +214,15 @@ const useLoading = () => {
         finishLoading(elapsedTime);
       });
   }, [startTime]);
+
+  useEffect(() => {
+    if (isMobile && progress >= 96) {
+      setProgress(100)
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+    }
+  }, [isMobile, progress]);
 
   useEffect(() => {
     loadResources();
