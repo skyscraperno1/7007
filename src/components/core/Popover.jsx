@@ -1,8 +1,55 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { IoCloseSharp } from "react-icons/io5";
 import Button from "./Button";
+import { useState, useEffect, forwardRef, useImperativeHandle } from 'react'
 
-const Popover = ({ show, close, children, background, isMobile = true }) => {
+const _config = [
+  { bg: 'themeGreen', text: "Product Launch Coming Soon! Secure Your Spot On The Waitlist Now." },
+  { bg: 'themeRed', text: "PAre you sure you don't want to join?" },
+  { bg: 'themeGreen', text: "This is the final call, join or you’ll regret!" }
+]
+const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection }, ref) => {
+  const [show, setShow] = useState(false)
+  let _timer = null
+  const [config, setConfig] = useState({
+    bg: 'themeGreen',
+    text: ''
+  })
+  useEffect(() => {
+    if (!isLoading && !isScrolling && !_timer) {
+      if (currentSection === 1) {
+        _timer = setTimeout(() => {
+          setConfig(_config[0])
+          setShow(true);
+        }, 2000);
+      } else if (currentSection === 4) {
+        _timer = setTimeout(() => {
+          setConfig(_config[1])
+          setShow(true);
+        }, 2000);
+       
+      } else if (currentSection === 7) {
+         _timer = setTimeout(() => {
+          setConfig(_config[2])
+          setShow(true);
+        }, 2000);
+        
+      }
+    } else {
+      clearTimeout(_timer)
+      _timer = null
+      setShow(false)
+    }
+  }, [isLoading, isScrolling, currentSection])
+
+  useImperativeHandle(ref, () => ({
+    clearTimer: () => {
+      if (_timer) {
+        clearTimeout(_timer)
+        _timer = null
+      }
+    }
+  }))
   return (
     <AnimatePresence>
       {
@@ -11,7 +58,7 @@ const Popover = ({ show, close, children, background, isMobile = true }) => {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 50 }}
-            className={`uppercase absolute w-[428px] h-[298px] px-6 bg-${background} z-[100]  text-white border-black pt-14 pb-10`}
+            className={`uppercase fixed w-[428px] h-[298px] px-6 bg-${config.bg} z-[100]  text-white border-black pt-14 pb-10`}
             id="popover"
             style={{
               top: 'calc(50% - 149px)',
@@ -21,13 +68,13 @@ const Popover = ({ show, close, children, background, isMobile = true }) => {
               scale: isMobile ? 0.75 : 1
             }}
           >
-            <IoCloseSharp onClick={() => close && close()}className="absolute top-4 right-4 text-3xl text-black font-bolder m-pointer" />
+            <IoCloseSharp onClick={() => setShow(false)} className="absolute top-4 right-4 text-3xl text-black font-bolder m-pointer" />
             <div className="flex flex-col items-center justify-between h-full text-center">
               <div>
                 <h1 className="text-3xl mb-4">get early access</h1>
-                <h2 className="text-lg">{ children }</h2>
+                <h2 className="text-lg">{config.text}</h2>
               </div>
-              <Button kls="text-black w-full text-lg font-normal">join waitlist</Button>
+              <Button kls="text-black w-full text-lg font-normal" isMobile={isMobile}>join waitlist</Button>
             </div>
 
           </motion.div>
@@ -35,6 +82,7 @@ const Popover = ({ show, close, children, background, isMobile = true }) => {
       }
     </AnimatePresence>
   )
-}
+})
+Popover.displayName = 'Popover';
 
 export default Popover;

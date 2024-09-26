@@ -1,22 +1,34 @@
 import { useEffect, useRef, useState } from 'react'
+import Popover from './Popover'
 
 const MobileScroller = ({ isLoading, sections, isMobile }) => {
   const target = useRef(null)
-  const [currentSection, setCurrentSection] = useState(0) // 用于存储当前激活的 section
-  const sectionRefs = useRef([])
+  const ref = useRef(null)
+  const [currentSection, setCurrentSection] = useState(1)
+  const [isScrolling, setIsScrolling] = useState(false);
+  let timeoutId;
 
   const handleScroll = () => {
-    if (!target.current) return
-    const scrollPosition = target.current.scrollTop;
-    const height = window.innerHeight - 123
-    const _currentSection = Math.floor(scrollPosition / height)
-    setCurrentSection(_currentSection)
+    setIsScrolling(true);
+    ref.current.clearTimer()
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null
+    }
+    timeoutId = setTimeout(() => {
+      setIsScrolling(false);
+    }, 1000);
+    if (target.current) {
+      const scrollPosition = target.current.scrollTop;
+      const height = window.innerHeight - 123
+      const _currentSection = Math.floor(scrollPosition / height) + 1
+      setCurrentSection(_currentSection)
+    }
   }
 
   useEffect(() => {
     if (!target.current) return
-    target.current.addEventListener('scroll', handleScroll)
-    return () => target.current.removeEventListener('scroll', handleScroll)
+    target.current?.addEventListener('scroll', handleScroll)
   }, [])
 
   return (
@@ -29,10 +41,9 @@ const MobileScroller = ({ isLoading, sections, isMobile }) => {
           scrollSnapType: 'y mandatory',
         }}>
         {
-          sections.map(({ Component, page }, index) => {
+          sections.map(({ Component, page }) => {
             return (
               <section key={page}
-                ref={(el) => sectionRefs.current[index] = el} // 绑定每个 section 的 ref
                 className="w-full h-full sections"
                 style={{
                   scrollSnapAlign: 'start',
@@ -43,6 +54,7 @@ const MobileScroller = ({ isLoading, sections, isMobile }) => {
             )
           })
         }
+        <Popover ref={ref} isLoading={isLoading} isMobile={isMobile} isScrolling={isScrolling} currentSection={currentSection} />
       </div>
     </div>
   )

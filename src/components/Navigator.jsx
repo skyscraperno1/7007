@@ -7,7 +7,7 @@ const RotatingImage = ({ src, alt, isMobile }) => {
   const whileInteractive = isMobile ? { whileTap: { rotate: -20 } } : { whileHover: { rotate: -20 } };
   return (
     <div
-      className={cn("m-pointer hidden sm:block w-12", {'block': isMobile, 'ml-4': isMobile})}
+      className={cn("m-pointer hidden sm:block", {'block': isMobile, 'ml-4': isMobile, 'w-12': isMobile })}
       onClick={() => {
         window.scrollTo({
           top: 0,

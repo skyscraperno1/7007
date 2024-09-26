@@ -6,55 +6,24 @@ import Popover from './Popover'
 export default function Scroll({ sections, isMobile, isLoading }) {
     const sectionRef = useRef(null)
     const triggerRef = useRef(null)
+    const ref = useRef(null)
     const [currentSection, setCurrentSection] = useState(0)
- 
-    const [show, setShow] = useState(false)
     const [isScrolling, setIsScrolling] = useState(false);
     let timeoutId;
     const handleScroll = () => {
         setIsScrolling(true);
-        setShow(false)
-        if (timeoutId) {
+        ref.current.clearTimer()
+         if (timeoutId) {
             clearTimeout(timeoutId);
             timeoutId = null
-        }
+        } 
         timeoutId = setTimeout(() => {
             setIsScrolling(false);
         }, 1000); 
     }
-    const [popContent, setPopContent] = useState({
-        bg: 'themeGreen',
-        text: ''
-    })
+    
     gsap.registerPlugin(ScrollTrigger)
-    useEffect(() => {
-        if (isLoading || isScrolling) return;
-        if (currentSection === 1) {
-            setTimeout(() => {
-                setPopContent({
-                    bg: 'themeGreen',
-                    text: 'Product Launch Coming Soon! Secure Your Spot On The Waitlist Now.'
-                })
-                setShow(true);
-            }, 3000);
-        } else if (currentSection === 4) {
-            setTimeout(() => {
-                setPopContent({
-                    bg: "themeRed",
-                    text: "Are you sure you don't want to join?"
-                })
-                setShow(true);
-            }, 2000);
-        } else if (currentSection === 7) {
-            setTimeout(() => {
-                setPopContent({
-                    bg: 'themeGreen',
-                    text: 'This is the final call, join or you’ll regret!'
-                })
-                setShow(true);
-            }, 2000);
-        }
-    }, [currentSection, isLoading, isMobile, isScrolling])
+
     useEffect(() => {
         function getScrollAmount() {
             let sectionWidth = sectionRef.current.scrollWidth;
@@ -104,15 +73,13 @@ export default function Scroll({ sections, isMobile, isLoading }) {
                                 <section key={page} className='relative w-screen h-screen' id={`section-${page}`} style={getPageIndex(page)}>
                                     <div className='h-full w-full relative z-40' style={wrapperStyle}>
                                         <Component currentSection={currentSection} isMobile={isMobile} />
-                                        <Popover show={show} close={() => { setShow(false) }} background={popContent.bg}>
-                                            {popContent.text}
-                                        </Popover>
                                     </div>
                                     <BottomNav page={page} isMobile={isMobile} />
                                 </section>
                             )
                         })
                     }
+                    <Popover ref={ref} isLoading={isLoading} isMobile={isMobile}  isScrolling={isScrolling} currentSection={currentSection} />
                 </div>
             </div>
         </div>

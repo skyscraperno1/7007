@@ -10,8 +10,6 @@ import {
 } from "framer-motion";
 import { wrap } from "@motionone/utils";
 
-
-
 export default function ScrollBar({ children, baseVelocity = 100, isMobile }) {
   const baseX = useMotionValue(0);
   const { scrollY } = useScroll();
