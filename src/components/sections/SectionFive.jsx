@@ -17,8 +17,7 @@ const titles = [
 const SectionFive = ({ currentSection, isMobile }) => {
   const [inView, setInView] = useState(false);
   useEffect(() => {
-    const targetSection = isMobile ? 5 : 6
-    if (currentSection === targetSection) {
+    if (currentSection === 6) {
       setInView(true);
     } else {
       setInView(false);

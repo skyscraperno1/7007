@@ -81,8 +81,7 @@ const SectionFour = ({ currentSection, isMobile }) => {
   const [colorIndex, setColorIndex] = useState(0);
   const [secondTextShown, setSecondTextShown] = useState(false);
   useEffect(() => {
-    const targetSection = isMobile ? 4 : 5;
-  if (currentSection === targetSection) {
+  if (currentSection === 5) {
       setInView(true);
       setISSeen(true)
     } else {
