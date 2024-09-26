@@ -49,7 +49,7 @@ export default function ScrollBar({ children, baseVelocity = 100, isMobile }) {
 
   const mainStyle = isMobile 
   ? { borderBottomWidth: '4px', height: '49px', marginTop: '74px'}
-  : { width: '65px', borderRightWidth: '4px', height: '100%' }
+  : { width: '65px', borderRightWidth: '4px' }
   
   return (
     <div className="fixed top-0 left-0 z-[999] bg-white overflow-hidden leading-[0.8] flex flex-nowrap m-0 whitespace-nowrap select-none border-black" style={mainStyle}>
