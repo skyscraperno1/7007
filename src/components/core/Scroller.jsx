@@ -79,9 +79,9 @@ export default function Scroll({ sections, isMobile, isLoading }) {
                             )
                         })
                     }
-                    <Popover ref={ref} isLoading={isLoading} isMobile={isMobile}  isScrolling={isScrolling} currentSection={currentSection} />
                 </div>
             </div>
+            <Popover ref={ref} isLoading={isLoading} isMobile={isMobile}  isScrolling={isScrolling} currentSection={currentSection} />
         </div>
 
     )

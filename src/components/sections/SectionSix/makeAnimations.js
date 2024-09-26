@@ -16,11 +16,11 @@ export const makeCoverAnimation = (clipPath) => {
 export const makeBtnAnimation = (x, y) => {
   return {
     shake: {
-      rotate: [0, 5, 0, -5, 0],
+      rotate: [0, 3, 0, -3, 0],
       transition: { duration: 0.25, repeat: Infinity, repeatType: 'loop', ease: 'linear' }
     },
     hover: { 
-      rotate: [0, 5, 0, -5, 0],
+      rotate: [0, 3, 0, -3, 0],
       scale: 4,
       x,
       y,

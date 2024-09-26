@@ -23,22 +23,22 @@ const SectionFive = ({ currentSection, isMobile }) => {
       setInView(false);
     }
   }, [currentSection, isMobile]);
+
+  const titleHeight = isMobile ? { height: "40px" } : { height: "10vh"}
+  const gridHeight = isMobile ? { height: "calc(100% - 40px)" } : { height: "calc(100% - 10vh)" }
   return (
     <>
       <div id="section-five" className="h-full w-full overflow-hidden">
-        <div id="bounce-box" className="h-[85vh]" 
-        // style={isMobile && { height: 'calc(100% - 40px)'}}
+        <div id="bounce-box" className={ isMobile ? "h-full" : "h-[90vh]"}
         >
-          <div className="w-screen text-center h-[10vh] flex items-end justify-center" 
-          // style={isMobile && { height: '40px'}}
+          <div className="w-screen text-center h-[10vh] flex items-end justify-center relative z-10" 
+            style={titleHeight}
           >
             <BoldTitle content="OUR Partners" color="#FF0501" size="small" />
           </div>
           <div
-            className={cn("grid grid-cols-4 w-full", {"grid-cols-2": isMobile})}
-            // style={{
-            //   height: isMobile ? "calc(100% - 40px)" : "calc(100% - 10vh)",
-            // }}
+            className={cn("grid grid-cols-4 w-full", {"grid-cols-2 grid-rows-4": isMobile})}
+            style={gridHeight}
           >
             {titles.map((title, page) => (
               <div
