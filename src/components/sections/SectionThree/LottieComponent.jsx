@@ -1,7 +1,6 @@
 import  { useEffect, useState } from 'react';
 import Lottie from 'react-lottie';
-import animationData from './data-fox-combined.json';
-const LottieComponent = ({ play, delay = 0}) => {
+const LottieComponent = ({ play, delay = 0, animationData }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   useEffect(() => {
     if (!play) {

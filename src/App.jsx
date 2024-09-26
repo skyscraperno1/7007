@@ -12,6 +12,7 @@ import Cursor from "./components/core/Cursor";
 import ResourcesProvider from "./hook/ResourcesProvider";
 import { useResources } from "./hook/useContext";
 import LoadingScreen from "./components/core/LoadingScreen";
+import MobileScroller from "./components/core/MobileScroller";
 let sections = [
   { Component: SectionOne, page: 1 },
   { Component: SectionTwo, page: 2 },
@@ -25,12 +26,14 @@ let sections = [
 const AppContent = () => {
   const { isLoading, progress, isMobile } = useResources();
   isMobile && import ('./fonts.css');
-  sections = isMobile ? sections.filter(item => item.page !== 3 && item.page !== 6) : sections;
   return (
     <>
       <LoadingScreen isLoading={isLoading} progress={progress} isMobile={isMobile}/>
       <Navigator isMobile={isMobile} />
-      <Scroller sections={sections} isMobile={isMobile} isLoading={isLoading}/>
+      {isMobile 
+        ? <MobileScroller sections={sections} isMobile={isMobile} isLoading={isLoading} /> 
+        : <Scroller sections={sections} isMobile={isMobile} isLoading={isLoading} />
+      }
       <ScrollBar baseVelocity={2} isMobile={isMobile}>Ultimate AIGC Exchange&nbsp;</ScrollBar>
       {!isLoading && !isMobile && <Cursor />}
     </>

@@ -94,6 +94,7 @@ const SectionTwo = ({ currentSection, isMobile }) => {
             autoPlay
             loop
             muted
+            playsInline
           />
       </div>
       ) : (

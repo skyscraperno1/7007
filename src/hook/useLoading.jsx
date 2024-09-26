@@ -216,7 +216,7 @@ const useLoading = (isMobile) => {
   }, [startTime]);
 
   useEffect(() => {
-    if (isMobile && progress >= 96) {
+    if (isMobile && progress >= 90) {
       setProgress(100)
       setTimeout(() => {
         setIsLoading(false);

@@ -124,6 +124,7 @@ const SectionTwoPlus = ({ currentSection, isMobile }) => {
               src={Video}
               autoPlay
               loop
+              playsInline
               onPlay={() => {
                 animationFrameRef.current = requestAnimationFrame(updateProgressBar)
                 setIsPlaying(true)

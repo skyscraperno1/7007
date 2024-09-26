@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
-import LoadingSrc from '/Logo/Loading.mp4';
+import LoadingSrc from './loading.json';
 import { useEffect, useState } from "react";
+import LottieComponent from "../sections/SectionThree/LottieComponent";
 
 const LoadingScreen = ({ isLoading, progress, isMobile }) => {
   const [afterLoading, setAfterLoading] = useState(true);
@@ -15,6 +16,17 @@ const LoadingScreen = ({ isLoading, progress, isMobile }) => {
     if (afterLoading) {
       document.body.style.overflow = "hidden"; 
       document.body.style.cursor = ""; 
+      if (isMobile) {
+        const root = document.getElementById('root')
+        if (root) {
+          root.style.overflow = 'hidden'  
+        }
+      } else {
+        const root = document.getElementById('root')
+        if (root) {
+          root.style.overflow = ''  
+        }
+      }
     } else {
       document.body.style.overflow = "";
       document.body.style.cursor = "none";
@@ -30,17 +42,14 @@ const LoadingScreen = ({ isLoading, progress, isMobile }) => {
           transition={{ duration: 0.5 }}
         >
           <div className="relative flex justify-center">
-            <motion.video
-              src={LoadingSrc}
+            <motion.div
+              className='w-1/4'
               initial={{ opacity: 0 }} 
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
-              alt="logo"
-              className="w-full"
-              autoPlay
-              muted
-              loop
-            />
+            >
+              <LottieComponent play={afterLoading} animationData={LoadingSrc}></LottieComponent>
+            </motion.div>
           </div>
           <motion.div 
               className="absolute w-full text-center text-black text-base user-select-none"
