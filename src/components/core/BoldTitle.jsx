@@ -41,7 +41,7 @@ const BoldTitle = ({
     ? {WebkitTextStroke: '3px #000', textShadow: '-7px -6px 0px #000'}
     : {} 
   const mediumStyle = medium 
-    ? {textShadow: '-10px -8px 0px #000'}
+    ? {textShadow: '-8px -5px 0px #000'}
     : {}
   return (
     <SpanWrapper

@@ -4,8 +4,8 @@ import AnimationText from "./SectionFour/AnimationText";
 import AnimationButton from "./SectionFour/AnimationButton";
 import MatterCanvas from "./SectionFour/MatterCanvas";
 import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName';
-const ImgW = 269;
-const ImgH = 424;
+import { createUseX, createUseY, calDelay } from "./SectionFour/calPosition";
+
 const colors = [
   "#03D25C",
   "#FEED01",
@@ -14,6 +14,9 @@ const colors = [
   "#FEED01",
   "#FF0501",
 ];
+
+const basicWidth = 216
+const basicHeight = 318
 const SectionFour = ({ currentSection, isMobile }) => {
   const Img1 = useResourceByName('Img1.png', RESOURCE_TYPES.IMAGE);
   const Img2 = useResourceByName('Img2.png', RESOURCE_TYPES.IMAGE);
@@ -23,67 +26,103 @@ const SectionFour = ({ currentSection, isMobile }) => {
   const Img6 = useResourceByName('Img6.png', RESOURCE_TYPES.IMAGE);
   const Img7 = useResourceByName('Img7.png', RESOURCE_TYPES.IMAGE);
   const Img8 = useResourceByName('Img8.png', RESOURCE_TYPES.IMAGE);
+  const Img9 = useResourceByName('Img9.png', RESOURCE_TYPES.IMAGE);
+  const target = useRef(null)
+  const [images, setImages] = useState([]);
+  const [ImgW, setWidth] = useState(0)
+  const [ImgH, setHeight] = useState(0)
 
-  const images = [
-    {
-      src: Img4,
-      x: `calc(24% - ${ImgW / 2}px)`,
-      y: `calc(55% - ${ImgH / 2}px)`,
-      delay: 0.5,
-    },
-    {
-      src: Img2,
-      x: `calc(50% - ${ImgW / 2}px)`,
-      y: `calc(50% - ${ImgH / 2}px)`,
-      delay: 0.5,
-    },
-    {
-      src: Img3,
-      x: `calc(70% - ${ImgW / 2}px)`,
-      y: `calc(45% - ${ImgH / 2}px)`,
-      delay: 0.5,
-    },
-    {
-      src: Img1,
-      x: `calc(7% - ${ImgW / 2}px)`,
-      y: `calc(43% - ${ImgH / 2}px)`,
-      delay: 1,
-    },
-    {
-      src: Img5,
-      x: `calc(38% - ${ImgW / 2}px)`,
-      y: `calc(66% - ${ImgH / 2}px)`,
-      delay: 1,
-    },
-    {
-      src: Img8,
-      x: `calc(95% - ${ImgW / 2}px)`,
-      y: `calc(68% - ${ImgH / 2}px)`,
-      delay: 1,
-    },
-    {
-      src: Img7,
-      x: `calc(80% - ${ImgW / 2}px)`,
-      y: `calc(52% - ${ImgH / 2}px)`,
-      delay: 1.5,
-    },
-    {
-      src: Img6,
-      x: `calc(63% - ${ImgW / 2}px)`,
-      y: `calc(35% - ${ImgH / 2}px)`,
-      delay: 1.5,
-    },
-  ];
+  useEffect(() => {
+    setWidth(isMobile ? 0.5 * basicWidth : basicWidth);
+    setHeight(isMobile ? 0.5 * basicHeight : basicHeight);
+  }, [isMobile])
+
+  useEffect(() => {
+    if (target.current && ImgW && ImgH) {
+      const useX = createUseX(target.current.offsetWidth, ImgW)
+      const useY = createUseY(target.current.offsetHeight, ImgH)
+      const _images = [
+        {
+          src: Img1,
+          x: useX(0),
+          y: useY(0.4),
+          delay: calDelay(2),
+          zIndex: 1
+        },
+        {
+          src: Img2,
+          x: useX(0.2),
+          y: useY(0.49),
+          delay: calDelay(3),
+          zIndex: 2
+        },
+        {
+          src: Img3,
+          x: useX(0.3),
+          y: useY(0.6),
+          delay: calDelay(1),
+          zIndex: 3
+        },
+        {
+          src: Img4,
+          x: useX(0.4),
+          y: useY(0.65),
+          delay: calDelay(3),
+          zIndex: 4
+        },
+        {
+          src: Img5,
+          x: useX(0.5),
+          y: useY(0.5),
+          delay: calDelay(1),
+          zIndex: 5
+        },
+        {
+          src: Img6,
+          x: useX(0.6),
+          y: useY(0.4),
+          delay: calDelay(3),
+          zIndex: 6
+        },
+        {
+          src: Img7,
+          x: useX(0.7),
+          y: useY(0.35),
+          delay: calDelay(1),
+          zIndex: 7
+        },
+        {
+          src: Img8,
+          x: useX(0.8),
+          y: useY(0.435),
+          delay: calDelay(2),
+          zIndex: 8
+        },
+        {
+          src: Img9,
+          x: useX(1),
+          y: useY(0.52),
+          delay: calDelay(3),
+          zIndex: 9
+        },
+      ]
+      setImages(_images)
+    } else {
+      setImages([])
+    }
+  }, [target, ImgW, ImgH, Img1, Img2, Img3, Img4, Img5, Img6, Img7, Img8, Img9]);
+
+
   const [inView, setInView] = useState(false);
-  const [isSeen, setISSeen] = useState(false);
+  const [isSeen, setIsSeen] = useState(false);
   const [showText, setShowText] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [colorIndex, setColorIndex] = useState(0);
   const [secondTextShown, setSecondTextShown] = useState(false);
   useEffect(() => {
-  if (currentSection === 5) {
+    if (currentSection === 5) {
       setInView(true);
-      setISSeen(true)
+      setIsSeen(true)
     } else {
       setInView(false);
     }
@@ -126,28 +165,31 @@ const SectionFour = ({ currentSection, isMobile }) => {
   return (
     <div
       id="section-four"
+      ref={target}
       style={{ backgroundColor: colors[colorIndex] }}
       className="h-full w-full relative z-10 overflow-hidden"
     >
       <AnimatePresence>
         {(inView || isSeen) &&
           images.map((image, index) => {
-            const { src, x, y, delay } = image;
+            const { src, x, y, delay, zIndex } = image;
             return (
               <motion.div
-                className="absolute scale-75 2xl:scale-100 will-change-opacity animated-image-container z-[11]"
+                className="absolute"
                 key={`img-${index}`}
                 initial={{ display: "none" }}
                 animate={{
                   display: "block",
-                  transition: { delay },
+                  x,
+                  y,
+                  transition: { delay, x: { duration: 0 }, y: { duration: 0 } },
                 }}
                 onAnimationComplete={() => {
                   handleAnimationComplete(index);
                 }}
-                style={{ top: `${y}`, left: `${x}` }}
+                style={{ width: ImgW, height: ImgH, zIndex}}
               >
-                <img src={src} />
+                <img src={src} className="w-full h-full" />
               </motion.div>
             );
           })}
@@ -155,7 +197,7 @@ const SectionFour = ({ currentSection, isMobile }) => {
 
       <div className="flex flex-col items-center justify-center">
         <div className="h-[288px] 2xl:h-[384px] mt-20">
-          <AnimationText showText={showText} currentTextIndex={colorIndex} isMobile={isMobile}/>
+          <AnimationText showText={showText} currentTextIndex={colorIndex} isMobile={isMobile} />
         </div>
         <div
           className="h-20 2xl:h-24"
@@ -171,7 +213,7 @@ const SectionFour = ({ currentSection, isMobile }) => {
             }
           }}
         >
-          <AnimationButton showButton={showButton} isMobile={isMobile}/>
+          <AnimationButton showButton={showButton} isMobile={isMobile} />
         </div>
       </div>
       <MatterCanvas ref={ref} colorIndex={colorIndex} isMobile={isMobile} />

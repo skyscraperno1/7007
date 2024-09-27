@@ -32,6 +32,7 @@ export const _resources = {
     '/Section4/Img6.png',
     '/Section4/Img7.png',
     '/Section4/Img8.png',
+    '/Section4/Img9.png',
     '/Section4/circle_black.png',
     '/Section4/circle_white.png',
     '/Section4/eth_lg.png', //440 * 547
