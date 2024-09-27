@@ -33,25 +33,31 @@ const BoldTitle = ({
   size = "big",
   italic = false,
   xs = false,
+  medium = false
 }) => {
   const isBig = size === "big";
   
   const xsStyle = xs 
-    ? {WebkitTextStroke: '3px #000', textShadow: '-3px -2px 0px #000'}
+    ? {WebkitTextStroke: '3px #000', textShadow: '-7px -6px 0px #000'}
     : {} 
+  const mediumStyle = medium 
+    ? {textShadow: '-10px -8px 0px #000'}
+    : {}
   return (
     <SpanWrapper
       className={cn(
         "flex select-none flex-center",
         `${
-          isBig ? "text-7xl 2xl:text-8xl uppercase" : "text-3xl 2xl:text-4xl"
+          isBig ? "text-7xl 2xl:text-8xl uppercase" : "text-4xl 2xl:text-4xl"
         }`,
         { italic: italic },
-        { "text-sm": xs }
+        { "text-sm": xs },
+        { "text-6xl": medium}
       )}
       style={{
         color: color,
-        ...xsStyle
+        ...xsStyle,
+        ...mediumStyle
       }}
       $isBig={isBig}
       content={content}

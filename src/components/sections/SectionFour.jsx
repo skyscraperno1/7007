@@ -155,7 +155,7 @@ const SectionFour = ({ currentSection, isMobile }) => {
 
       <div className="flex flex-col items-center justify-center">
         <div className="h-[288px] 2xl:h-[384px] mt-20">
-          <AnimationText showText={showText} currentTextIndex={colorIndex} />
+          <AnimationText showText={showText} currentTextIndex={colorIndex} isMobile={isMobile}/>
         </div>
         <div
           className="h-20 2xl:h-24"
@@ -171,7 +171,7 @@ const SectionFour = ({ currentSection, isMobile }) => {
             }
           }}
         >
-          <AnimationButton showButton={showButton} />
+          <AnimationButton showButton={showButton} isMobile={isMobile}/>
         </div>
       </div>
       <MatterCanvas ref={ref} colorIndex={colorIndex} isMobile={isMobile} />

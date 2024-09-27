@@ -1,8 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../../core/Button';
+import { cn } from '../../../lib/utils';
 
-const AnimationButton = ({ showButton }) => {
-
+const AnimationButton = ({ showButton, isMobile }) => {
     const variants = {
         hidden: { y: 50, opacity: 0 },
         visible: {
@@ -32,7 +32,7 @@ const AnimationButton = ({ showButton }) => {
                     variants={variants}
                     className='relative z-30'
                 >
-                    <Button kls="h-20 2xl:h-24 text-3xl 2xl:text-4xl w-72 2xl:w-96" duration={0.8} onClick={() => { }}>trade</Button>
+                    <Button kls={cn("h-20 2xl:h-24 text-3xl 2xl:text-4xl w-72 2xl:w-96", {"w-64": isMobile})} duration={0.8} isMobile={isMobile}>trade</Button>
                 </motion.div>
             }
         </AnimatePresence>

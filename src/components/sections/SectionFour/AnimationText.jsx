@@ -5,6 +5,10 @@ const themeRed = '#FF0501';
 const themeYellow = '#FEED01';
 const titles = [
     [
+        {color: themeRed, text: 'trade with'},
+        {color: themeRed, text: 'efficiency'},
+    ],
+    [
         {color: themeGreen, text: 'up to'},
         {color: themeRed, text: 'millions'},
         {color: themeGreen, text: 'and'},
@@ -36,7 +40,7 @@ const titles = [
     ],
 ]
 
-const AnimationText = ({ showText, currentTextIndex }) => { 
+const AnimationText = ({ showText, currentTextIndex, isMobile }) => { 
 
     return showText ? (
         <>
@@ -49,7 +53,7 @@ const AnimationText = ({ showText, currentTextIndex }) => {
                         exit={{ display: 'none' }}
                     >
                         {item.map(({ color, text }, i) => (
-                            <BoldTitle key={i} color={color} content={text} />
+                            <BoldTitle key={i} color={color} content={text} medium={isMobile}/>
                         ))}
                     </motion.div>
                 )
