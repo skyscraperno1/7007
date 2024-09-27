@@ -5,7 +5,7 @@ function getRandom() {
 }
 
 class MatterScene {
-  constructor(canvas) {
+  constructor(canvas, isMobile) {
     if (MatterScene.instance) {
       return MatterScene.instance;
     }
@@ -17,6 +17,7 @@ class MatterScene {
     this.MouseConstraint = Matter.MouseConstraint;
     this.Mouse = Matter.Mouse;
     this.Bodies = Matter.Bodies;
+    this.scale = isMobile ? 0.5 : 1;
 
     this.width = canvas.getBoundingClientRect().width;
     this.height = canvas.getBoundingClientRect().height;
@@ -36,7 +37,6 @@ class MatterScene {
 
     this.bigDiamonds = [];
     this.smDiamonds = [];
-    this.toggleTexture = true;
 
     this.initialize();
 
@@ -86,26 +86,31 @@ class MatterScene {
   }
 
   makeCircle(x, texture) {
-    return this.Bodies.circle(x, 0, 75, {
+    const size = this.scale * 75
+    return this.Bodies.circle(x, 0, size, {
       render: {
         sprite: {
           texture,
+          xScale: this.scale,
+          yScale: this.scale
         },
       },
     });
   }
 
-  makeDiamond(width, height, x, texture) {
+  makeDiamond(x, texture) {
     const vertices = [
-      { x: x, y: -height / 2 },
-      { x: x + width / 2, y: 0 },
-      { x: x, y: height / 2 },
-      { x: x - width / 2, y: 0 },
-    ];
+      { x: 147 * this.scale, y: 35 * this.scale },
+      { x: 150 * this.scale, y: 335 * this.scale },
+      { x: 49 * this.scale, y: 199 * this.scale },
+      { x: 252 * this.scale, y: 199 * this.scale }
+    ]
     return this.Bodies.fromVertices(x, 0, vertices, {
       render: {
         sprite: {
           texture,
+          xScale: this.scale,
+          yScale: this.scale
         },
       },
     });
@@ -121,42 +126,14 @@ class MatterScene {
 
     for (let j = 0; j < 3; j++) {
       const x = Math.random() * this.width;
-      const newDiamond = this.makeDiamond(200, 300, x, eth_sm);
+      const newDiamond = this.makeDiamond(x, eth_sm);
       this.smDiamonds.push(newDiamond);
       this.Composite.add(this.world, newDiamond);
     }
   }
 
-  handleTextureTransition(textureA, textureB) {
-    this.smDiamonds.forEach((diamond) => {
-      const currentTexture = this.toggleTexture ? textureA : textureB;
-      const targetTexture = this.toggleTexture ? textureB : textureA;
-
-      const steps = 10; // 简化为10步
-      const duration = 1000; // 过渡时长 1000 ms
-      const interval = duration / steps;
-      let alpha = 0;
-
-      // 用于修改透明度效果
-      const transition = setInterval(() => {
-        alpha += 1 / steps;
-        diamond.render.sprite.opacity = alpha; // 更新透明度
-        diamond.render.sprite.texture = currentTexture;
-
-        if (alpha >= 1) {
-          clearInterval(transition);
-
-          // 在过渡完成后改变为目标纹理
-          diamond.render.sprite.texture = targetTexture;
-          diamond.render.sprite.opacity = 1.0; // 确保透明度回归满值
-        }
-      }, interval);
-    });
-
-    this.toggleTexture = !this.toggleTexture;
-  }
 }
 
-export const init = (canvas) => {
-  return new MatterScene(canvas);
+export const init = (canvas, isMobile) => {
+  return new MatterScene(canvas, isMobile);
 };

@@ -16,6 +16,10 @@ const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection }
     text: ''
   })
   useEffect(() => {
+    if ((isLoading || isScrolling) && _timer) {
+      clearTimeout(_timer)
+      _timer = null;
+    }
     if (!isLoading && !isScrolling && !_timer) {
       if (currentSection === 1) {
         _timer = setTimeout(() => {
@@ -54,11 +58,6 @@ const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection }
     <AnimatePresence>
       {
         show && (
-          <motion.div className="fixed inset-0 bg-black/90 z-[1999] flex justify-center items-center w-screen h-screen"
-            id='popover'
-            animate={{visibility: 'visible'}}
-            exit={{ visibility: 'hidden' }}
-          >
             <motion.div
               key="motionKey"
               initial={{ opacity: 0, x: 100 }}
@@ -69,9 +68,11 @@ const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection }
                 opacity: { duration: 0.5 },
                 rotate: { duration: 0.25, repeat: Infinity, repeatType: 'loop', ease: 'linear' }
               }}
-              className={`uppercase relative w-[428px] h-[298px] px-6 bg-${config.bg} z-[2000] text-white border-black pt-14 pb-10`}
+              className={`uppercase fixed w-[428px] h-[298px] px-6 bg-${config.bg} z-[2000] text-white border-black pt-14 pb-10`}
               id="popover"
               style={{
+                top: 'calc(50% - 149px)',
+                left: 'calc(50% - 214px)',
                 borderWidth: '5px',
                 boxShadow: '-8px 8px 0px #000',
                 scale: isMobile ? 0.75 : 1
@@ -87,7 +88,6 @@ const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection }
               </div>
 
             </motion.div>
-          </motion.div>
         )
       }
     </AnimatePresence>

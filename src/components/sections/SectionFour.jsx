@@ -163,14 +163,18 @@ const SectionFour = ({ currentSection, isMobile }) => {
             ref.current.addBox();
           }}
           onClick={() => {
-            ref.current.addBox();
-            ref.current.addBox();
+            if (isMobile) {
+              ref.current.addBox();
+            } else {
+              ref.current.addBox();
+              ref.current.addBox();
+            }
           }}
         >
           <AnimationButton showButton={showButton} />
         </div>
       </div>
-      <MatterCanvas ref={ref} colorIndex={colorIndex}/>
+      <MatterCanvas ref={ref} colorIndex={colorIndex} isMobile={isMobile} />
     </div>
   );
 };

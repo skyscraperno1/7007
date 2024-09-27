@@ -32,18 +32,19 @@ const LoadingScreen = ({ isLoading, progress, isMobile }) => {
       document.body.style.cursor = "none";
     }
   }, [afterLoading]);
+  const exitAni = isMobile ? { y: "-100vh" } : { x: "100vw" };
   return (
     <AnimatePresence>
       {afterLoading && (
         <motion.div
           className="bg-white w-screen h-screen fixed z-[1000] flex items-center justify-center"
-          initial={{ x: 0 }} 
-          exit={{ x: "100vw" }}
+          initial={{ x: 0, y: 0 }} 
+          exit={exitAni}
           transition={{ duration: 0.5 }}
         >
           <div className="relative flex justify-center">
             <motion.div
-              className='w-1/4'
+              className={isMobile ? 'w-1/4' : 'w-1/12'}
               initial={{ opacity: 0 }} 
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
