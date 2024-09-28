@@ -86,7 +86,7 @@ const MotionPartner = ({ page, title, show, isMobile }) => {
       transition={show ? transition: {}}
       animate={show ? animation : { x: 0, y: 0}}
     >
-      <div className={cn("bg-no-repeat bg-center h-[200px] w-[210px] flex items-center justify-center", {"h-[100px] w-[105px] bg-cover": isMobile})} style={{
+      <div className={cn("bg-no-repeat bg-center h-[200px] w-[210px] flex items-center justify-center bg-contain", {"h-[100px] w-[105px]": isMobile})} style={{
         backgroundImage: `url(${images[page -1].frame})`
       }}><img className={cn({'scale-50': isMobile})} src={`${images[page -1].partner}`} />
       </div>

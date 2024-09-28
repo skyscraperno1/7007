@@ -1,3 +1,4 @@
+import styled from "styled-components";
 export const makeCoverAnimation = (clipPath) => {
   return {
     hidden: { clipPath, pointerEvents: 'none', opacity: 0 },
@@ -13,18 +14,17 @@ export const makeCoverAnimation = (clipPath) => {
   };
 }
 
-export const makeBtnAnimation = (x, y) => {
+export const makeBtnAnimation = (x, y, isMobile = false) => {
   return {
     shake: {
-      rotate: [0, 3, 0, -3, 0],
+      rotate: [0, 6, 0, -6, 0],
       transition: { duration: 0.25, repeat: Infinity, repeatType: 'loop', ease: 'linear' }
     },
     hover: { 
       // rotate: [0, 3, 0, 3, 0],
-      scale: 4,
+      scale: isMobile ? 1 : 4,
       x,
       y,
-      zIndex: 60,
       transition: {
         rotate: {
           duration: 0.25, 
@@ -51,3 +51,22 @@ export const makeBtnAnimation = (x, y) => {
     }
   }
 }
+
+export const BoxContainer = styled.div`
+  grid-template-columns: 70% 30%;
+  .right {
+    grid-template-rows: 65% 35%;
+    .right-bottom {
+      grid-template-columns: 3fr 2fr;
+    }
+  }
+`
+export const MobileBoxContainer = styled.div`
+  grid-template-columns: 60% 40%;
+  .right {
+    grid-template-rows: 65% 35%;
+    .right-bottom {
+      grid-template-columns: 3fr 2fr;
+    }
+  }
+`

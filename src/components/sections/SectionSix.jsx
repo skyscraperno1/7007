@@ -1,16 +1,76 @@
 import ColorBlock from './SectionSix/ColorBlock'
-import useResourceByName, { RESOURCE_TYPES} from '../../hook/useResourceByName'
-const SectionSix = () => {
+import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName'
+import Button from '../core/Button'
+import BoldTitle from '../core/BoldTitle'
+import { useRef, useState } from 'react'
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import usePosition from './SectionSix/useAnimations'
+import { makeCoverAnimation, makeBtnAnimation, MobileBoxContainer } from './SectionSix/useConfig'
+import AnimatedBlock from './SectionSix/AnimatedBlock'
+const SectionSix = ({ isMobile }) => {
+  const btnRef = useRef(null);
+  const [isHovering, setIsHovering] = useState(false);
   const bg = useResourceByName('$7007.png', RESOURCE_TYPES.IMAGE)
-    return (
-        <>
-        <div id="section-six" className='h-full w-full px-10 flex items-center justify-center' style={{ backgroundImage: `url(${bg})` }}>
-            <div id="color-block" className="w-[70%] h-[70%] 2xl:w-[75%] 2xl:h-[75%]">
-              <ColorBlock />
+  const { translate, inset } = usePosition(btnRef, 'section-six');
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", () => {
+    setIsHovering(false)
+  })
+
+  return (
+    <>
+      <div id="section-six" className='h-full w-full flex items-center justify-center' style={{ backgroundImage: `url(${bg})` }}>
+        {
+          isMobile ? (<div className='w-full h-full flex flex-col gap-4 px-8 py-10 justify-between'>
+            <motion.div
+              className="z-50 select-none w-full fixed bottom-0 right-0 bg-themeYellow"
+              variants={makeCoverAnimation(inset)}
+              animate={isHovering ? 'visible' : 'hidden'}
+              style={{
+                height: 'calc(100% - 123px)',
+                opacity: 0,
+              }}
+            />
+            <BoldTitle content="Buy $7007 Now" color="#03D25C" size="small" kls='text-start' />
+            <div className='w-full h-1/4'>
+              <BoldTitle content='$7007' color="#FEED01" kls="rotate-[-20deg] translate-y-12 -translate-x-4 scale-[1.2]" />
             </div>
-        </div>
-      </>
-    )
+            <MobileBoxContainer className='w-full h-3/4 grid select-none'>
+              <AnimatedBlock bgColor="bg-themeGreen" direction="left" title='ƒ(A.I.)ℝ launch' num='70.07%' height='calc(100% - 3px)' isMobile={isMobile}></AnimatedBlock>
+              <div className='right h-full grid'>
+                <AnimatedBlock bgColor="bg-themeRed" direction="rightUp" title='Ecosystem reward' num='13.93%' isMobile={isMobile}></AnimatedBlock>
+                <div className='right-bottom grid'>
+                  <AnimatedBlock bgColor="bg-themeYellow" direction="down" title='LP' num='10%' isMobile={isMobile} />
+                  <AnimatedBlock bgColor="bg-themeGreen" width="calc(100% + 14px)" height="calc(100% + 14px)" direction="rightDown" title='Airdrop' num='6%' isMobile={isMobile} />
+                </div>
+              </div>
+            </MobileBoxContainer>
+            <div className='flex justify-start flex-col items-start w-full'>
+              <BoldTitle content='Total supply:' size='small' color="#FF0501" italic xs={true} />
+              <BoldTitle content='Total allocation from' size='small' color="#FF0501" italic xs />
+              <BoldTitle content='ƒ(A.I.)ℝ launch / 0.7007' size='small' color="#FF0501" italic xs />
+            </div>
+            <motion.div
+              ref={btnRef}
+              onClick={() => {
+                setIsHovering(prev => !prev)
+              }}
+              variants={makeBtnAnimation(translate.x, translate.y, true)}
+              animate={isHovering ? "hover" : "shake"}
+              className='relative z-[60]'
+            >
+              <Button kls="bg-themeGreen" isMobile={true} duration={0.2}>Buy $7007</Button>
+            </motion.div>
+
+          </div>) : (
+            <div id="color-block" className="w-[70%] h-[70%] 2xl:w-[75%] 2xl:h-[75%]">
+              <ColorBlock isMobile={isMobile} />
+            </div>
+          )
+        }
+      </div>
+    </>
+  )
 }
 
 export default SectionSix;

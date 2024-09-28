@@ -6,7 +6,6 @@ const SpanWrapper = styled.span`
   display: block;
   position: relative;
   white-space: nowrap;
-  text-align: center;
   text-shadow: ${(props) =>
       props.$isBig ? "-12px -8px 0px #000000;" : "-5px -4px 0px #000000;"}
     @media (min-width: 1537px) {
@@ -33,12 +32,13 @@ const BoldTitle = ({
   size = "big",
   italic = false,
   xs = false,
-  medium = false
+  medium = false,
+  kls
 }) => {
   const isBig = size === "big";
   
   const xsStyle = xs 
-    ? {WebkitTextStroke: '3px #000', textShadow: '-7px -6px 0px #000'}
+    ? {WebkitTextStroke: '3px #000', textShadow: '-3px -2.5px 0px #000'}
     : {} 
   const mediumStyle = medium 
     ? {textShadow: '-8px -5px 0px #000'}
@@ -46,13 +46,14 @@ const BoldTitle = ({
   return (
     <SpanWrapper
       className={cn(
-        "flex select-none flex-center",
+        "flex select-none flex-center text-center",
         `${
           isBig ? "text-7xl 2xl:text-8xl uppercase" : "text-4xl 2xl:text-4xl"
         }`,
         { italic: italic },
-        { "text-sm": xs },
+        { "text-xl": xs },
         { "text-6xl": medium}
+        ,kls
       )}
       style={{
         color: color,
