@@ -104,7 +104,7 @@ const SectionTwo = ({ currentSection, isMobile }) => {
             ref={titleLeftRef}
             style={{ left: `calc(25% - ${leftTitleWidth + 10}px)` }}
           >
-            <BoldTitle content="7007 A.I." color="#FEED01" size="small" xs={isMobile}/>
+            <BoldTitle content="7007 Protocol" color="#FEED01" size="small" xs={isMobile}/>
             <img
               src={RedStar}
               className="absolute scale-50 2xl:scale-75"
@@ -126,7 +126,7 @@ const SectionTwo = ({ currentSection, isMobile }) => {
             ref={titleRightRef}
             style={{ right: `calc(25% - ${rightTitleWidth + 10}px)` }}
           >
-            <BoldTitle content="NFT Protocol" color="#FEED01" size="small" xs={isMobile}/>
+            <BoldTitle content="AIGC Exchange" color="#FEED01" size="small" xs={isMobile}/>
           </div>
         </div>
       )}

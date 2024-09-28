@@ -87,8 +87,8 @@ const ColorBlock = () => {
           variants={makeBtnAnimation(translateBtn.x, translateBtn.y)}
           animate={isHovering ? "hover" : "shake"}
           className="z-[60] m-pointer absolute top-[-40px] 2xl:top-[-50px] right-[-50px]">
-          <Button kls="px-8 py-5 bg-themeGreen" duration={0.8}>
-            Buy the token
+          <Button kls="w-40 2xl:w-48 bg-themeGreen" duration={isHovering ? 0.2 : 0.4}>
+            Buy $7007
           </Button>
         </motion.div>
       </AnimatedBlock>

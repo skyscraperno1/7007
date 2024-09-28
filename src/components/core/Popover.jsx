@@ -62,7 +62,7 @@ const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection }
               key="motionKey"
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0, rotate: [0, 2, 0, -2, 0] }}
-              exit={{ opacity: 0, x: 100, rotate: [0] }}
+              exit={{ opacity: 0, x: 100, rotate: [0], display: 'none' }}
               transition={{
                 x: { duration: 0.5 },
                 opacity: { duration: 0.5 },

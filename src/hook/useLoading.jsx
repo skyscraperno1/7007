@@ -58,7 +58,7 @@ export const _resources = {
     '/Section5/Partners/Partner7.png',
     '/Section5/Partners/Partner8.png',
     // Section6
-    '/Section6/page-six-bg.png'
+    '/Section6/$7007.png'
   ],
   videos: [
     '/Section2/clip.mp4',

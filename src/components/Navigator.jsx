@@ -60,11 +60,16 @@ function Navigator({ isMobile }) {
                     <div className="w-32 text-end text-nowrap">launch app</div>
                   </div>
                   <div className="flex justify-between items-center uppercase w-screen px-4 h-12 text-lg"
+                    >
+                      <div className="w-5">02</div>
+                      <div className="w-32 text-end text-nowrap">white paper</div>
+                    </div>
+                  <div className="flex justify-between items-center uppercase w-screen px-4 h-12 text-lg"
                      onClick={() => {
                       window.open("https://x.com/lab7007?s=21", "_blank");
                     }}
                   >
-                    <div className="w-5">02</div>
+                    <div className="w-5">03</div>
                     <div className="w-32 text-end text-nowrap">X</div>
                   </div>
                   <div className="flex justify-between items-center uppercase w-screen px-4 h-12 text-lg"
@@ -72,7 +77,7 @@ function Navigator({ isMobile }) {
                       window.open("https://t.me/lab7007", "_blank");
                     }}
                   >
-                    <div className="w-5 text-end">03</div>
+                    <div className="w-5 text-end">04</div>
                     <div className="w-32 text-end text-nowrap">Telegram</div>
                   </div>
                 </motion.div>
@@ -103,6 +108,7 @@ function Navigator({ isMobile }) {
             />
           </Button>
           <Button kls="px-2 2xl:px-3">launch app</Button>
+          <Button kls="px-2 2xl:px-3">white paper</Button>
         </div>
       )}
     </header>

@@ -39,6 +39,10 @@ const SectionFour = ({ currentSection, isMobile }) => {
 
   useEffect(() => {
     if (target.current && ImgW && ImgH) {
+      if (target.current.offsetWidth > 1472) {
+        setWidth(basicWidth * 1.23)
+        setHeight(basicHeight * 1.23)
+      } 
       const useX = createUseX(target.current.offsetWidth, ImgW)
       const useY = createUseY(target.current.offsetHeight, ImgH)
       const _images = [
