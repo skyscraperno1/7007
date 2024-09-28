@@ -35,8 +35,8 @@ class MatterScene {
       },
     });
 
-    this.bigDiamonds = [];
-    this.smDiamonds = [];
+    this.diamonds = [];
+    this.circles = []
 
     this.initialize();
 
@@ -116,22 +116,34 @@ class MatterScene {
     });
   }
 
-  addCircle(circle_black, circle_white, eth_sm) {
+  addItem(circle_black, circle_white, eth_sm) {
     for (let i = 0; i < 4; i++) {
       const x = Math.random() * this.width;
       const texture = getRandom() ? circle_black : circle_white;
       const newCircle = this.makeCircle(x, texture);
+      this.circles.push(newCircle)
       this.Composite.add(this.world, newCircle);
     }
 
     for (let j = 0; j < 3; j++) {
       const x = Math.random() * this.width;
       const newDiamond = this.makeDiamond(x, eth_sm);
-      this.smDiamonds.push(newDiamond);
+      this.diamonds.push(newDiamond);
       this.Composite.add(this.world, newDiamond);
     }
   }
 
+  clearItem() {
+    this.diamonds.forEach(body => {
+      this.Composite.remove(this.world, body);
+    });
+    this.diamonds = []; 
+
+    this.circles.forEach(body => {
+      this.Composite.remove(this.world, body);
+    });
+    this.circles = []; 
+  }
 }
 
 export const init = (canvas, isMobile) => {

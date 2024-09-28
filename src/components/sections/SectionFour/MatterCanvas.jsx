@@ -12,9 +12,14 @@ const MatterCanvas = forwardRef(({ isMobile }, ref) => {
   useImperativeHandle(ref, () => ({
     addBox: () => {
       if (matter.current) {
-        matter.current.addCircle(circle_black, circle_white, eth_sm)
+        matter.current.addItem(circle_black, circle_white, eth_sm)
       }
     },
+    removeBox: () => {
+      if (matter.current) {
+        matter.current.clearItem()
+      }
+    }
   }));
 
   useEffect(() => {

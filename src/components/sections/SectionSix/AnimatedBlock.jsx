@@ -31,9 +31,6 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
       default:
         break;
     }
-    if (direction) {
-      console.log(initial)
-    }
   }, [direction, borderWidth])
   const [variants, setVariants] = useState({
     initial: initial,

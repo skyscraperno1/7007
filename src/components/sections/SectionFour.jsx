@@ -123,13 +123,18 @@ const SectionFour = ({ currentSection, isMobile }) => {
   const [showButton, setShowButton] = useState(false);
   const [colorIndex, setColorIndex] = useState(0);
   const [secondTextShown, setSecondTextShown] = useState(false);
+  const [lastSection, setLastSection] = useState(0)
   useEffect(() => {
-    if (currentSection === 5) {
+      if (currentSection === 5) {
       setInView(true);
       setIsSeen(true)
     } else {
       setInView(false);
     }
+    if (currentSection === 4 && lastSection === 5) {
+      ref.current.removeBox();
+    }
+    setLastSection(currentSection);
   }, [currentSection, isMobile]);
 
   const ref = useRef(null);
@@ -208,14 +213,14 @@ const SectionFour = ({ currentSection, isMobile }) => {
           onMouseEnter={() => {
             ref.current.addBox();
           }}
-          onClick={() => {
-            if (isMobile) {
-              ref.current.addBox();
-            } else {
-              ref.current.addBox();
-              ref.current.addBox();
-            }
-          }}
+          // onClick={() => {
+          //   if (isMobile) {
+          //     ref.current.addBox();
+          //   } else {
+          //     ref.current.addBox();
+          //     ref.current.addBox();
+          //   }
+          // }}
         >
           <AnimationButton showButton={showButton} isMobile={isMobile} />
         </div>
