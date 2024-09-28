@@ -48,7 +48,7 @@ const SectionSix = ({ isMobile }) => {
             />
             <BoldTitle content="Buy $7007 Now" color="#03D25C" size="small" kls='text-start' />
             <div className='w-full h-1/4'>
-              <BoldTitle content='$7007' color="#FEED01" kls="rotate-[-20deg] translate-y-12 -translate-x-4 scale-[1.2]" />
+              <BoldTitle content='$7007' color="#FEED01" kls="rotate-[-20deg] translate-y-12 -translate-x-4" />
             </div>
             <MobileBoxContainer className='w-full h-3/4 grid select-none'>
               <AnimatedBlock bgColor="bg-themeGreen" direction="left" title='ƒ(A.I.)ℝ launch' num='70.07%' height='calc(100% - 3px)' isMobile={isMobile}></AnimatedBlock>
@@ -74,7 +74,7 @@ const SectionSix = ({ isMobile }) => {
               animate={isHovering ? "hover" : "shake"}
               className='relative z-[60]'
             >
-              <Button kls="bg-themeGreen" isMobile={true} duration={0.2}>Buy $7007</Button>
+              <Button kls="bg-themeGreen h-16" isMobile={true} duration={0.2}>Buy $7007</Button>
             </motion.div>
 
           </div>) : (

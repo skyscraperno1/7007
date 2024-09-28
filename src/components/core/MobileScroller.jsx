@@ -34,6 +34,7 @@ const MobileScroller = ({ isLoading, sections, isMobile }) => {
   return (
     <div className='overflow-hidden'>
       <div className="w-screen overflow-x-hidden"
+        id="mobile-scroller"
         ref={target}
         style={{
           height: `calc(100vh - 123px)`,

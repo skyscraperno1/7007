@@ -5,7 +5,6 @@ const SpanWrapper = styled.span`
   z-index: 49;
   display: block;
   position: relative;
-  white-space: nowrap;
   text-shadow: ${(props) =>
       props.$isBig ? "-12px -8px 0px #000000;" : "-5px -4px 0px #000000;"}
     @media (min-width: 1537px) {
@@ -46,7 +45,7 @@ const BoldTitle = ({
   return (
     <SpanWrapper
       className={cn(
-        "flex select-none flex-center text-center",
+        "flex select-none flex-center text-center whitespace-nowrap",
         `${
           isBig ? "text-7xl 2xl:text-8xl uppercase" : "text-4xl 2xl:text-4xl"
         }`,
