@@ -38,7 +38,7 @@ const MotionPartner = ({ page, title, show, isMobile }) => {
 
   useEffect(() => {
     const rect = ref.current.getBoundingClientRect()
-    const parentRect = document.getElementById('section-five').getBoundingClientRect()
+    const parentRect = document.getElementById('bounce-box').getBoundingClientRect()
     const { offsetX, offsetY } = getOffset(page)
     const offset = {
       x: Math.abs(rect[offsetX] - parentRect[offsetX]),
@@ -86,9 +86,9 @@ const MotionPartner = ({ page, title, show, isMobile }) => {
       transition={show ? transition: {}}
       animate={show ? animation : { x: 0, y: 0}}
     >
-      <div className={cn("bg-no-repeat bg-center h-[200px] w-[210px] flex items-center justify-center bg-contain", {"h-[100px] w-[105px]": isMobile})} style={{
+      <div className={cn("bg-no-repeat bg-center h-[150px] w-[157.5px] 2xl:h-[200px] 2xl:w-[210px] flex items-center justify-center bg-contain", {"h-[100px] w-[105px]": isMobile})} style={{
         backgroundImage: `url(${images[page -1].frame})`
-      }}><img className={cn({'scale-50': isMobile})} src={`${images[page -1].partner}`} />
+      }}><img className={cn('scale-75 2xl:scale-100', {'scale-50': isMobile})} src={`${images[page -1].partner}`} />
       </div>
       <div className="uppercase text-lg 2xl:text-2xl">{title}</div>
     </motion.div>

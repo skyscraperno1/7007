@@ -21,7 +21,7 @@ const SectionFive = ({ currentSection, isMobile }) => {
   const calStyle = useMemo(() => {
     if (flag) {
       return {
-        height: "calc(100% - 12vh)",
+        height: "calc(100% - 10vh)",
       }
     } else {
       return {}
