@@ -18,9 +18,9 @@ const SectionThree = ({ currentSection, isMobile }) => {
             });
         } else {
             window.scrollTo({
-                top: window.innerWidth * 4 - 70,
+                top: window.innerWidth * 4,
                 behavior: 'smooth'
-            });
+            }); 
         }
     }
     const [inView, setInView] = useState(false);
@@ -54,7 +54,7 @@ const SectionThree = ({ currentSection, isMobile }) => {
                     rotate: [0, 5, 0, -5, 0],
                     transition: { duration: 0.25, repeat: Infinity, repeatType: 'loop', ease: 'linear' },
                 }}>
-                    <Button kls={cn("w-80 normal-case h-20 2xl:h-24 text-3xl 2xl:text-4xl", {'w-60': isMobile})} duration={0.4} onClick={() => { handleClick() }} isMobile={isMobile}>Mint</Button>
+                    <Button kls={cn("w-80 normal-case h-20 2xl:h-24 text-3xl 2xl:text-4xl", {'w-60': isMobile})} duration={0.4} onClick={handleClick} isMobile={isMobile}>Mint</Button>
                 </motion.div>
                 {
                     isMobile ? (
