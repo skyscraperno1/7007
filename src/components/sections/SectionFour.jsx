@@ -213,14 +213,14 @@ const SectionFour = ({ currentSection, isMobile }) => {
           onMouseEnter={() => {
             ref.current.addBox();
           }}
-          // onClick={() => {
-          //   if (isMobile) {
-          //     ref.current.addBox();
-          //   } else {
-          //     ref.current.addBox();
-          //     ref.current.addBox();
-          //   }
-          // }}
+          onClick={() => {
+            if (isMobile) {
+              ref.current.addBox();
+            } else {
+              ref.current.addBox();
+              ref.current.addBox();
+            }
+          }}
         >
           <AnimationButton showButton={showButton} isMobile={isMobile} />
         </div>
