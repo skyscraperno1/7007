@@ -170,7 +170,7 @@ const SectionFour = ({ currentSection, isMobile }) => {
     }
     return () => timer && clearInterval(timer);
   }, [showText, secondTextShown, colorIndex, inView]);
-
+  
   return (
     <div
       id="section-four"
@@ -225,7 +225,7 @@ const SectionFour = ({ currentSection, isMobile }) => {
           <AnimationButton showButton={showButton} isMobile={isMobile} />
         </div>
       </div>
-      <MatterCanvas ref={ref} colorIndex={colorIndex} isMobile={isMobile} />
+      <MatterCanvas ref={ref} isMobile={isMobile} />
     </div>
   );
 };

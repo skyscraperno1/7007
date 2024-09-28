@@ -3,18 +3,27 @@ import { motion, AnimatePresence } from "framer-motion";
 import useResourceByName, { RESOURCE_TYPES } from "../hook/useResourceByName";
 import { cn } from "../lib/utils";
 import { useState } from 'react'
+import SmoothScroll from 'smooth-scroll';
 const RotatingImage = ({ src, alt, isMobile }) => {
   const whileInteractive = isMobile ? { whileTap: { rotate: -20 } } : { whileHover: { rotate: -20 } };
+  
+  const backTop = () => {
+    if (isMobile) {
+      const wrapper = document.getElementById('mobile-scroller');
+      wrapper.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    } else {
+      const scroll = new SmoothScroll();
+      const duration = 1000; 
+      scroll.animateScroll(0, { speed: duration });
+    }
+  }
   return (
     <div
       className={cn("m-pointer hidden sm:block", {'block': isMobile, 'ml-4': isMobile, 'w-12': isMobile })}
-      onClick={() => {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      }}
-    >
+      onClick={backTop}>
       <motion.img
         src={src}
         alt={alt}

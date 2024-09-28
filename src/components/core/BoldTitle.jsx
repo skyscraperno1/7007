@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { cn } from "../../lib/utils";
 
 const SpanWrapper = styled.span`
-  z-index: 49;
   display: block;
   position: relative;
   text-shadow: ${(props) =>
@@ -45,7 +44,7 @@ const BoldTitle = ({
   return (
     <SpanWrapper
       className={cn(
-        "flex select-none flex-center text-center whitespace-nowrap",
+        "flex select-none flex-center text-center whitespace-nowrap z-10",
         `${
           isBig ? "text-7xl 2xl:text-8xl uppercase" : "text-4xl 2xl:text-4xl"
         }`,

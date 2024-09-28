@@ -38,7 +38,7 @@ const SectionSix = ({ isMobile }) => {
             style={calStyle}
           >
             <motion.div
-              className="z-50 select-none w-full fixed bottom-0 right-0 bg-themeYellow"
+              className="z-20 select-none w-full fixed bottom-0 right-0 bg-themeYellow"
               variants={makeCoverAnimation(inset)}
               animate={isHovering ? 'visible' : 'hidden'}
               style={{
@@ -72,7 +72,7 @@ const SectionSix = ({ isMobile }) => {
               }}
               variants={makeBtnAnimation(translate.x, translate.y, true)}
               animate={isHovering ? "hover" : "shake"}
-              className='relative z-[60]'
+              className='relative z-30'
             >
               <Button kls="bg-themeGreen h-16" isMobile={true} duration={0.2}>Buy $7007</Button>
             </motion.div>
