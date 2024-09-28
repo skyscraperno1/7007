@@ -2,11 +2,12 @@ import ColorBlock from './SectionSix/ColorBlock'
 import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName'
 import Button from '../core/Button'
 import BoldTitle from '../core/BoldTitle'
-import { useRef, useState } from 'react'
+import { useRef, useState, useMemo } from 'react'
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 import usePosition from './SectionSix/useAnimations'
 import { makeCoverAnimation, makeBtnAnimation, MobileBoxContainer } from './SectionSix/useConfig'
 import AnimatedBlock from './SectionSix/AnimatedBlock'
+import { usePhoneCal } from '../../hook/useContext'
 const SectionSix = ({ isMobile }) => {
   const btnRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
@@ -16,12 +17,26 @@ const SectionSix = ({ isMobile }) => {
   useMotionValueEvent(scrollY, "change", () => {
     setIsHovering(false)
   })
+  const flag = usePhoneCal()
+  const calStyle = useMemo(() => {
+    if (flag) {
+      return {
+        height: "calc(100% - 12vh)",
+        paddingBottom: "8vh",
+        paddingTop:  "0",
+      }
+    } else {
+      return {}
+    }
+  }, [flag]);
 
   return (
     <>
       <div id="section-six" className='h-full w-full flex items-center justify-center' style={{ backgroundImage: `url(${bg})` }}>
         {
-          isMobile ? (<div className='w-full h-full flex flex-col gap-4 px-8 py-10 justify-between'>
+          isMobile ? (<div className='w-full h-full flex flex-col gap-4 px-8 py-10 justify-between'
+            style={calStyle}
+          >
             <motion.div
               className="z-50 select-none w-full fixed bottom-0 right-0 bg-themeYellow"
               variants={makeCoverAnimation(inset)}

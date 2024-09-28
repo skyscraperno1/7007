@@ -1,7 +1,8 @@
 import MotionPartner from "./SectionFive/MotionPartner";
 import BoldTitle from "../core/BoldTitle";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { cn } from "../../lib/utils";
+import { usePhoneCal } from "../../hook/useContext";
 
 const titles = [
   "Stratos",
@@ -16,6 +17,17 @@ const titles = [
 
 const SectionFive = ({ currentSection, isMobile }) => {
   const [inView, setInView] = useState(false);
+  const flag = usePhoneCal()
+  const calStyle = useMemo(() => {
+    if (flag) {
+      return {
+        height: "calc(100% - 12vh)",
+      }
+    } else {
+      return {}
+    }
+  }, [flag])
+  
   useEffect(() => {
     if (currentSection === 6) {
       setInView(true);
@@ -29,7 +41,8 @@ const SectionFive = ({ currentSection, isMobile }) => {
   return (
     <>
       <div id="section-five" className="h-full w-full overflow-hidden">
-        <div id="bounce-box" className={ isMobile ? "h-full" : "h-[90vh]"}
+        <div id="bounce-box" className={ isMobile? "h-full" : "h-[90vh]"}
+          style={calStyle}
         >
           <div className="w-screen text-center h-[10vh] flex items-end justify-center relative z-10" 
             style={titleHeight}
