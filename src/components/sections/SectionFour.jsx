@@ -5,7 +5,6 @@ import AnimationButton from "./SectionFour/AnimationButton";
 import MatterCanvas from "./SectionFour/MatterCanvas";
 import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName';
 import { createUseX, createUseY, calDelay } from "./SectionFour/calPosition";
-
 const colors = [
   "#03D25C",
   "#FEED01",
@@ -146,6 +145,22 @@ const SectionFour = ({ currentSection, isMobile }) => {
     }
   };
 
+  const toPage = (to) => {
+    const wrapper = document.getElementById('mobile-scroller')
+    const sectionHeight = wrapper.scrollHeight / 7
+    if (to === 'next') {
+      wrapper.scrollTo({
+          top: sectionHeight * 5,
+          behavior: 'smooth'
+      });
+    } else {
+      wrapper.scrollTo({
+        top: sectionHeight * 3,
+        behavior: 'smooth'
+    });
+    }
+  }
+
   useEffect(() => {
     let timer;
     if (!inView) {
@@ -224,6 +239,9 @@ const SectionFour = ({ currentSection, isMobile }) => {
         >
           <AnimationButton showButton={showButton} isMobile={isMobile} />
         </div>
+        {(showButton && isMobile) && <div className="absolute top-[4px] right-0 px-8 flex z-50 justify-between w-full">
+              <button onClick={() => toPage('prev')}>prev</button> <button onClick={() => toPage('next')}>next</button>
+            </div>}
       </div>
       <MatterCanvas ref={ref} isMobile={isMobile} />
     </div>
