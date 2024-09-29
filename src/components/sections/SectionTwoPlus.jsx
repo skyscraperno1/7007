@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaPlay, FaPause, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
 import { ProgressBar } from "./SectionTwo/ProgressBar";
 import AnimatedIconSwitch from "./SectionTwo/AnimatedIconSwitch";
+import { video } from "framer-motion/client";
 
 const SectionTwoPlus = ({ isMobile }) => {
   const videoRef = useRef(null);
@@ -82,6 +83,8 @@ const SectionTwoPlus = ({ isMobile }) => {
       const _videoRef = document.getElementById('video-7007')
       videoRef.current = _videoRef
       setShowControls(true)
+      videoRef.current.play();
+      setIsPlaying(true);
       videoRef.current.muted = false;
       setMute(false)
     }
