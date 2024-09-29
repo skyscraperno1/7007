@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const ProgressBar = styled.input.attrs(props => ({
   type: 'range',
   style: {
-    background: `linear-gradient(to right, #4CAF50 ${props.$progress}%, #ddd ${props.$progress}%)`
+    background: `linear-gradient(to right, rgb(248 250 252) ${props.$progress}%, #353535 ${props.$progress}%)`
   }
 }))`
   width: 100%;

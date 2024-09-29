@@ -3,12 +3,23 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import BoldTitle from "../core/BoldTitle";
 import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName';
+import SmoothScroll from 'smooth-scroll';
+import VideoPlayer from "./SectionTwo/VideoPlayser";
 
 const SectionTwo = ({ currentSection, isMobile }) => {
   const RedStar = useResourceByName('RedStar.png', RESOURCE_TYPES.IMAGE);
-  const Video = useResourceByName('clip.mp4', RESOURCE_TYPES.VIDEO);
   const PlayBtn = useResourceByName('PlayBtn.png', RESOURCE_TYPES.IMAGE)
   const Cover = useResourceByName('Cover.gif', RESOURCE_TYPES.IMAGE)
+
+  const toVideo = () => {
+    if (isMobile) {
+      alert(123)
+    } else {
+      const scroll = new SmoothScroll();
+      const duration = 1000; 
+      scroll.animateScroll(window.innerWidth * 2, { speed: duration });
+    }
+  }
   
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
@@ -86,17 +97,7 @@ const SectionTwo = ({ currentSection, isMobile }) => {
   return (
     <div ref={sectionRef} className="w-full h-full" id="section-two">
       {showVideo ? (
-        <div className="w-full h-full video-wrapper">
-        <video
-            className="w-full h-full object-fill"
-            src={Video}
-            alt="7007 Video"
-            autoPlay
-            loop
-            muted
-            playsInline
-          />
-      </div>
+        <VideoPlayer />
       ) : (
         <div className="w-full h-full relative flex items-center">
           <div
@@ -119,7 +120,7 @@ const SectionTwo = ({ currentSection, isMobile }) => {
             style={_height}
           >
             <img className="w-full" src={Cover} style={_height}/>
-            <img className='play-btn w-auto h-1/6 m-pointer absolute' src={PlayBtn}></img>
+            <img className='play-btn w-auto h-1/6 m-pointer absolute' src={PlayBtn} onClick={toVideo}></img>
           </div>
           <div
             className="absolute right-0 z-10"

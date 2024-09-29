@@ -1,24 +1,20 @@
 import { useEffect, useState, useRef } from "react";
 import { cn } from "../../lib/utils";
-import useResourceByName, {
-  RESOURCE_TYPES,
-} from "../../hook/useResourceByName";
 import { motion, AnimatePresence } from "framer-motion";
-import { IoClose } from "react-icons/io5";
-import { FaPlay, FaPause } from "react-icons/fa";
+import { FaPlay, FaPause, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
 import { ProgressBar } from "./SectionTwo/ProgressBar";
+import AnimatedIconSwitch from "./SectionTwo/AnimatedIconSwitch";
 
-const SectionTwoPlus = ({ currentSection, isMobile }) => {
-  const Video = useResourceByName("full_video.mp4", RESOURCE_TYPES.VIDEO);
-  const [inView, setInView] = useState(false);
-  const [showVideo, setShowVideo] = useState(false);
-  const [progress, setProgress] = useState(0);
+const SectionTwoPlus = ({ isMobile }) => {
+  const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [mute, setMute] = useState(true)
   const [showControls, setShowControls] = useState(false);
-  let timeoutId;
+
+  // control_scroll
+  let timeoutId = null;
   const [isScrolling, setIsScrolling] = useState(false);
   const handleScroll = () => {
-    setShowVideo(false)
     setIsScrolling(true);
     if (timeoutId) {
       clearTimeout(timeoutId);
@@ -26,7 +22,7 @@ const SectionTwoPlus = ({ currentSection, isMobile }) => {
     }
     timeoutId = setTimeout(() => {
       setIsScrolling(false);
-    }, 800); 
+    }, 800);
   }
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
@@ -36,17 +32,10 @@ const SectionTwoPlus = ({ currentSection, isMobile }) => {
     }
   }, [])
 
-  const videoRef = useRef(null);
+  // controls_progress
   const animationFrameRef = useRef(null);
-
-  useEffect(() => {
-    if (currentSection === 3) {
-      setInView(true);
-    } else {
-      setInView(false);
-    }
-  }, [currentSection]);
-
+  const [progress, setProgress] = useState(0);
+  const [exitDuration, setExitDuration] = useState(0);
   const updateProgressBar = () => {
     if (videoRef.current) {
       const currentProgress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
@@ -54,20 +43,14 @@ const SectionTwoPlus = ({ currentSection, isMobile }) => {
       animationFrameRef.current = requestAnimationFrame(updateProgressBar);
     }
   };
-
-  const handlePlayPause = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-        cancelAnimationFrame(animationFrameRef.current);
-      } else {
-        videoRef.current.play();
-        animationFrameRef.current = requestAnimationFrame(updateProgressBar);
-      }
-      setIsPlaying(prev => !prev);
+  useEffect(() => {
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      animationFrameRef.current = requestAnimationFrame(updateProgressBar);
+    } else {
+      animationFrameRef.current && cancelAnimationFrame(animationFrameRef.current);
     }
-  };
-
+  }, [videoRef.current, isPlaying])
   const handleProgressChange = (e) => {
     const newProgress = e.target?.value || 0;
     setProgress(newProgress);
@@ -75,106 +58,114 @@ const SectionTwoPlus = ({ currentSection, isMobile }) => {
       videoRef.current.currentTime = (newProgress / 100) * videoRef.current.duration;
     }
   };
-
-  const handleClose = (e) => {
-    e.stopPropagation();
-    setShowVideo(false);
-    setIsPlaying(false);
+  const handlePlayClick = () => {
     if (videoRef.current) {
-      videoRef.current.pause();
-      cancelAnimationFrame(animationFrameRef.current);
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+        videoRef.current.muted = mute;
+      }
+      setIsPlaying(prev => !prev);
     }
   };
+  const handleMuteClick = () => {
+    if (videoRef.current) {
+      setMute(prev => {
+        videoRef.current.muted = !prev;
+        return !prev
+      })
+    }
+  };
+  const handleClick = () => {
+    if (!videoRef.current) {
+      const _videoRef = document.getElementById('video-7007')
+      videoRef.current = _videoRef
+      setShowControls(true)
+      videoRef.current.muted = false;
+      setMute(false)
+    }
+  }
+  useEffect(() => {
+    if (isScrolling) {
+      setExitDuration(0.3)
+      setShowControls(false)
+      videoRef.current = null;
+    } else {
+      setExitDuration(0)
+    }
+  }, [isScrolling])
+
+  const updateControlTimer = () => {
+    if (timer) clearTimeout(timer);
+    const newTimer = setTimeout(() => {
+      setShowControls(false);
+    }, 2000);
+    setTimer(newTimer);
+  }
+  const [timer, setTimer] = useState(null);
+  const handleMouseMove = (e) => {
+    if (!videoRef.current) return;
+    if (e.target === e.currentTarget) {
+      setShowControls(true);
+      updateControlTimer();
+    } else {
+      timer && clearTimeout(timer);
+    }
+  }
 
   useEffect(() => {
-    if (showVideo && videoRef.current) {
-      videoRef.current.play();
-      animationFrameRef.current = requestAnimationFrame(updateProgressBar);
+    if (showControls) {
+      updateControlTimer()
     } else {
-      cancelAnimationFrame(animationFrameRef.current);
+      timer && clearTimeout(timer);
     }
-  }, [showVideo]);
+  }, [showControls])
 
-
+  useEffect(() => {
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [timer]);
 
   return (
     <div
       className={cn(
-        "w-full h-full relative overflow-hidden pointer-events-none",
-        {
-          "m-pointer": inView && !showVideo && !isScrolling,
-          "pointer-events-auto": inView && !isScrolling,
-          // "bg-slate-400": isMobile
-        }
+        "w-full h-full relative overflow-hidden select-none",
       )}
-      onClick={() => setShowVideo(true)}
+      onClick={handleClick}
+      onMouseMove={handleMouseMove}
     >
       <AnimatePresence>
-        {showVideo && (
+        {(showControls) && (
           <motion.div
-            className="w-full h-full relative flex items-center justify-center"
-            initial={{ x: "-100vw" }} 
-            animate={{ x: 0 }}     
-            exit={{ x: "100vw" }}  
-            transition={{ duration: 0.5 }}
+            className="absolute bottom-16 right-0 left-0 px-[35%] z-100 opacity-90"
+            initial={{ opacity: 0, display: "none" }}
+            animate={{ opacity: 0.9, display: "block" }}
+            exit={{ opacity: 0, display: "none", duration: exitDuration }}
+            transition={{ duration: 0.3 }}
+            onMouseEnter={() => setShowControls(true)}
           >
-            <video
-              ref={videoRef}
-              className="w-full h-full object-fill"
-              src={Video}
-              autoPlay
-              loop
-              playsInline
-              onPlay={() => {
-                animationFrameRef.current = requestAnimationFrame(updateProgressBar)
-                setIsPlaying(true)
-              }}
-              onPause={() => {
-                cancelAnimationFrame(animationFrameRef.current)
-                setIsPlaying(false)
-              }}
-              onMouseEnter={() => setShowControls(true)} 
-              onMouseLeave={() => setShowControls(false)}
-            />
-            <AnimatePresence>
-              {showControls && (
-                <motion.div
-                  className="absolute bottom-24 right-0 left-0 px-[35%] z-100"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 1 }}
-                  onMouseEnter={() => setShowControls(true)} 
+            <div className="flex items-center justify-between h-8 gap-4 text-slate-50 text-base overflow-hidden">
+              <div className="flex bg-[#151515] flex-1 h-full items-center p-2 rounded">
+                <div
+                  className="mr-4 m-pointer w-8 h-8 text-sm"
+                  onClick={handlePlayClick}
                 >
-                  <div className="flex items-center justify-between h-8 gap-4">
-                    <div className="flex bg-gray-300/75 flex-1 h-full items-center p-2 rounded">
-                      <div
-                        className="text-white text-xl mr-4 m-pointer"
-                        onClick={handlePlayPause}
-                      >
-                        {isPlaying ? (
-                          <FaPause className="m-pointer" />
-                        ) : (
-                          <FaPlay className="m-pointer" />
-                        )}
-                      </div>
-                      <ProgressBar
-                        $progress={progress}
-                        onChange={handleProgressChange}
-                      />
-                    </div>
-                    <div className="bg-gray-300/75 h-full flex items-center p-2 rounded px-1">
-                      <div
-                        className="text-white text-2xl"
-                        onClick={handleClose}
-                      >
-                        <IoClose className="m-pointer" />
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  <AnimatedIconSwitch flag={!isPlaying} IconA={<FaPause className="m-pointer" />} IconB={<FaPlay className="m-pointer" />}></AnimatedIconSwitch>
+                </div>
+                <ProgressBar
+                  $progress={progress}
+                  onChange={handleProgressChange}
+                />
+              </div>
+              <div
+                className="bg-[#151515] h-full rounded w-8 flex items-center m-pointer justify-center"
+                onClick={handleMuteClick}
+              >
+                <AnimatedIconSwitch flag={!mute} IconA={<FaVolumeUp className="m-pointer" />} IconB={<FaVolumeMute className="m-pointer" />}></AnimatedIconSwitch>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
