@@ -64,7 +64,6 @@ const ColorBlock = () => {
           style={{
             right: getRight(),
             top: getTop(),
-            willChange: "transform, right, left, rotate",
           }}
         >
           <Button kls="px-8 py-5 bg-themeGreen" duration={0.4}>

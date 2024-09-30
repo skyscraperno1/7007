@@ -31,6 +31,7 @@ const HoverBackground = styled(motion.div)`
   height: 100%;
   background: white;
   z-index: 0;
+  will-change: 'transform'
 `;
 
 function Button({ children, duration = 0.4, kls, onClick = () => {}, isMobile }) {
