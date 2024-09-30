@@ -55,7 +55,7 @@ export default function ScrollBar({ children, baseVelocity = 100, isMobile }) {
     <div className="fixed top-0 left-0 z-[999] bg-white overflow-hidden leading-[0.8] flex flex-nowrap m-0 whitespace-nowrap select-none border-black" style={mainStyle}>
       <motion.div 
         className="w-full text-bold uppercase text-3xl flex items-center justify-center whitespace-nowrap flex-col" style={
-        !isMobile ? { y: x,  flexDirection: 'column' } : { x, flexDirection: 'row' }}>
+        !isMobile ? { y: x,  flexDirection: 'column', willChange: 'transform' } : { x, flexDirection: 'row', willChange: 'transform' }}>
         {verticalSideDiv}
       </motion.div>
     </div>

@@ -56,7 +56,7 @@ function Navigator({ isMobile }) {
             {
               showMenu && (
                 <motion.div 
-                  className="fixed bg-themeGreen w-full z-[200] top-[123px] pt-4 flex flex-col justify-start items-center" style={{ height: 'calc(100vh - 123px)'}}
+                  className="fixed bg-themeGreen w-full z-[200] top-[123px] pt-4 flex flex-col justify-start items-center" style={{ height: 'calc(100vh - 123px)', willChange: 'transform'}}
                   initial={{ x: '100%' }}
                   animate={{ x: 0 }}
                   exit={{ x: '100%' }}
@@ -116,8 +116,8 @@ function Navigator({ isMobile }) {
               className="z-10 h-auto w-6 2xl:w-full"
             />
           </Button>
-          <Button kls="px-2 2xl:px-3">launch app</Button>
           <Button kls="px-2 2xl:px-3">white paper</Button>
+          <Button kls="px-2 2xl:px-3">launch app</Button>
         </div>
       )}
     </header>
