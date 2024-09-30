@@ -27,7 +27,7 @@ const MotionPartner = ({ page, title, show, isMobile }) => {
       delay: 0
     },
     y: {
-      duration: 7,
+      duration: 0,
       repeat: Infinity,
       ease: 'linear',
       repeatType: 'loop',
@@ -85,6 +85,7 @@ const MotionPartner = ({ page, title, show, isMobile }) => {
       className={cn("flex flex-col items-center justify-between select-none")}
       transition={show ? transition: {}}
       animate={show ? animation : { x: 0, y: 0}}
+      style={{ willChange: "transform" }}
     >
       <div className={cn("bg-no-repeat bg-center h-[150px] w-[157.5px] 2xl:h-[200px] 2xl:w-[210px] flex items-center justify-center bg-contain", {"h-[100px] w-[105px]": isMobile})} style={{
         backgroundImage: `url(${images[page -1].frame})`
