@@ -67,7 +67,7 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
 
   const makeTransition = () => {
     if (isMobile) {
-      return { duration: 2, ease: 'linear', repeat: Infinity, repeatType: 'reverse' }
+      return { duration: 1, ease: 'linear', repeat: Infinity, repeatType: 'reverse' }
     } else {
       return { duration: 0.25, ease: 'linear' }
     }
@@ -81,7 +81,7 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
       variants={variants}
       animate={hover || isMobile ? direction : "initial"}
       transition={makeTransition()}
-      style={{ width, height, borderWidth }}
+      style={{ width, height, borderWidth, willChange: 'transform' }}
     >
       <div
         className="text-center m-pointer"
