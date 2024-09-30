@@ -7,17 +7,38 @@ import usePosition from "./useAnimations";
 import { makeCoverAnimation, makeBtnAnimation, BoxContainer } from './useConfig'
 const ColorBlock = () => {
   const btnRef = useRef(null);
+  const wrapperRef = useRef(null)
   const [isHovering, setIsHovering] = useState(false);
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", () => {
     setIsHovering(false)
   })
   const { translate, inset } = usePosition(btnRef, 'section-six');
+  const getRight = () => {
+    if (btnRef.current) {
+      return `calc(15% - ${btnRef.current.clientWidth / 2}px)`
+    } else {
+      return '60px'
+    }
+  }
+  const getTop = () => {
+    if (wrapperRef.current) {
+      return `calc(${wrapperRef.current.getBoundingClientRect().top}px - 10vh - ${btnRef.current.clientHeight / 2}px + ${btnY}px)`
+    }
+    return `60px`
+  }
+
+  const [btnY, setBtnY] = useState(0);
+  const updateBtn = (y) => {
+    if (isHovering) return;
+    setBtnY(y)
+  }
 
   return (
     <>
+ 
       <motion.div
-        className="z-50 select-none fixed bottom-0 right-0 bg-themeYellow"
+        className="z-40 select-none fixed bottom-0 right-0 bg-themeYellow"
         variants={makeCoverAnimation(inset)}
         animate={isHovering ? 'visible' : 'hidden'}
         style={{
@@ -26,8 +47,30 @@ const ColorBlock = () => {
           opacity: 0,
         }}
       />
-      <BoxContainer className="h-full grid select-none">
 
+      <BoxContainer className="h-full grid select-none" ref={wrapperRef}>
+        <motion.div
+          ref={btnRef}
+          onMouseEnter={() => {
+            if (isHovering) return;
+            setIsHovering(true)
+          }}
+          onClick={() => {
+            setIsHovering(false)
+          }}
+          variants={makeBtnAnimation(translate.x, translate.y)}
+          animate={isHovering ? "hover" : "shake"}
+          className="z-50 m-pointer absolute"
+          style={{
+            right: getRight(),
+            top: getTop(),
+            willChange: "transform, right, left, rotate",
+          }}
+        >
+          <Button kls="px-8 py-5 bg-themeGreen" duration={0.4}>
+            Buy $7007
+          </Button>
+        </motion.div>
         <AnimatedBlock bgColor="bg-themeGreen" direction="left" title='ƒ(A.I.)ℝ launch' num='70.07%' height='calc(100% - 5px)'>
           <div className="absolute top-[-50px] left-[-50px] -rotate-[13deg]">
             <BoldTitle content='$7007' color="#FEED01" />
@@ -39,24 +82,7 @@ const ColorBlock = () => {
           </div>
         </AnimatedBlock>
         <div className="right h-full grid">
-          <AnimatedBlock bgColor="bg-themeRed" direction="rightUp" title='Ecosystem reward' num='13.93%'>
-            <motion.div
-              ref={btnRef}
-              onMouseEnter={() => {
-                if (isHovering) return;
-                setIsHovering(true)
-              }}
-              onClick={() => {
-                setIsHovering(false)
-              }}
-              variants={makeBtnAnimation(translate.x, translate.y)}
-              animate={isHovering ? "hover" : "shake"}
-              className="z-[60] m-pointer absolute top-[-40px] 2xl:top-[-50px] right-[-50px]">
-              <Button kls="px-8 py-5 bg-themeGreen" duration={0.2}>
-                Buy $7007
-              </Button>
-            </motion.div>
-          </AnimatedBlock>
+          <AnimatedBlock bgColor="bg-themeRed" direction="rightUp" title='Ecosystem reward' num='13.93%' update={updateBtn}/>
           <div className="right-bottom grid">
             <AnimatedBlock bgColor="bg-themeYellow" direction="down" title='LP' num='10%' />
             <AnimatedBlock bgColor="bg-themeGreen" width="calc(100% + 44px)" height="calc(100% + 44px)" direction="rightDown" title='Airdrop' num='6%' />

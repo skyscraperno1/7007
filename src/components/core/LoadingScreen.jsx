@@ -41,6 +41,7 @@ const LoadingScreen = ({ isLoading, progress, isMobile }) => {
           initial={{ x: 0, y: 0 }} 
           exit={exitAni}
           transition={{ duration: 0.5 }}
+          style={{ willChange: 'transform' }}
         >
           <div className="relative flex justify-center">
             <motion.div
@@ -48,13 +49,14 @@ const LoadingScreen = ({ isLoading, progress, isMobile }) => {
               initial={{ opacity: 0 }} 
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
+              style={{ willChange: 'opacity' }}
             >
               <LottieComponent play={afterLoading} animationData={LoadingSrc}></LottieComponent>
             </motion.div>
           </div>
           <motion.div 
               className="absolute w-full text-center text-black text-base user-select-none"
-              style={{top: isMobile ? '80%' : '90%'}}
+              style={{top: isMobile ? '80%' : '90%', willChange: 'opacity'}}
               initial={{ opacity: 0 }} 
               animate={{ opacity: progress === 100 ? 0 : 1 }}
               transition={{ duration: 0.5 }}

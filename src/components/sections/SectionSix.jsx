@@ -74,7 +74,7 @@ const SectionSix = ({ isMobile }) => {
               animate={isHovering ? "hover" : "shake"}
               className='relative z-30'
             >
-              <Button kls="bg-themeGreen h-16" isMobile={true} duration={0.2}>Buy $7007</Button>
+              <Button kls="bg-themeGreen h-16" isMobile={true} duration={0.05}>Buy $7007</Button>
             </motion.div>
 
           </div>) : (

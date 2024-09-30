@@ -211,7 +211,7 @@ const SectionFour = ({ currentSection, isMobile }) => {
                 onAnimationComplete={() => {
                   handleAnimationComplete(index);
                 }}
-                style={{ width: ImgW, height: ImgH, zIndex}}
+                style={{ width: ImgW, height: ImgH, zIndex, willChange: "transform, display" }}
               >
                 <img src={src} className="w-full h-full" />
               </motion.div>
@@ -220,7 +220,7 @@ const SectionFour = ({ currentSection, isMobile }) => {
       </AnimatePresence>
 
       <div className="flex flex-col items-center justify-center">
-        <div className="h-[288px] 2xl:h-[384px] mt-20">
+        <div className="h-[288px] 2xl:h-[384px] relative mt-20 z-30">
           <AnimationText showText={showText} currentTextIndex={colorIndex} isMobile={isMobile} />
         </div>
         <div
@@ -239,9 +239,10 @@ const SectionFour = ({ currentSection, isMobile }) => {
         >
           <AnimationButton showButton={showButton} isMobile={isMobile} />
         </div>
-        {(showButton && isMobile) && <div className="absolute top-[4px] right-0 px-8 flex z-50 justify-between w-full">
+        {/* {(showButton && isMobile) && <div className="absolute top-[4px] right-0 px-8 flex z-50 justify-between w-full">
               <button onClick={() => toPage('prev')}>prev</button> <button onClick={() => toPage('next')}>next</button>
-            </div>}
+            </div>} */}
+        {/* <div className="w-full h-full absolute z-20 bg-transparent"></div> */}
       </div>
       <MatterCanvas ref={ref} isMobile={isMobile} />
     </div>

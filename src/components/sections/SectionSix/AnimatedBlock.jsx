@@ -2,9 +2,9 @@ import { cn } from "../../../lib/utils";
 import { useEffect, useState } from "react";
 import { motion } from 'framer-motion'
 
-const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, title, num, children, isMobile = false}) => {
+const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, title, num, children, isMobile = false, update = null }) => {
   const [hover, setHover] = useState(false);
-  const [initial, setInitial] = useState({ x: 0, y: 0, opacity: 1 })
+  const [initial, setInitial] = useState({ x: 0, y: 0 })
   const [borderWidth, setBorderWidth] = useState(5)
   useEffect(() => {
     if (isMobile) {
@@ -34,24 +34,25 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
   }, [direction, borderWidth])
   const [variants, setVariants] = useState({
     initial: initial,
-    left: { x: -20 + borderWidth, opacity: 0.9 },
-    rightUp: { y: -20, opacity: 0.9 },
-    down: { y: 20 - borderWidth, opacity: 0.9 },
-    rightDown: { x: 20 - borderWidth, y: 20 - borderWidth, opacity: 0.9 },
+    left: { x: -20 + borderWidth },
+    rightUp: { y: -20 },
+    down: { y: 20 - borderWidth },
+    rightDown: { x: 20 - borderWidth, y: 20 - borderWidth },
   });
   useEffect(() => {
     const trans = isMobile ? 10 : 20
     setVariants({
       initial: initial,
-      left: { x: -trans + borderWidth, opacity: 0.9 },
-      rightUp: { y: -trans, opacity: 0.9 },
-      down: { y: trans - borderWidth, opacity: 0.9 },
-      rightDown: { x: trans - borderWidth, y: trans - borderWidth, opacity: 0.9 },
+      left: { x: -trans + borderWidth },
+      rightUp: { y: -trans },
+      down: { y: trans - borderWidth },
+      rightDown: { x: trans - borderWidth, y: trans - borderWidth },
     })
 
   }, [borderWidth, initial, isMobile])
  
   const handleHover = (e) => {
+    if (isMobile) return;
     if (e.target === e.currentTarget || e.target.classList.contains('inner-title')) {
       setHover(true)
     } else {
@@ -60,8 +61,22 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
   };
 
   const handleMouseLeave = () => {
+    if (isMobile) return;
     setHover(false)
   };
+
+  const makeTransition = () => {
+    if (isMobile) {
+      return { duration: 1, ease: 'linear', repeat: Infinity, repeatType: 'reverse' }
+    } else {
+      return { duration: 0.25, ease: 'linear' }
+    }
+  }
+  const handleUpdate = (latest) => {
+    if (update) {
+      update(latest.y)
+    }
+  }
  
   return (
     <motion.div
@@ -69,9 +84,10 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
       onMouseMove={handleHover}
       onMouseLeave={handleMouseLeave}
       variants={variants}
-      animate={hover ? direction : "initial"}
-      transition={{ duration: 0.25, ease: 'linear' }}
-      style={{ width, height, borderWidth }}
+      animate={hover || isMobile ? direction : "initial"}
+      transition={makeTransition()}
+      onUpdate={handleUpdate}
+      style={{ width, height, borderWidth, willChange: 'transform' }}
     >
       <div
         className="text-center m-pointer"

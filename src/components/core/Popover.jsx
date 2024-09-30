@@ -75,7 +75,8 @@ const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection }
                 left: 'calc(50% - 214px)',
                 borderWidth: '5px',
                 boxShadow: '-8px 8px 0px #000',
-                scale: isMobile ? 0.75 : 1
+                scale: isMobile ? 0.75 : 1,
+                willChange: 'transform, display, rotate'
               }}
             >
               <IoCloseSharp onClick={() => setShow(false)} className="absolute top-4 right-4 text-3xl text-black font-bolder m-pointer" />
