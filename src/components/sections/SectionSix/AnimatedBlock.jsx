@@ -20,13 +20,13 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
   useEffect(() => {
     switch (direction) {
       case 'left':
-        setInitial({...initial, x: borderWidth })
+        setInitial((prev) => ({...prev, x: borderWidth }))
         break;
       case 'down':
-        setInitial({...initial, y: -borderWidth })
+        setInitial((prev) => ({...prev, y: borderWidth }))
         break;
       case 'rightDown':
-        setInitial({...initial, x: -borderWidth, y: -borderWidth })
+        setInitial((prev) => ({...prev, x: -borderWidth, y: -borderWidth }))
         break;
       default:
         break;

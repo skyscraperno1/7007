@@ -5,7 +5,7 @@ import { FaPlay, FaPause, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
 import { ProgressBar } from "./SectionTwo/ProgressBar";
 import AnimatedIconSwitch from "./SectionTwo/AnimatedIconSwitch";
 
-const SectionTwoPlus = ({ isMobile }) => {
+const SectionTwoPlus = ({ isMobile, currentSection }) => {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [mute, setMute] = useState(true)
@@ -80,6 +80,7 @@ const SectionTwoPlus = ({ isMobile }) => {
   const handleClick = () => {
     if (!videoRef.current) {
       const _videoRef = document.getElementById('video-7007')
+      if (!_videoRef) return;
       videoRef.current = _videoRef
       setShowControls(true)
       videoRef.current.play();
@@ -130,11 +131,15 @@ const SectionTwoPlus = ({ isMobile }) => {
     };
   }, [timer]);
 
+  const getPointer =() => {
+    return !showControls && videoRef.current === null && document.getElementById('video-7007') && currentSection === 3
+  }
+
   return (
     <div
       className={cn(
         "w-full h-full relative overflow-hidden select-none",
-        {"m-pointer": !showControls && videoRef.current === null}
+        {"m-pointer": getPointer()}
       )}
       onClick={handleClick}
       onMouseMove={handleMouseMove}
