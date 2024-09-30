@@ -23,9 +23,15 @@ const ColorBlock = () => {
   }
   const getTop = () => {
     if (wrapperRef.current) {
-      return `calc(${wrapperRef.current.getBoundingClientRect().top}px - 10vh - ${btnRef.current.clientHeight / 2}px)`
+      return `calc(${wrapperRef.current.getBoundingClientRect().top}px - 10vh - ${btnRef.current.clientHeight / 2}px + ${btnY}px)`
     }
     return `60px`
+  }
+
+  const [btnY, setBtnY] = useState(0);
+  const updateBtn = (y) => {
+    if (isHovering) return;
+    setBtnY(y)
   }
 
   return (
@@ -57,7 +63,8 @@ const ColorBlock = () => {
           className="z-50 m-pointer absolute"
           style={{
             right: getRight(),
-            top: getTop()
+            top: getTop(),
+            willChange: "transform, right, left, rotate",
           }}
         >
           <Button kls="px-8 py-5 bg-themeGreen" duration={0.4}>
@@ -75,7 +82,7 @@ const ColorBlock = () => {
           </div>
         </AnimatedBlock>
         <div className="right h-full grid">
-          <AnimatedBlock bgColor="bg-themeRed" direction="rightUp" title='Ecosystem reward' num='13.93%' />
+          <AnimatedBlock bgColor="bg-themeRed" direction="rightUp" title='Ecosystem reward' num='13.93%' update={updateBtn}/>
           <div className="right-bottom grid">
             <AnimatedBlock bgColor="bg-themeYellow" direction="down" title='LP' num='10%' />
             <AnimatedBlock bgColor="bg-themeGreen" width="calc(100% + 44px)" height="calc(100% + 44px)" direction="rightDown" title='Airdrop' num='6%' />
