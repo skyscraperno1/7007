@@ -13,6 +13,7 @@ const Title = styled.div`
   position: relative;
   text-align: center;
   color: ${(props) => props.color};
+  will-change: 'color';
   text-shadow: -18px -10px 0px #000000;
   @media (min-width: 1537px) {
     text-shadow: -21px -12px 0px #000000;
@@ -43,6 +44,7 @@ const MobileTitle = styled.div`
   width: 100%;
   padding-left: 8px;
   font-weight: 900;
+  will-change: 'color';
   color: ${(props) => props.color};
   text-shadow: -12px -10px 0px #000000;
   transition: color 0.5s ease-in-out, text-shadow 0.5s ease-in-out;
