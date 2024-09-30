@@ -40,9 +40,6 @@ const Cursor = () => {
       const correctedX = e.clientX + offset.x;
       const correctedY = e.clientY + offset.y;
       setPosition({ x: correctedX, y: correctedY });
-    };
-
-    const handleMouseOver = (e) => {
       if (e.target.classList.contains('m-pointer') || (e.target.parentNode && e.target.parentNode?.classList?.contains('m-pointer'))) {
         setPointer(true);
         setOffset({
@@ -61,11 +58,9 @@ const Cursor = () => {
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseover', handleMouseOver);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseover', handleMouseOver);
     };
   }, []);
 
