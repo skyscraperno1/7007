@@ -20,13 +20,13 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
   useEffect(() => {
     switch (direction) {
       case 'left':
-        setInitial((prev) => ({...prev, x: borderWidth }))
+        setInitial({...initial, x: borderWidth })
         break;
       case 'down':
-        setInitial((prev) => ({...prev, y: borderWidth }))
+        setInitial({...initial, y: -borderWidth })
         break;
       case 'rightDown':
-        setInitial((prev) => ({...prev, x: -borderWidth, y: -borderWidth }))
+        setInitial({...initial, x: -borderWidth, y: -borderWidth })
         break;
       default:
         break;
@@ -87,7 +87,7 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
       animate={hover || isMobile ? direction : "initial"}
       transition={makeTransition()}
       onUpdate={handleUpdate}
-      style={{ width, height, borderWidth, willChange: 'transform' }}
+      style={{ width, height, borderWidth }}
     >
       <div
         className="text-center m-pointer"
