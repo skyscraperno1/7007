@@ -52,6 +52,7 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
   }, [borderWidth, initial, isMobile])
  
   const handleHover = (e) => {
+    if (isMobile) return;
     if (e.target === e.currentTarget || e.target.classList.contains('inner-title')) {
       setHover(true)
     } else {
@@ -60,8 +61,17 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
   };
 
   const handleMouseLeave = () => {
+    if (isMobile) return;
     setHover(false)
   };
+
+  const makeTransition = () => {
+    if (isMobile) {
+      return { duration: 2, ease: 'linear', repeat: Infinity, repeatType: 'reverse' }
+    } else {
+      return { duration: 0.25, ease: 'linear' }
+    }
+  }
  
   return (
     <motion.div
@@ -69,8 +79,8 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
       onMouseMove={handleHover}
       onMouseLeave={handleMouseLeave}
       variants={variants}
-      animate={hover ? direction : "initial"}
-      transition={{ duration: 0.25, ease: 'linear' }}
+      animate={hover || isMobile ? direction : "initial"}
+      transition={makeTransition()}
       style={{ width, height, borderWidth }}
     >
       <div
