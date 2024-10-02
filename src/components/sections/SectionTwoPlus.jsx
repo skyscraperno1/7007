@@ -1,9 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { cn } from "../../lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, } from "framer-motion";
 import { FaPlay, FaPause, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
 import { ProgressBar } from "./SectionTwo/ProgressBar";
 import AnimatedIconSwitch from "./SectionTwo/AnimatedIconSwitch";
+import VideoPlayer from "./SectionTwo/VideoPlayer";
+import { usePhoneCal } from "../../hook/useContext";
+
 
 const SectionTwoPlus = ({ isMobile, currentSection }) => {
   const videoRef = useRef(null);
@@ -108,6 +111,7 @@ const SectionTwoPlus = ({ isMobile, currentSection }) => {
   }
   const [timer, setTimer] = useState(null);
   const handleMouseMove = (e) => {
+    if (isMobile) return;
     if (!videoRef.current) return;
     if (e.target === e.currentTarget) {
       setShowControls(true);
@@ -119,7 +123,7 @@ const SectionTwoPlus = ({ isMobile, currentSection }) => {
 
   useEffect(() => {
     if (showControls) {
-      updateControlTimer()
+      !isMobile && updateControlTimer()
     } else {
       timer && clearTimeout(timer);
     }
@@ -132,8 +136,29 @@ const SectionTwoPlus = ({ isMobile, currentSection }) => {
   }, [timer]);
 
   const getPointer =() => {
-    return !showControls && videoRef.current === null && document.getElementById('video-7007') && currentSection === 3
+    if (isMobile) return false;
+    return !showControls && videoRef.current === null && document.getElementById('video-7007') && currentSection === 3 
   }
+  // for mobile
+  const flag = usePhoneCal()
+  const getStyle = () => (flag ? {
+    height: "calc(100% - 10vh)",
+  } : {})
+
+  const [showVideo, setShowVideo] = useState(false);
+
+  useEffect(() => {
+    if (!isMobile) return;
+    if (currentSection === 3) {
+      setShowVideo(true);
+    } else {
+      setShowVideo(false);
+      videoRef.current = null;
+      setShowControls(false);
+      setIsPlaying(false);
+      setProgress(0);
+    }
+  }, [currentSection, isMobile])
 
   return (
     <div
@@ -143,7 +168,11 @@ const SectionTwoPlus = ({ isMobile, currentSection }) => {
       )}
       onClick={handleClick}
       onMouseMove={handleMouseMove}
+      style={getStyle()}
     >
+      {(showVideo) && <div className="w-full h-full flex justify-center items-center">
+        <VideoPlayer isMobile={isMobile}/>
+        </div>}
       <AnimatePresence>
         {(showControls) && (
           <motion.div
@@ -152,6 +181,7 @@ const SectionTwoPlus = ({ isMobile, currentSection }) => {
             animate={{ opacity: 0.9, display: "block" }}
             exit={{ opacity: 0, display: "none", duration: exitDuration }}
             transition={{ duration: 0.3 }}
+            style={ isMobile ? { marginBottom: '10%', padding: '0 20%' } : {}}
             onMouseEnter={() => setShowControls(true)}
           >
             <div className="flex items-center justify-between h-8 gap-4 text-slate-50 text-base overflow-hidden">
@@ -162,10 +192,12 @@ const SectionTwoPlus = ({ isMobile, currentSection }) => {
                 >
                   <AnimatedIconSwitch flag={!isPlaying} IconA={<FaPause className="m-pointer" />} IconB={<FaPlay className="m-pointer" />}></AnimatedIconSwitch>
                 </div>
-                <ProgressBar
-                  $progress={progress}
-                  onChange={handleProgressChange}
-                />
+                <div className="w-full h-[6px] flex items-center justify-center">
+                  <ProgressBar
+                    $progress={progress}
+                    onChange={handleProgressChange}
+                  />
+                </div>
               </div>
               <div
                 className="bg-[#151515] h-full rounded w-8 flex items-center m-pointer justify-center"

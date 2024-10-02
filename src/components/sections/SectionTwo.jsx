@@ -4,7 +4,8 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import BoldTitle from "../core/BoldTitle";
 import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName';
 import SmoothScroll from 'smooth-scroll';
-import VideoPlayer from "./SectionTwo/VideoPlayser";
+import VideoPlayer from "./SectionTwo/VideoPlayer";
+import { cn } from "../../lib/utils";
 
 const SectionTwo = ({ currentSection, isMobile }) => {
   const RedStar = useResourceByName('RedStar.png', RESOURCE_TYPES.IMAGE);
@@ -13,7 +14,12 @@ const SectionTwo = ({ currentSection, isMobile }) => {
 
   const toVideo = () => {
     if (isMobile) {
-      alert(123)
+      const wrapper = document.getElementById('mobile-scroller')
+      const sectionHeight = wrapper.scrollHeight / 7
+      wrapper.scrollTo({
+          top: sectionHeight * 2,
+          behavior: 'smooth'
+      });
     } else {
       const scroll = new SmoothScroll();
       const duration = 1000; 
@@ -41,6 +47,7 @@ const SectionTwo = ({ currentSection, isMobile }) => {
   }, [titleRightRef]);
   const [showVideo, setShowVideo] = useState(false);
   useEffect(() => {
+    if (isMobile) return;
     if (currentSection === 3) {
       gsap.set(sectionRef.current, {
         x: window.innerWidth,
@@ -51,8 +58,9 @@ const SectionTwo = ({ currentSection, isMobile }) => {
     }
   }, [currentSection]);
   useEffect(() => {
+    if (isMobile) return;
     gsap.registerPlugin(ScrollTrigger);
-    gsap.set(sectionRef.current, { x: 0 });
+    gsap.set(sectionRef.current, { x: 0, y: 0 });
     gsap.set(imageRef.current, {
       clipPath: "inset(25% 25% 25% 25% round 2px)",
     });
@@ -95,40 +103,48 @@ const SectionTwo = ({ currentSection, isMobile }) => {
    : { height: '100%'}
 
   return (
-    <div ref={sectionRef} className="w-full h-full" id="section-two">
+    <div ref={sectionRef} className="w-full h-full" style={{ willChange: 'transform' }} id="section-two">
       {showVideo ? (
-        <VideoPlayer />
+        <div className="w-full h-full relative flex items-center justify-center">
+          <VideoPlayer isMobile={isMobile} />
+        </div>
       ) : (
         <div className="w-full h-full relative flex items-center">
-          <div
-            className="absolute z-10"
-            ref={titleLeftRef}
-            style={{ left: `calc(25% - ${leftTitleWidth + 10}px)` }}
-          >
-            <BoldTitle content="7007 Protocol" color="#FEED01" size="small" xs={isMobile}/>
-            <img
-              src={RedStar}
-              className="absolute scale-50 2xl:scale-75"
-              style={{
-                top: `calc(-100% - ${isMobile ? '8' : '40'}px)`,
-              }}
-            />
-          </div>
+          {!isMobile && (
+                 <div
+                 className="absolute z-10"
+                 ref={titleLeftRef}
+                 style={{ left: `calc(25% - ${leftTitleWidth + 10}px)` }}
+               >
+                 <BoldTitle content="7007 Protocol" color="#FEED01" size="small" xs={isMobile}/>
+                 <img
+                   src={RedStar}
+                   className="absolute scale-50 2xl:scale-75"
+                   style={{
+                     top: `calc(-100% - ${isMobile ? '8' : '40'}px)`,
+                   }}
+                 />
+               </div>
+          )}
           <div
             ref={imageRef}
             className="zoom-image w-full h-full relative flex items-center justify-center"
             style={_height}
           >
             <img className="w-full" src={Cover} style={_height}/>
-            <img className='play-btn w-auto h-1/6 m-pointer absolute' src={PlayBtn} onClick={toVideo}></img>
+            <img className={cn('play-btn w-auto h-1/6 m-pointer absolute', {'h-1/3' : isMobile})} src={PlayBtn} onClick={toVideo}></img>
           </div>
-          <div
-            className="absolute right-0 z-10"
-            ref={titleRightRef}
-            style={{ right: `calc(25% - ${rightTitleWidth + 10}px)` }}
-          >
-            <BoldTitle content="AIGC Exchange" color="#FEED01" size="small" xs={isMobile}/>
-          </div>
+          {
+            !isMobile && (
+              <div
+              className="absolute right-0 z-10"
+              ref={titleRightRef}
+              style={{ right: `calc(25% - ${rightTitleWidth + 10}px)` }}
+            >
+              <BoldTitle content="AIGC Exchange" color="#FEED01" size="small" xs={isMobile}/>
+            </div>
+            )
+          }
         </div>
       )}
     </div>
