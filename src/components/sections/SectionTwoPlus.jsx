@@ -176,9 +176,9 @@ const SectionTwoPlus = ({ isMobile, currentSection }) => {
       <AnimatePresence>
         {(showControls) && (
           <motion.div
-            className="absolute bottom-16 right-0 left-0 px-[35%] z-100 opacity-90"
+            className="absolute bottom-16 right-0 left-0 px-[35%] z-100 opacity-50"
             initial={{ opacity: 0, display: "none" }}
-            animate={{ opacity: 0.9, display: "block" }}
+            animate={{ opacity: 0.5, display: "block" }}
             exit={{ opacity: 0, display: "none", duration: exitDuration }}
             transition={{ duration: 0.3 }}
             style={ isMobile ? { marginBottom: '10%', padding: '0 20%' } : {}}
