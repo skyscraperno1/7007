@@ -71,7 +71,7 @@ function Navigator({ isMobile }) {
                   <div className="flex justify-between items-center uppercase w-screen px-4 h-12 text-lg"
                     >
                       <div className="w-5">02</div>
-                      <div className="w-32 text-end text-nowrap">white paper</div>
+                      <div className="w-32 text-end text-nowrap">whitepaper</div>
                     </div>
                   <div className="flex justify-between items-center uppercase w-screen px-4 h-12 text-lg"
                      onClick={() => {
@@ -116,7 +116,7 @@ function Navigator({ isMobile }) {
               className="z-10 h-auto w-6 2xl:w-full"
             />
           </Button>
-          <Button kls="px-2 2xl:px-3">white paper</Button>
+          <Button kls="px-2 2xl:px-3">whitepaper</Button>
           <Button kls="px-2 2xl:px-3">launch app</Button>
         </div>
       )}

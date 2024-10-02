@@ -2,7 +2,7 @@ import ColorBlock from './SectionSix/ColorBlock'
 import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName'
 import Button from '../core/Button'
 import BoldTitle from '../core/BoldTitle'
-import { useRef, useState, useMemo } from 'react'
+import { useRef, useState, useMemo, useEffect } from 'react'
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 import usePosition from './SectionSix/useAnimations'
 import { makeCoverAnimation, makeBtnAnimation, MobileBoxContainer } from './SectionSix/useConfig'
@@ -18,6 +18,13 @@ const SectionSix = ({ isMobile }) => {
     setIsHovering(false)
   })
   const flag = usePhoneCal()
+  useEffect(() => {
+    if (isHovering) {
+      sessionStorage.setItem('last_pop', 'true')
+    } else {
+      sessionStorage.removeItem('last_pop')
+    }
+  }, [isHovering])
   const calStyle = useMemo(() => {
     if (flag) {
       return {

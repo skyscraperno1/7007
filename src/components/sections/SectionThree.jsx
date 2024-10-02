@@ -48,7 +48,7 @@ const SectionThree = ({ currentSection, isMobile }) => {
                         transition={{ duration: 7.5, repeat: Infinity, ease: "linear" }}
                     />
                 </div>
-                <BoldTitle content='ONE PROMPT ONLY!' color="#FF0501" italic kls={cn({'whitespace-normal text-5xl': isMobile})} medium={isMobile}/>
+                <BoldTitle content='ONE PROMPT COLLECTION!' color="#FF0501" italic kls={cn({'whitespace-normal text-5xl': isMobile})} medium={isMobile}/>
             </div>
             <motion.div className={cn("mt-32", {"mt-24": isMobile})} animate={{
                 rotate: [0, 5, 0, -5, 0],

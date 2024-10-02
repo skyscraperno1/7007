@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import BoldTitle from '../../core/BoldTitle'
 import Button from "../../core/Button";
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
@@ -13,7 +13,15 @@ const ColorBlock = () => {
   useMotionValueEvent(scrollY, "change", () => {
     setIsHovering(false)
   })
-  const { translate, inset } = usePosition(btnRef, 'section-six');
+  const { translate, inset } = usePosition(btnRef, 'color-block');
+
+  useEffect(() => {
+    if (isHovering) {
+      sessionStorage.setItem('last_pop', 'true')
+    } else {
+      sessionStorage.removeItem('last_pop')
+    }
+  }, [isHovering])
   const getRight = () => {
     if (btnRef.current) {
       return `calc(15% - ${btnRef.current.clientWidth / 2}px)`
@@ -64,6 +72,7 @@ const ColorBlock = () => {
           style={{
             right: getRight(),
             top: getTop(),
+            width: 'fit-content'
           }}
         >
           <Button kls="px-8 py-5 bg-themeGreen" duration={0.4}>
