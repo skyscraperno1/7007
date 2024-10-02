@@ -65,7 +65,7 @@ const SectionTwo = ({ currentSection, isMobile }) => {
       clipPath: "inset(25% 25% 25% 25% round 2px)",
     });
     const width = window.innerWidth;
-    const headerHeight = isMobile ? 123 : window.innerHeight * 0.1;
+    const headerHeight = window.innerHeight * 0.1;
     if (!sectionRef.current) return;
     ScrollTrigger.create({
       trigger: sectionRef.current,
