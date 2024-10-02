@@ -33,9 +33,9 @@ const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection }
         }, 2000);
        
       } else if (currentSection === 7) {
-        const last_pop = sessionStorage.getItem('last_pop')
-        if (last_pop) return;
          _timer = setTimeout(() => {
+          const last_pop = sessionStorage.getItem('last_pop')
+          if (last_pop) return;
           setConfig(_config[2])
           setShow(true);
         }, 2000);
