@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import AnimationText from "./SectionFour/AnimationText";
-import AnimationButton from "./SectionFour/AnimationButton";
-import MatterCanvas from "./SectionFour/MatterCanvas";
 import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName';
 import { createUseX, createUseY, calDelay } from "./SectionFour/calPosition";
 const colors = [
@@ -16,7 +14,7 @@ const colors = [
 
 const basicWidth = 216
 const basicHeight = 318
-const SectionFour = ({ currentSection, isMobile }) => {
+const SectionFour = ({ isMobile, afterNext, children }) => {
   const Img1 = useResourceByName('Img1.png', RESOURCE_TYPES.IMAGE);
   const Img2 = useResourceByName('Img2.png', RESOURCE_TYPES.IMAGE);
   const Img3 = useResourceByName('Img3.png', RESOURCE_TYPES.IMAGE);
@@ -122,19 +120,15 @@ const SectionFour = ({ currentSection, isMobile }) => {
   const [showButton, setShowButton] = useState(false);
   const [colorIndex, setColorIndex] = useState(0);
   const [secondTextShown, setSecondTextShown] = useState(false);
-  const [lastSection, setLastSection] = useState(0)
+
   useEffect(() => {
-      if (currentSection === 5) {
-      setInView(true);
+    if (afterNext) {
+      setInView(true)
       setIsSeen(true)
     } else {
-      setInView(false);
+      setInView(false)
     }
-    if (currentSection === 4 && lastSection === 5) {
-      ref.current.removeBox();
-    }
-    setLastSection(currentSection);
-  }, [currentSection, isMobile]);
+  }, [afterNext])
 
   const ref = useRef(null);
   const handleAnimationComplete = (index) => {
@@ -144,22 +138,6 @@ const SectionFour = ({ currentSection, isMobile }) => {
       }, 1000);
     }
   };
-
-  const toPage = (to) => {
-    const wrapper = document.getElementById('mobile-scroller')
-    const sectionHeight = wrapper.scrollHeight / 7
-    if (to === 'next') {
-      wrapper.scrollTo({
-          top: sectionHeight * 5,
-          behavior: 'smooth'
-      });
-    } else {
-      wrapper.scrollTo({
-        top: sectionHeight * 3,
-        behavior: 'smooth'
-    });
-    }
-  }
 
   useEffect(() => {
     let timer;
@@ -223,28 +201,8 @@ const SectionFour = ({ currentSection, isMobile }) => {
         <div className="h-[288px] 2xl:h-[384px] relative mt-20 z-30">
           <AnimationText showText={showText} currentTextIndex={colorIndex} isMobile={isMobile} />
         </div>
-        <div
-          className="h-20 2xl:h-24"
-          onMouseEnter={() => {
-            ref.current.addBox();
-          }}
-          onClick={() => {
-            if (isMobile) {
-              ref.current.addBox();
-            } else {
-              ref.current.addBox();
-              ref.current.addBox();
-            }
-          }}
-        >
-          <AnimationButton showButton={showButton} isMobile={isMobile} />
-        </div>
-        {/* {(showButton && isMobile) && <div className="absolute top-[4px] right-0 px-8 flex z-50 justify-between w-full">
-              <button onClick={() => toPage('prev')}>prev</button> <button onClick={() => toPage('next')}>next</button>
-            </div>} */}
-        {/* <div className="w-full h-full absolute z-20 bg-transparent"></div> */}
       </div>
-      <MatterCanvas ref={ref} isMobile={isMobile} />
+      { children }
     </div>
   );
 };

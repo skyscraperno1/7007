@@ -26,13 +26,13 @@ const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection }
           setConfig(_config[0])
           setShow(true);
         }, 2000);
-      } else if (currentSection === 4) {
+      } else if (currentSection === 5) {
         _timer = setTimeout(() => {
           setConfig(_config[1])
           setShow(true);
         }, 2000);
        
-      } else if (currentSection === 7) {
+      } else if (currentSection === 6) {
          _timer = setTimeout(() => {
           const last_pop = sessionStorage.getItem('last_pop')
           if (last_pop) {

@@ -29,7 +29,7 @@ const SectionFive = ({ currentSection, isMobile }) => {
   }, [flag])
   
   useEffect(() => {
-    if (currentSection === 6) {
+    if (currentSection === 5) {
       setInView(true);
     } else {
       setInView(false);

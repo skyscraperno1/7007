@@ -34,15 +34,15 @@ const HoverBackground = styled(motion.div)`
   will-change: 'transform'
 `;
 
-function Button({ children, duration = 0.4, kls, onClick = () => {}, isMobile }) {
+function Button({ children, duration = 0.4, kls, onClick = () => {}, isMobile, isAnimating }) {
   const isText = useMemo(() => typeof children === 'string' , [children])
   const whileInteractive = isMobile ? { whileTap: "hover" } : { whileHover: "hover" };
   const _duration = isMobile ? 0.15 : duration;
   return (
     <ButtonWrapper
       initial="rest"
+      animate="isAnimating ? 'isAnimating' : rest"
       {...whileInteractive}
-      animate="rest"
       onClick={onClick}
       className={cn("h-12 2xl:h-16 flex items-center justify-center uppercase m-pointer text-nowrap bg-themeYellow text-2xl", 
         kls
@@ -52,6 +52,7 @@ function Button({ children, duration = 0.4, kls, onClick = () => {}, isMobile })
         !!duration && 
         <HoverBackground
          variants={{
+           isAnimating: { x: 0 },
            rest: { x: '-100%' },
            hover: { x: 0 },
          }}
