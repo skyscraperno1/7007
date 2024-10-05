@@ -7,7 +7,7 @@ import LottieComponent from './SectionThree/LottieComponent';
 import { cn } from '../../lib/utils';
 import MatterCanvas from "./SectionFour/MatterCanvas";
 import SectionFour from './SectionFour';
-
+import { usePhoneCal } from '../../hook/useContext';
 const SectionThree = ({ currentSection, isMobile }) => {
     const ref = useRef(null)
 
@@ -50,6 +50,7 @@ const SectionThree = ({ currentSection, isMobile }) => {
         hidden: { opacity: 0, y: 100, display: 'none', rotate: -30, scale: 0.65 },
         visible: { opacity: 1, y: 0, display: 'block', rotate: -30, scale: 0.65 },
     }
+    const flag = usePhoneCal()
 
 
     const [inView, setInView] = useState(false);
@@ -75,7 +76,7 @@ const SectionThree = ({ currentSection, isMobile }) => {
         setLastSection(currentSection);
     }, [currentSection]);
     return (
-        <div id="section-three" className='relative h-full w-full flex flex-col items-center justify-start pt-[10%] overflow-hidden bg-themeGreen' >
+        <div id="section-three" className='relative h-full w-full flex flex-col items-center justify-start pt-[10%] overflow-hidden' >
             { afterNext && <div className='absolute top-0 left-0 w-full h-full'>
                 <SectionFour isMobile={isMobile} currentSection={currentSection} afterNext={afterNext} >
                     <MatterCanvas ref={ref} isMobile={isMobile} />
@@ -92,14 +93,15 @@ const SectionThree = ({ currentSection, isMobile }) => {
                 className={cn('relative', {'pt-4 z-0': isMobile})}>
                 <BoldTitle content='ONE PROMPT COLLECTION!' color="#FF0501" italic kls={cn({'whitespace-normal text-5xl': isMobile})} medium={isMobile}/>
             </motion.div>
-            <motion.div className={cn("absolute bottom-28 z-50", {"mt-24": isMobile})} animate={{
+            <motion.div className={cn("absolute bottom-28 z-50", {"mt-24": isMobile, "bottom-16": !flag})} animate={{
                 rotate: [0, 5, 0, -5, 0],
-                transition: { duration: 0.25, repeat: Infinity, repeatType: 'loop', ease: 'linear' },
+                transition: { duration: 0.25, repeat: 'Infinity', repeatType: 'loop', ease: 'linear' },
             }}
-                onClick={handleClick}
                 onMouseEnter={handleMouseEnter}
             >
-                <Button kls={cn("w-80 normal-case h-20 2xl:h-24 text-3xl 2xl:text-4xl uppercase", {'w-60': isMobile, 'text-white': isAnimating})} duration={isAnimating ? 2 : 0.4} isMobile={isMobile} isAnimating={isAnimating}>
+                <Button kls={cn("w-80 normal-case h-20 2xl:h-24 text-3xl 2xl:text-4xl uppercase", {'w-60 h-16': isMobile, 'text-white': isAnimating })} duration={isAnimating ? 2 : 0.4} isMobile={isMobile} isAnimating={isAnimating}
+                    onClick={handleClick}
+                >
                     { afterNext ? 'trade' : 'mint'}
                 </Button>
             </motion.div>
@@ -109,7 +111,10 @@ const SectionThree = ({ currentSection, isMobile }) => {
                         animate={next ? 'hidden' : 'visible'}
                         variants={BOTTOM_VARIANTS}
                         transition={{ duration: 1 }}
-                        className='-rotate-[30deg] scale-[65%] -translate-y-16   select-none'>
+                        style={{
+                            marginTop: '-3rem'
+                        }}
+                        className='-rotate-[30deg] scale-[65%] select-none'>
                         <LottieComponent play={inView} animationData={eth} />
                     </motion.div>
                 ) : (
