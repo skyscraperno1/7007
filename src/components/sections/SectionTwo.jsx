@@ -6,20 +6,15 @@ import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName'
 import SmoothScroll from 'smooth-scroll';
 import VideoPlayer from "./SectionTwo/VideoPlayer";
 import { cn } from "../../lib/utils";
+import SectionTwoPlus from "./SectionTwoPlus";
 
 const SectionTwo = ({ currentSection, isMobile }) => {
   const RedStar = useResourceByName('RedStar.png', RESOURCE_TYPES.IMAGE);
   const PlayBtn = useResourceByName('PlayBtn.png', RESOURCE_TYPES.IMAGE)
   const Cover = useResourceByName('Cover.gif', RESOURCE_TYPES.IMAGE)
-
   const toVideo = () => {
     if (isMobile) {
-      const wrapper = document.getElementById('mobile-scroller')
-      const sectionHeight = wrapper.scrollHeight / 7
-      wrapper.scrollTo({
-          top: sectionHeight * 2,
-          behavior: 'smooth'
-      });
+      setShowVideo(true)
     } else {
       const scroll = new SmoothScroll();
       const duration = 1000; 
@@ -47,7 +42,12 @@ const SectionTwo = ({ currentSection, isMobile }) => {
   }, [titleRightRef]);
   const [showVideo, setShowVideo] = useState(false);
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile) {
+      if (currentSection !== 2) {
+        setShowVideo(false);
+      } 
+      return
+    }
     if (currentSection === 3) {
       gsap.set(sectionRef.current, {
         x: window.innerWidth,
@@ -105,9 +105,15 @@ const SectionTwo = ({ currentSection, isMobile }) => {
   return (
     <div ref={sectionRef} className="w-full h-full" style={{ willChange: 'transform' }} id="section-two">
       {showVideo ? (
+        isMobile ? (
+          <div className="w-full h-full relative flex items-center justify-center">
+            <SectionTwoPlus isMobile={isMobile}></SectionTwoPlus>
+          </div>
+        ) : (
         <div className="w-full h-full relative flex items-center justify-center">
           <VideoPlayer isMobile={isMobile} />
         </div>
+        )
       ) : (
         <div className="w-full h-full relative flex items-center">
           {!isMobile && (

@@ -170,7 +170,7 @@ const SectionTwoPlus = ({ isMobile, currentSection }) => {
       onMouseMove={handleMouseMove}
       style={getStyle()}
     >
-      {(showVideo) && <div className="w-full h-full flex justify-center items-center">
+      {(showVideo || isMobile) && <div className="w-full h-full flex justify-center items-center">
         <VideoPlayer isMobile={isMobile}/>
         </div>}
       <AnimatePresence>

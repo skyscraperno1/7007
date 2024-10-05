@@ -23,7 +23,11 @@ let sections = [
 
 const AppContent = () => {
   const { isLoading, progress, isMobile } = useResources();
-  isMobile && import ('./fonts.css');
+  isMobile 
+  if (isMobile) {
+    import ('./fonts.css');
+    sections = sections.filter((section) => section.page !== 2.1)
+  }
   return (
     <>
       <LoadingScreen isLoading={isLoading} progress={progress} isMobile={isMobile}/>

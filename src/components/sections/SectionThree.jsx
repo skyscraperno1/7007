@@ -72,15 +72,16 @@ const colors = [
     const [isAnimating, setIsAnimating] = useState(false)
     const [lastSection, setLastSection] = useState(0)
     useEffect(() => {
-        if (currentSection === 4) {
+        const _currentSection = isMobile ? currentSection + 1 : currentSection
+        if (_currentSection === 4) {
             setInView(true);
         } else {
             setInView(false);
         }
-        if (currentSection === 3 && lastSection === 4) {
+        if (_currentSection === 3 && lastSection === 4) {
             ref.current?.removeBox();
         }
-        setLastSection(currentSection);
+        setLastSection(_currentSection);
     }, [currentSection]);
 
     const [colorIndex, setColorIndex] = useState(0);
@@ -104,7 +105,7 @@ const colors = [
             style={{ backgroundColor: colors[colorIndex] }}
         >
             { afterNext && <div className='absolute top-0 left-0 w-full h-full'>
-                <SectionFour isMobile={isMobile} currentSection={currentSection} afterNext={afterNext} colorIndex={colorIndex}>
+                <SectionFour isMobile={isMobile} afterNext={afterNext} colorIndex={colorIndex}>
                     <MatterCanvas ref={ref} isMobile={isMobile} />
                 </SectionFour>
             </div>}
