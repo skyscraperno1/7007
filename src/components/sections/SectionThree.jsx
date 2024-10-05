@@ -99,7 +99,7 @@ const SectionThree = ({ currentSection, isMobile }) => {
             }}
                 onMouseEnter={handleMouseEnter}
             >
-                <Button kls={cn("w-80 normal-case h-20 2xl:h-24 text-3xl 2xl:text-4xl uppercase", {'w-60 h-16': isMobile, 'text-white': isAnimating })} duration={isAnimating ? 2 : 0.4} isMobile={isMobile} isAnimating={isAnimating}
+                <Button kls={cn("w-80 normal-case h-20 2xl:h-24 text-3xl 2xl:text-4xl uppercase", {'w-60 h-16': isMobile, 'text-white': isAnimating, 'bg-white': isAnimating && isMobile })} duration={isAnimating ? 2 : 0.4} isMobile={isMobile} isAnimating={isAnimating}
                     onClick={handleClick}
                 >
                     { afterNext ? 'trade' : 'mint'}

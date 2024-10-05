@@ -34,7 +34,7 @@ const HoverBackground = styled(motion.div)`
   will-change: 'transform'
 `;
 
-function Button({ children, duration = 0.4, kls, onClick = () => {}, isMobile, isAnimating = null}) {
+function Button({ children, duration = 0.4, kls, onClick = () => {}, isMobile }) {
   const isText = useMemo(() => typeof children === 'string' , [children])
   const whileInteractive = isMobile ? { whileTap: "hover" } : { whileHover: "hover" };
   const _duration = isMobile ? 0.15 : duration;
