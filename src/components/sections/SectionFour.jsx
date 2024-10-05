@@ -3,18 +3,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import AnimationText from "./SectionFour/AnimationText";
 import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName';
 import { createUseX, createUseY, calDelay } from "./SectionFour/calPosition";
-const colors = [
-  "#03D25C",
-  "#FEED01",
-  "#FF0501",
-  "#03D25C",
-  "#FEED01",
-  "#FF0501",
-];
 
 const basicWidth = 216
 const basicHeight = 318
-const SectionFour = ({ isMobile, afterNext, children }) => {
+const SectionFour = ({ isMobile, afterNext, children, colorIndex }) => {
   const Img1 = useResourceByName('Img1.png', RESOURCE_TYPES.IMAGE);
   const Img2 = useResourceByName('Img2.png', RESOURCE_TYPES.IMAGE);
   const Img3 = useResourceByName('Img3.png', RESOURCE_TYPES.IMAGE);
@@ -117,9 +109,6 @@ const SectionFour = ({ isMobile, afterNext, children }) => {
   const [inView, setInView] = useState(false);
   const [isSeen, setIsSeen] = useState(false);
   const [showText, setShowText] = useState(false);
-  const [showButton, setShowButton] = useState(false);
-  const [colorIndex, setColorIndex] = useState(0);
-  const [secondTextShown, setSecondTextShown] = useState(false);
 
   useEffect(() => {
     if (afterNext) {
@@ -130,7 +119,6 @@ const SectionFour = ({ isMobile, afterNext, children }) => {
     }
   }, [afterNext])
 
-  const ref = useRef(null);
   const handleAnimationComplete = (index) => {
     if (index === images.length - 1) {
       setTimeout(() => {
@@ -139,36 +127,11 @@ const SectionFour = ({ isMobile, afterNext, children }) => {
     }
   };
 
-  useEffect(() => {
-    let timer;
-    if (!inView) {
-      timer && clearInterval(timer);
-    }
-    if (showText && inView) {
-      let intervalTime = 500;
-      if (colorIndex === 1 && !secondTextShown) {
-        intervalTime = 1000;
-        setTimeout(() => {
-          setShowButton(true);
-        }, 500);
-      }
-      timer = setInterval(() => {
-        setColorIndex((prevIndex) => {
-          if (prevIndex === 1) {
-            setSecondTextShown(true);
-          }
-          return (prevIndex + 1) % colors.length;
-        });
-      }, intervalTime);
-    }
-    return () => timer && clearInterval(timer);
-  }, [showText, secondTextShown, colorIndex, inView]);
   
   return (
     <div
       id="section-four"
       ref={target}
-      style={{ backgroundColor: colors[colorIndex] }}
       className="h-full w-full relative z-10 overflow-hidden"
     >
       <AnimatePresence>

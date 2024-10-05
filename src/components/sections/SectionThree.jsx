@@ -8,12 +8,19 @@ import { cn } from '../../lib/utils';
 import MatterCanvas from "./SectionFour/MatterCanvas";
 import SectionFour from './SectionFour';
 import { usePhoneCal } from '../../hook/useContext';
-const SectionThree = ({ currentSection, isMobile }) => {
+const colors = [
+    "#03D25C",
+    "#FEED01",
+    "#FF0501",
+    "#03D25C",
+    "#FEED01",
+    "#FF0501",
+  ];const SectionThree = ({ currentSection, isMobile }) => {
     const ref = useRef(null)
 
     const handleMouseEnter = () => {
         if (isAnimating || !next) return;
-        ref.current.addBox()
+        ref.current?.addBox()
     }
     const handleClick = () => {
         if (isAnimating) return;
@@ -21,10 +28,10 @@ const SectionThree = ({ currentSection, isMobile }) => {
             setNext(true)
         } else {
             if (isMobile) {
-                ref.current.addBox();
+                ref.current?.addBox();
             } else {
-                ref.current.addBox();
-                ref.current.addBox();
+                ref.current?.addBox();
+                ref.current?.addBox();
             }
         }
     }
@@ -71,14 +78,33 @@ const SectionThree = ({ currentSection, isMobile }) => {
             setInView(false);
         }
         if (currentSection === 3 && lastSection === 4) {
-            ref.current.removeBox();
+            ref.current?.removeBox();
         }
         setLastSection(currentSection);
     }, [currentSection]);
+
+    const [colorIndex, setColorIndex] = useState(0);
+
+    useEffect(() => {
+        let timer;
+        if (!inView) {
+        timer && clearInterval(timer);
+        }
+        if (inView) {
+            timer = setInterval(() => {
+              setColorIndex((prevIndex) => {
+                return (prevIndex + 1) % colors.length;
+              });
+            }, 500);
+          }
+          return () => timer && clearInterval(timer);
+    }, [inView])
     return (
-        <div id="section-three" className='relative h-full w-full flex flex-col items-center justify-start pt-[10%] overflow-hidden' >
+        <div id="section-three" className='relative h-full w-full flex flex-col items-center justify-start pt-[10%] overflow-hidden bg-themeGreen'
+            style={{ backgroundColor: colors[colorIndex] }}
+        >
             { afterNext && <div className='absolute top-0 left-0 w-full h-full'>
-                <SectionFour isMobile={isMobile} currentSection={currentSection} afterNext={afterNext} >
+                <SectionFour isMobile={isMobile} currentSection={currentSection} afterNext={afterNext} colorIndex={colorIndex}>
                     <MatterCanvas ref={ref} isMobile={isMobile} />
                 </SectionFour>
             </div>}
@@ -91,7 +117,7 @@ const SectionThree = ({ currentSection, isMobile }) => {
                 }}
                 onAnimationStart={() => { setIsAnimating(true)}}
                 className={cn('relative', {'pt-4 z-0': isMobile})}>
-                <BoldTitle content='ONE PROMPT COLLECTION!' color="#FF0501" italic kls={cn({'whitespace-normal text-5xl': isMobile})} medium={isMobile}/>
+                <BoldTitle content='ONE PROMPT ONE COLLECTION!' color="#FF0501" italic kls={cn({'whitespace-normal text-5xl': isMobile})} medium={isMobile}/>
             </motion.div>
             <motion.div className={cn("absolute bottom-28 z-50", {"mt-24": isMobile, "bottom-16": !flag})} animate={{
                 rotate: [0, 5, 0, -5, 0],
@@ -100,7 +126,7 @@ const SectionThree = ({ currentSection, isMobile }) => {
                 onMouseEnter={handleMouseEnter}
             >
                 <Button kls={cn("w-80 normal-case h-20 2xl:h-24 text-3xl 2xl:text-4xl uppercase", {'w-60 h-16': isMobile, 'text-white': isAnimating })} duration={isAnimating ? 2 : 0.4} isMobile={isMobile}
-                    isActive={isAnimating}
+                    isActive={isAnimating && isMobile}
                     onClick={handleClick}
                 >
                     { afterNext ? 'trade' : 'mint'}

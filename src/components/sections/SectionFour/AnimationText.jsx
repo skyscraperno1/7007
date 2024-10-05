@@ -15,8 +15,8 @@ const titles = [
         {color: themeYellow, text: 'unique'},
     ],
     [
-        {color: themeRed, text: 'trade with'},
-        {color: themeRed, text: 'efficiency'},
+        {color: themeYellow, text: 'trade with'},
+        {color: themeYellow, text: 'efficiency'},
     ],
     [
         {color: themeRed, text: 'up to'},
@@ -25,8 +25,8 @@ const titles = [
         {color: themeGreen, text: 'unique'},
     ],
     [
-        {color: themeYellow, text: 'trade with'},
-        {color: themeYellow, text: 'efficiency'},
+        {color: themeRed, text: 'trade with'},
+        {color: themeRed, text: 'efficiency'},
     ],
     [
         {color: themeYellow, text: 'up to'},
