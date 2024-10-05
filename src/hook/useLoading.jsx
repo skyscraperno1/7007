@@ -6,6 +6,7 @@ export const _resources = {
     '/Logo/GreenLogo.png',
     '/Logo/X-logo.svg',
     '/Logo/twitter-logo.svg',
+    '/Logo/Discord-logo.svg',
     // BottomNav
     '/Pointers/cursor-icon.png',
     // Cursor

@@ -43,6 +43,10 @@ function Navigator({ isMobile }) {
     "twitter-logo.svg",
     RESOURCE_TYPES.IMAGE
   );
+  const DiscordLogo = useResourceByName(
+    "Discord-logo.svg",
+    RESOURCE_TYPES.IMAGE
+  );
   const [showMenu, setShowMenu] = useState(false);
   return (
     <header
@@ -89,6 +93,11 @@ function Navigator({ isMobile }) {
                     <div className="w-5 text-end">04</div>
                     <div className="w-32 text-end text-nowrap">Telegram</div>
                   </div>
+                  <div className="flex justify-between items-center uppercase w-screen px-4 h-12 text-lg"
+                  >
+                    <div className="w-5 text-end">05</div>
+                    <div className="w-32 text-end text-nowrap">Discord</div>
+                  </div>
                 </motion.div>
               )
             }
@@ -96,6 +105,9 @@ function Navigator({ isMobile }) {
         </>
       ) : (
         <div className="h-full flex items-center gap-5">
+          <Button  kls="w-12 2xl:w-16 px-2 2xl:px-3">
+            <img src={DiscordLogo} alt='discord' className="z-10 h-auto w-6 2xl:w-full" />
+          </Button>
           <Button
             kls="w-12 2xl:w-16 px-2 2xl:px-3"
             onClick={() => {
