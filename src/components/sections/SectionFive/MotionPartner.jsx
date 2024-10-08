@@ -58,8 +58,8 @@ const MotionPartner = ({ page, title, show, isMobile }) => {
       x: makeAnimationArr(xArr),
       y: makeAnimationArr(yArr)
     })
-    const speedX = isMobile ? 300 + getRandomInt(0, 100) : 400 + getRandomInt(0, 200)
-    const speedY = isMobile ? 260 + getRandomInt(0, 100) : 360 + getRandomInt(0, 200)
+    const speedX = isMobile ? 200 + getRandomInt(0, 100) : 300 + getRandomInt(0, 200)
+    const speedY = isMobile ? 160 + getRandomInt(0, 100) : 280 + getRandomInt(0, 200)
     
     const transX = getTransition(speedX, xArr)
     const transY = getTransition(speedY, yArr)
@@ -87,7 +87,7 @@ const MotionPartner = ({ page, title, show, isMobile }) => {
       animate={show ? animation : { x: 0, y: 0}}
       style={{ willChange: "transform" }}
     >
-      <div className={cn("bg-no-repeat bg-center h-[150px] w-[157.5px] 2xl:h-[200px] 2xl:w-[210px] flex items-center justify-center bg-contain", {"h-[100px] w-[105px]": isMobile})} style={{
+      <div className={cn("bg-no-repeat bg-center h-[150px] w-[157.5px] 2xl:h-[200px] 2xl:w-[210px] flex items-center justify-center bg-contain", {"h-[80px] w-[84px]": isMobile})} style={{
         backgroundImage: `url(${images[page -1].frame})`
       }}><img className={cn('scale-75 2xl:scale-100', {'scale-50': isMobile})} src={`${images[page -1].partner}`} />
       </div>

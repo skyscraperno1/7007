@@ -5,7 +5,7 @@ export const _resources = {
     // Navigator
     '/Logo/GreenLogo.png',
     '/Logo/X-logo.svg',
-    '/Logo/twitter-logo.svg',
+    '/Logo/tg-logo.svg',
     '/Logo/Discord-logo.svg',
     // BottomNav
     '/Pointers/cursor-icon.png',

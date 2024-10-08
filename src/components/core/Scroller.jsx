@@ -13,15 +13,15 @@ export default function Scroll({ sections, isMobile, isLoading }) {
     const handleScroll = () => {
         setIsScrolling(true);
         ref.current.clearTimer()
-         if (timeoutId) {
+        if (timeoutId) {
             clearTimeout(timeoutId);
             timeoutId = null
-        } 
+        }
         timeoutId = setTimeout(() => {
             setIsScrolling(false);
-        }, 1000); 
+        }, 1000);
     }
-    
+
     gsap.registerPlugin(ScrollTrigger)
 
     useEffect(() => {
@@ -56,9 +56,12 @@ export default function Scroll({ sections, isMobile, isLoading }) {
             scrollTween?.kill()
         }
     }, [])
-    const wrapperStyle = isMobile
-        ? { height: 'calc(100% - 123px)', width: '100vw', marginTop: '123px' }
-        : { height: '90vh', width: 'calc(100% - 65px)', marginTop: '10vh', marginLeft: '65px' }
+
+    const getWrapperStyle = (flag) => {
+        return isMobile
+            ? { height: 'calc(100% - 123px)', width: '100vw', marginTop: '123px' }
+            : flag ? { height: '90vh', width: '100%', marginTop: '10vh' } : { height: '90vh', width: 'calc(100% - 65px)', marginTop: '10vh', marginLeft: '65px' }
+    }
     const getPageIndex = (page) => (page === 1
         ? { position: 'relative', zIndex: 90 }
         : {})
@@ -71,7 +74,7 @@ export default function Scroll({ sections, isMobile, isLoading }) {
                             const { Component, page } = section;
                             return (
                                 <section key={page} className='relative w-screen h-screen' id={`section-${page}`} style={getPageIndex(page)}>
-                                    <div className='h-full w-full relative z-40' style={wrapperStyle}>
+                                    <div className='h-full w-full relative z-40' style={getWrapperStyle(page === 3)}>
                                         <Component currentSection={currentSection} isMobile={isMobile} />
                                     </div>
                                     <BottomNav page={page} isMobile={isMobile} />
@@ -81,7 +84,7 @@ export default function Scroll({ sections, isMobile, isLoading }) {
                     }
                 </div>
             </div>
-            <Popover ref={ref} isLoading={isLoading} isMobile={isMobile}  isScrolling={isScrolling} currentSection={currentSection} />
+            <Popover ref={ref} isLoading={isLoading} isMobile={isMobile} isScrolling={isScrolling} currentSection={currentSection} />
         </div>
 
     )

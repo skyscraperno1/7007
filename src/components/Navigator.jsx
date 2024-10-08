@@ -39,8 +39,8 @@ const RotatingImage = ({ src, alt, isMobile }) => {
 function Navigator({ isMobile }) {
   const logo = useResourceByName("GreenLogo.png", RESOURCE_TYPES.IMAGE);
   const XLogo = useResourceByName("X-logo.svg", RESOURCE_TYPES.IMAGE);
-  const TwitterLogo = useResourceByName(
-    "twitter-logo.svg",
+  const TgLogo = useResourceByName(
+    "tg-logo.svg",
     RESOURCE_TYPES.IMAGE
   );
   const DiscordLogo = useResourceByName(
@@ -105,9 +105,6 @@ function Navigator({ isMobile }) {
         </>
       ) : (
         <div className="h-full flex items-center gap-5">
-          <Button  kls="w-12 2xl:w-16 px-2 2xl:px-3">
-            <img src={DiscordLogo} alt='discord' className="z-10 h-auto w-6 2xl:w-full" />
-          </Button>
           <Button
             kls="w-12 2xl:w-16 px-2 2xl:px-3"
             onClick={() => {
@@ -123,10 +120,13 @@ function Navigator({ isMobile }) {
             }}
           >
             <img
-              src={TwitterLogo}
+              src={TgLogo}
               alt="twitter"
               className="z-10 h-auto w-6 2xl:w-full"
             />
+          </Button>
+          <Button  kls="w-12 2xl:w-16 px-2 2xl:px-3">
+            <img src={DiscordLogo} alt='discord' className="z-10 h-auto w-6 2xl:w-full" />
           </Button>
           <Button kls="px-2 2xl:px-3">whitepaper</Button>
           <Button kls="px-2 2xl:px-3">launch app</Button>

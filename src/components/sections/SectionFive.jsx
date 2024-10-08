@@ -37,8 +37,8 @@ const SectionFive = ({ currentSection, isMobile }) => {
     }
   }, [currentSection, isMobile]);
 
-  const titleHeight = isMobile ? { height: "40px" } : { height: "10vh"}
-  const gridHeight = isMobile ? { height: "calc(100% - 40px)" } : { height: "calc(100% - 10vh)" }
+  const titleHeight = isMobile ? { height: "40px", paddingTop: '16px' } : { height: "10vh"}
+  const gridHeight = isMobile ? { height: "calc(100% - 56px)" } : { height: "calc(100% - 15vh)" }
   return (
     <>
       <div id="section-five" className="h-full w-full overflow-hidden">

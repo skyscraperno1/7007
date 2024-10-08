@@ -104,7 +104,7 @@ const colors = [
         <div id="section-three" className='relative h-full w-full flex flex-col items-center justify-start pt-[10%] overflow-hidden bg-themeGreen'
             style={{ backgroundColor: colors[colorIndex] }}
         >
-            { afterNext && <div className='absolute top-0 left-0 w-full h-full'>
+            { afterNext && <div className='absolute top-0 left-0 h-full' style={isMobile ? { width: '100%'} : { marginLeft: '65px', width: 'calc(100% - 65px)'}}>
                 <SectionFour isMobile={isMobile} afterNext={afterNext} colorIndex={colorIndex}>
                     <MatterCanvas ref={ref} isMobile={isMobile} />
                 </SectionFour>
@@ -117,12 +117,12 @@ const colors = [
                     setIsAnimating(false); 
                 }}
                 onAnimationStart={() => { setIsAnimating(true)}}
-                className={cn('relative', {'pt-4 z-0': isMobile})}>
+                className={cn('relative', {'z-0': isMobile})}>
                 <BoldTitle content='ONE PROMPT ONE COLLECTION!' color="#FF0501" italic kls={cn({'whitespace-normal text-5xl': isMobile})} medium={isMobile}/>
             </motion.div>
-            <motion.div className={cn("absolute bottom-28 z-50", {"mt-24": isMobile, "bottom-16": !flag})} animate={{
+            <motion.div className={cn("absolute bottom-28 z-50", {"mt-24 bottom-12": isMobile, "bottom-24": flag, "ml-[65px]": !isMobile})} animate={{
                 rotate: [0, 5, 0, -5, 0],
-                transition: { duration: 0.25, repeat: 'Infinity', repeatType: 'loop', ease: 'linear' },
+                transition: { duration: 0.25, repeat: Infinity, repeatType: 'loop', ease: 'linear' },
             }}
                 onMouseEnter={handleMouseEnter}
             >
@@ -151,14 +151,14 @@ const colors = [
                             animate={next ? 'hidden' : 'visible'}
                             variants={RIGHT_VARIANTS}
                             transition={{ duration: 1 }}
-                            className='mt-0 2xl:mt-[3%] -rotate-[30deg] absolute scale-[65%] 2xl:scale-100 right-0 w-[530px] h-[530px]'>
+                            className='mt-0 2xl:mt-[3%] -rotate-[30deg] absolute scale-[65%] 2xl:scale-100 -right-14 w-[530px] h-[530px]'>
                             <LottieComponent play={inView} animationData={eth} />
                         </motion.div>
                         <motion.div 
                           animate={next ? 'hidden' : 'visible'}
                           variants={LEFT_VARIANTS}
                           transition={{ duration: 1 }}
-                          className='absolute mt-[140px] 2xl:mt-[220px] left-0 ml-4 2xl:ml-16 w-[360px] h-[360px]'>
+                          className='absolute mt-[140px] 2xl:mt-[220px] left-0 ml-20 2xl:ml-32 w-[360px] h-[360px]'>
                             <LottieComponent play={inView} delay={2000} animationData={eth} />
                         </motion.div>
                     </>
