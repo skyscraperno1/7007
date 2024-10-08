@@ -13,7 +13,7 @@ const ColorBlock = () => {
   useMotionValueEvent(scrollY, "change", () => {
     setIsHovering(false)
   })
-  const { translate, inset } = usePosition(btnRef, 'color-block');
+  const { translate, inset } = usePosition(btnRef, 'section-six');
 
   useEffect(() => {
     if (isHovering) {

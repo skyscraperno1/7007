@@ -32,24 +32,16 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
         break;
     }
   }, [direction, borderWidth])
-  const [variants, setVariants] = useState({
-    initial: initial,
-    left: { x: -20 + borderWidth },
-    rightUp: { y: -20 },
-    down: { y: 20 - borderWidth },
-    rightDown: { x: 20 - borderWidth, y: 20 - borderWidth },
-  });
-  useEffect(() => {
+  const makeVariants = () => {
     const trans = isMobile ? 10 : 20
-    setVariants({
+    return {
       initial: initial,
       left: { x: -trans + borderWidth },
       rightUp: { y: -trans },
       down: { y: trans - borderWidth },
       rightDown: { x: trans - borderWidth, y: trans - borderWidth },
-    })
-
-  }, [borderWidth, initial, isMobile])
+    }
+  }
  
   const handleHover = (e) => {
     if (isMobile) return;
@@ -67,7 +59,7 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
 
   const makeTransition = () => {
     if (isMobile) {
-      return { duration: 1, ease: 'linear', repeat: Infinity, repeatType: 'reverse' }
+      return { duration: 1, ease: 'linear', repeat: Infinity, repeatType: 'reverse', repeatDelay: 0.5 }
     } else {
       return { duration: 0.25, ease: 'linear' }
     }
@@ -77,14 +69,14 @@ const AnimatedBlock = ({ bgColor, width = '100%', height = '100%', direction, ti
       update(latest.y)
     }
   }
- 
+  
   return (
     <motion.div
       className={cn("box flex justify-center items-center relative m-pointer border-black", bgColor)}
       onMouseMove={handleHover}
       onMouseLeave={handleMouseLeave}
-      variants={variants}
-      animate={hover || isMobile ? direction : "initial"}
+      variants={makeVariants()}
+      animate={isMobile ? direction : hover ? direction : "initial"}
       transition={makeTransition()}
       onUpdate={handleUpdate}
       style={{ width, height, borderWidth }}
