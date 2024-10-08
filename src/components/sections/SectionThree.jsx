@@ -151,7 +151,7 @@ const colors = [
                             animate={next ? 'hidden' : 'visible'}
                             variants={RIGHT_VARIANTS}
                             transition={{ duration: 1 }}
-                            className='mt-0 2xl:mt-[3%] -rotate-[30deg] absolute scale-[65%] 2xl:scale-100 -right-14 w-[530px] h-[530px]'>
+                            className='mt-0 2xl:mt-[3%] -rotate-[30deg] absolute scale-[65%] 2xl:scale-100 -right-14 2xl:-right-0 w-[530px] h-[530px]'>
                             <LottieComponent play={inView} animationData={eth} />
                         </motion.div>
                         <motion.div 
