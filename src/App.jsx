@@ -25,9 +25,13 @@ const AppContent = () => {
   const { isLoading, progress, isMobile } = useResources();
   isMobile 
   if (isMobile) {
-    import ('./fonts.css');
     sections = sections.filter((section) => section.page !== 2.1)
   }
+  const ua = window.navigator.userAgent;
+  if (isMobile || /Safari/.test(ua) && !/CriOS/.test(ua) && !/FxiOS/.test(ua)) {
+    import ('./fonts.css');
+  }
+  
   return (
     <>
       <LoadingScreen isLoading={isLoading} progress={progress} isMobile={isMobile}/>
