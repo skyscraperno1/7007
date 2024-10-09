@@ -62,8 +62,7 @@ export const _resources = {
     '/Section6/$7007.png'
   ],
   videos: [
-    '/Section2/clip.mp4',
-    '/Section2/full_video.mp4',
+    '/Section2/video.mp4',
   ],
   fonts: [
     {
