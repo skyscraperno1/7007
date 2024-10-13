@@ -12,6 +12,7 @@ const ButtonWrapper = styled(motion.div)`
   @media(min-width: 1537px) {
     box-shadow: -6px 6px 0px #000000;
     border: 4px solid #000000;
+    ${({ $noShadow }) => $noShadow && 'box-shadow: none;'}
   }
   ${({ $noShadow }) => $noShadow && 'box-shadow: none;'}
   ${({ $disabled }) => $disabled && 'pointer-events: none; opacity: 0.5;'}

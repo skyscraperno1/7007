@@ -31,6 +31,6 @@ body {
 ::-webkit-scrollbar {
     width: 0;
 }
-svg {
+svg, a {
     cursor: none;
 }

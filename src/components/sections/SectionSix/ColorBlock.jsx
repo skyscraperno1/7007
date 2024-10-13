@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import BoldTitle from '../../core/BoldTitle'
 import Button from "../../core/Button";
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 import AnimatedBlock from "./AnimatedBlock"
 import usePosition from "./useAnimations";
 import { makeCoverAnimation, makeBtnAnimation, BoxContainer } from './useConfig'
-const ColorBlock = () => {
+const ColorBlock = ({ onClick = null }) => {
   const btnRef = useRef(null);
   const wrapperRef = useRef(null)
   const [isHovering, setIsHovering] = useState(false);
@@ -15,13 +15,6 @@ const ColorBlock = () => {
   })
   const { translate, inset } = usePosition(btnRef, 'section-six');
 
-  useEffect(() => {
-    if (isHovering) {
-      sessionStorage.setItem('last_pop', 'true')
-    } else {
-      sessionStorage.removeItem('last_pop')
-    }
-  }, [isHovering])
   const getRight = () => {
     if (btnRef.current) {
       return `calc(15% - ${btnRef.current.clientWidth / 2}px)`
@@ -41,6 +34,18 @@ const ColorBlock = () => {
     if (isHovering) return;
     setBtnY(y)
   }
+  const [isAnimating, setIsAnimating] = useState(false)
+  const handleClick = () => {
+    if (!isHovering || isAnimating) return;
+    setIsHovering(false)
+    onClick && onClick()
+  }
+
+  const handleMouseEnter = () => {
+    if (isHovering) return;
+    sessionStorage.setItem('last_pop', 'true')
+    setIsHovering(true)
+  }
 
   return (
     <>
@@ -49,6 +54,8 @@ const ColorBlock = () => {
         className="z-40 select-none fixed bottom-0 right-0 bg-themeYellow"
         variants={makeCoverAnimation(inset)}
         animate={isHovering ? 'visible' : 'hidden'}
+        onAnimationStart={() => setIsAnimating(true)}
+        onAnimationComplete={() => setIsAnimating(false)}
         style={{
           height: '90%',
           width: 'calc(100vw - 65px)',
@@ -59,13 +66,7 @@ const ColorBlock = () => {
       <BoxContainer className="h-full grid select-none" ref={wrapperRef}>
         <motion.div
           ref={btnRef}
-          onMouseEnter={() => {
-            if (isHovering) return;
-            setIsHovering(true)
-          }}
-          onClick={() => {
-            setIsHovering(false)
-          }}
+          onMouseEnter={handleMouseEnter}
           variants={makeBtnAnimation(translate.x, translate.y)}
           animate={isHovering ? "hover" : "shake"}
           className="z-50 m-pointer absolute"
@@ -75,7 +76,7 @@ const ColorBlock = () => {
             width: 'fit-content'
           }}
         >
-          <Button kls="px-8 py-5 bg-themeGreen" duration={0.4}>
+          <Button kls="px-8 py-5 bg-themeGreen" onClick={handleClick} duration={0.4}>
             Buy $7007
           </Button>
         </motion.div>

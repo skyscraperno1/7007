@@ -8,8 +8,7 @@ import usePosition from './SectionSix/useAnimations'
 import { makeCoverAnimation, makeBtnAnimation, MobileBoxContainer } from './SectionSix/useConfig'
 import AnimatedBlock from './SectionSix/AnimatedBlock'
 import { usePhoneCal } from '../../hook/useContext'
-import MobileWallet from '../core/MobileWallet'
-const SectionSix = ({ isMobile }) => {
+const SectionSix = ({ isMobile, updateShowWallet = () => {} }) => {
   const btnRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
   const bg = useResourceByName('$7007.png', RESOURCE_TYPES.IMAGE)
@@ -31,21 +30,17 @@ const SectionSix = ({ isMobile }) => {
     }
   }, [flag]);
 
-  const [showWallet, setShowWallet] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
   const handleClick = () => {
+    if (isAnimating) return;
     setIsHovering(prev => {
       if (prev) {
-        setShowWallet(true)
+        updateShowWallet()
       } else {
         sessionStorage.setItem('last_pop', 'true')
       }
       return !prev
     })
-  }
-
-  const handleClose = () => {
-    setShowWallet(false)
-    sessionStorage.removeItem('last_pop')
   }
 
   return (
@@ -58,6 +53,8 @@ const SectionSix = ({ isMobile }) => {
             <motion.div
               className="z-20 select-none w-full fixed bottom-0 right-0 bg-themeYellow"
               variants={makeCoverAnimation(inset)}
+              onAnimationStart={() => setIsAnimating(true)}
+              onAnimationComplete={() => setIsAnimating(false)}
               animate={isHovering ? 'visible' : 'hidden'}
               style={{
                 height: 'calc(100% - 123px)',
@@ -85,17 +82,15 @@ const SectionSix = ({ isMobile }) => {
             </div>
             <motion.div
               ref={btnRef}
-              onClick={handleClick}
               variants={makeBtnAnimation(translate.x, translate.y, true)}
               animate={isHovering ? "hover" : "shake"}
               className='relative z-30'
             >
-              <Button kls="bg-themeGreen h-16" isMobile={true} duration={0.05}>Buy $7007</Button>
+              <Button kls="bg-themeGreen h-16" isMobile={true} duration={0.05} onClick={handleClick}>Buy $7007</Button>
             </motion.div>
-            <MobileWallet show={showWallet} onClose={handleClose}/>
           </div>) : (
             <div id="color-block" className="w-[70%] h-[70%] 2xl:w-[75%] 2xl:h-[75%]">
-              <ColorBlock isMobile={isMobile} />
+              <ColorBlock onClick={updateShowWallet} />
             </div>
           )
         }

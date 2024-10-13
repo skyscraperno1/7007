@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Popover from './Popover'
-import MobileWallet from './MobileWallet'
+import WalletPopover from './WalletPopover'
 
 const MobileScroller = ({ isLoading, sections, isMobile }) => {
   const target = useRef(null)
@@ -33,6 +33,10 @@ const MobileScroller = ({ isLoading, sections, isMobile }) => {
   }, [])
   
   const [showWallet, setShowWallet] = useState(false)
+  const handleClose = () => {
+    sessionStorage.removeItem('last_pop')
+    setShowWallet(false)
+  }
   return (
     <div className='overflow-hidden'>
       <div className="w-screen overflow-x-hidden"
@@ -52,7 +56,7 @@ const MobileScroller = ({ isLoading, sections, isMobile }) => {
                   scrollSnapAlign: 'start',
                   scrollBehavior: 'smooth'
                 }}>
-                <Component currentSection={currentSection} isMobile={isMobile} />
+                <Component currentSection={currentSection} isMobile={isMobile} updateShowWallet={() => setShowWallet(true)}/>
               </section>
             )
           })
@@ -60,7 +64,7 @@ const MobileScroller = ({ isLoading, sections, isMobile }) => {
         <Popover ref={ref} isLoading={isLoading} isMobile={isMobile} isScrolling={isScrolling} currentSection={currentSection} showWallet={() => {
           setShowWallet(true)
         }}/>
-        <MobileWallet show={showWallet} onClose={() => setShowWallet(false)}/>
+        <WalletPopover show={showWallet} onClose={handleClose}/>
       </div>
     </div>
   )

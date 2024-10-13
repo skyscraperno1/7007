@@ -7,8 +7,6 @@ export const _resources = {
     '/Logo/coinbase_wallet.svg',
     '/Logo/meta_mask.svg',
     '/Logo/wallet_connect.svg',
-    '/Logo/create_wallet.svg',
-    '/Logo/login_wallet.svg',
     // Navigator
     '/Logo/GreenLogo.png',
     '/Logo/X-logo.svg',
@@ -217,7 +215,7 @@ const useLoading = (isMobile) => {
         finishLoading(elapsedTime);
       })
       .catch((error) => {
-        console.log('resource load error:', error);
+        console.error('resource load error:', error);
         const elapsedTime = Date.now() - startTime;
         finishLoading(elapsedTime);
       });

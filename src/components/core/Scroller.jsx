@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 import BottomNav from './BottomNav';
 import Popover from './Popover'
+import WalletPopover from './WalletPopover';
 export default function Scroll({ sections, isMobile, isLoading }) {
     const sectionRef = useRef(null)
     const triggerRef = useRef(null)
@@ -65,6 +66,16 @@ export default function Scroll({ sections, isMobile, isLoading }) {
     const getPageIndex = (page) => (page === 1
         ? { position: 'relative', zIndex: 90 }
         : {})
+    const [showWallet, setShowWallet] = useState(false)
+    
+    const lastPageShowWallet = () => {
+        sessionStorage.setItem('last_pop', 'true')
+        setShowWallet(true)
+    }
+    const handleClose = () => {
+        setShowWallet(false)
+        sessionStorage.removeItem('last_pop')
+    }
     return (
         <div className='overflow-hidden'>
             <div ref={triggerRef}>
@@ -75,7 +86,7 @@ export default function Scroll({ sections, isMobile, isLoading }) {
                             return (
                                 <section key={page} className='relative w-screen h-screen' id={`section-${page}`} style={getPageIndex(page)}>
                                     <div className='h-full w-full relative z-40' style={getWrapperStyle(page === 3)}>
-                                        <Component currentSection={currentSection} isMobile={isMobile} />
+                                        <Component currentSection={currentSection} isMobile={isMobile} updateShowWallet={lastPageShowWallet}/>
                                     </div>
                                     <BottomNav page={page} isMobile={isMobile} />
                                 </section>
@@ -84,7 +95,10 @@ export default function Scroll({ sections, isMobile, isLoading }) {
                     }
                 </div>
             </div>
-            <Popover ref={ref} isLoading={isLoading} isMobile={isMobile} isScrolling={isScrolling} currentSection={currentSection} />
+            <Popover ref={ref} isLoading={isLoading} isMobile={isMobile} isScrolling={isScrolling} currentSection={currentSection} showWallet={() => {
+                setShowWallet(true)
+            }}/>
+            <WalletPopover show={showWallet} onClose={handleClose}/>
         </div>
 
     )
