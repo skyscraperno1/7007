@@ -13,7 +13,8 @@ const ButtonWrapper = styled(motion.div)`
     box-shadow: -6px 6px 0px #000000;
     border: 4px solid #000000;
   }
-
+  ${({ $noShadow }) => $noShadow && 'box-shadow: none;'}
+  ${({ $disabled }) => $disabled && 'pointer-events: none; opacity: 0.5;'}
   span {
     position: relative;
     z-index: 1;
@@ -34,7 +35,7 @@ const HoverBackground = styled(motion.div)`
   will-change: 'transform';
 `;
 
-function Button({ children, duration = 0.4, kls, onClick = () => {}, isMobile, isActive }) {
+function Button({ children, duration = 0.4, kls, onClick = () => {}, isMobile, isActive, noShadow = false, disabled = false }) {
   const isText = useMemo(() => typeof children === 'string', [children]);
   const whileInteractive = isMobile ? { whileTap: "hover" } : { whileHover: "hover" };
   const getDuration = () => {
@@ -44,10 +45,13 @@ function Button({ children, duration = 0.4, kls, onClick = () => {}, isMobile, i
   return (
     <ButtonWrapper
       initial="rest"
+      $noShadow={noShadow}
+      $disabled={disabled}
       animate={currentState}
       {...(!isActive && whileInteractive)}
       onClick={onClick}
-      className={cn("h-12 2xl:h-16 flex items-center justify-center uppercase m-pointer text-nowrap bg-themeYellow text-2xl", 
+      className={cn("h-12 2xl:h-16 flex items-center justify-center uppercase text-nowrap bg-themeYellow text-2xl", 
+        {'m-pointer': !disabled},
         kls
       )}
     >

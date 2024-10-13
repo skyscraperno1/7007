@@ -2,6 +2,13 @@ import { useCallback, useEffect, useState } from 'react';
 
 export const _resources = {
   images: [
+    // Wallet
+    '/Logo/rainbow.svg',
+    '/Logo/coinbase_wallet.svg',
+    '/Logo/meta_mask.svg',
+    '/Logo/wallet_connect.svg',
+    '/Logo/create_wallet.svg',
+    '/Logo/login_wallet.svg',
     // Navigator
     '/Logo/GreenLogo.png',
     '/Logo/X-logo.svg',

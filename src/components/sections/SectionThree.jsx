@@ -120,7 +120,7 @@ const colors = [
                 className={cn('relative', {'z-0': isMobile})}>
                 <BoldTitle content='ONE PROMPT ONE COLLECTION!' color="#FF0501" italic kls={cn({'whitespace-normal text-5xl': isMobile})} medium={isMobile}/>
             </motion.div>
-            <motion.div className={cn("absolute bottom-28 z-50", {"mt-24 bottom-12": isMobile, "bottom-24": flag, "ml-[65px]": !isMobile})} animate={{
+            <motion.div className={cn("absolute bottom-28 z-[39]", {"mt-24 bottom-12": isMobile, "bottom-24": flag, "ml-[65px]": !isMobile})} animate={{
                 rotate: [0, 5, 0, -5, 0],
                 transition: { duration: 0.25, repeat: Infinity, repeatType: 'loop', ease: 'linear' },
             }}

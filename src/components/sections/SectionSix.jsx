@@ -2,29 +2,23 @@ import ColorBlock from './SectionSix/ColorBlock'
 import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName'
 import Button from '../core/Button'
 import BoldTitle from '../core/BoldTitle'
-import { useRef, useState, useMemo, useEffect } from 'react'
+import { useRef, useState, useMemo } from 'react'
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 import usePosition from './SectionSix/useAnimations'
 import { makeCoverAnimation, makeBtnAnimation, MobileBoxContainer } from './SectionSix/useConfig'
 import AnimatedBlock from './SectionSix/AnimatedBlock'
 import { usePhoneCal } from '../../hook/useContext'
+import MobileWallet from '../core/MobileWallet'
 const SectionSix = ({ isMobile }) => {
   const btnRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
   const bg = useResourceByName('$7007.png', RESOURCE_TYPES.IMAGE)
-  const { translate, inset } = usePosition(btnRef, 'section-six');
+  const { translate, inset } = usePosition(btnRef, 'section-six', isMobile);
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", () => {
     setIsHovering(false)
   })
   const flag = usePhoneCal()
-  useEffect(() => {
-    if (isHovering) {
-      sessionStorage.setItem('last_pop', 'true')
-    } else {
-      sessionStorage.removeItem('last_pop')
-    }
-  }, [isHovering])
   const calStyle = useMemo(() => {
     if (flag) {
       return {
@@ -36,6 +30,23 @@ const SectionSix = ({ isMobile }) => {
       return {}
     }
   }, [flag]);
+
+  const [showWallet, setShowWallet] = useState(false)
+  const handleClick = () => {
+    setIsHovering(prev => {
+      if (prev) {
+        setShowWallet(true)
+      } else {
+        sessionStorage.setItem('last_pop', 'true')
+      }
+      return !prev
+    })
+  }
+
+  const handleClose = () => {
+    setShowWallet(false)
+    sessionStorage.removeItem('last_pop')
+  }
 
   return (
     <>
@@ -74,16 +85,14 @@ const SectionSix = ({ isMobile }) => {
             </div>
             <motion.div
               ref={btnRef}
-              onClick={() => {
-                setIsHovering(prev => !prev)
-              }}
+              onClick={handleClick}
               variants={makeBtnAnimation(translate.x, translate.y, true)}
               animate={isHovering ? "hover" : "shake"}
               className='relative z-30'
             >
               <Button kls="bg-themeGreen h-16" isMobile={true} duration={0.05}>Buy $7007</Button>
             </motion.div>
-
+            <MobileWallet show={showWallet} onClose={handleClose}/>
           </div>) : (
             <div id="color-block" className="w-[70%] h-[70%] 2xl:w-[75%] 2xl:h-[75%]">
               <ColorBlock isMobile={isMobile} />

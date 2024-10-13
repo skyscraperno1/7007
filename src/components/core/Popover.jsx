@@ -8,7 +8,7 @@ const _config = [
   { bg: 'themeRed', text: "PAre you sure you don't want to join?" },
   { bg: 'themeGreen', text: "This is the final call, join or you’ll regret!" }
 ]
-const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection }, ref) => {
+const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection, showWallet }, ref) => {
   const [show, setShow] = useState(false)
   let _timer = null
   const [config, setConfig] = useState({
@@ -90,7 +90,10 @@ const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection }
                   <h1 className="text-3xl mb-4">get early access</h1>
                   <h2 className="text-lg">{config.text}</h2>
                 </div>
-                <Button kls="text-black w-full text-lg font-normal" isMobile={isMobile}>join waitlist</Button>
+                <Button kls="text-black w-full text-lg font-normal" isMobile={isMobile} onClick={() => {
+                  setShow(false)
+                  showWallet()
+                }}>join waitlist</Button>
               </div>
 
             </motion.div>
