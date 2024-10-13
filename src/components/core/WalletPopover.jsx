@@ -72,7 +72,7 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
           <p className="w-full flex justify-end h-10">
             <IoCloseSharp className="absolute top-4 right-4 text-2xl leading-4 text-black font-bolder" onClick={handleClose}/>
           </p>
-          <h2 className="uppercase px-4 w-full text-start text-xl select-none">connect a wallet</h2>
+          <h2 className="uppercase px-4 w-full text-start text-2xl select-none">connect a wallet</h2>
           <div className="flex flex-1 flex-col w-full px-4 my-7">
           {links.map((link, index) => (
             <div
@@ -88,7 +88,7 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
             ))}
           </div>
           <div className="flex mb-6 2xl:mb-4">
-            <div className="h-full flex items-center mr-4">
+            <div className="h-inherit flex items-center mr-4">
               <CheckBox checked={check} onChange={handleCheckboxChange} />
             </div>
             <div className="uppercase underline select-none">binding my account to discord</div>
