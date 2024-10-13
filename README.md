@@ -24,4 +24,4 @@
 ## 使用vite打包 运行 npm run build 可进行打包
 ## 启动本地项目 运行 npm run dev
 
-## 注： 由于文件大小的限制，现在上传的video是压缩过后的，正式上线请把Section4 里面的video.mp4替换成原视频
+## 注： 由于文件大小的限制，现在上传的video是压缩过后的，正式上线请把/public/Section2 里面的video.mp4替换成原视频
