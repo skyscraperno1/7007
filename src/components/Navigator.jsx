@@ -96,7 +96,10 @@ function Navigator({ isMobile }) {
                   <div className="flex justify-between items-center uppercase w-screen px-4 h-12 text-lg"
                   >
                     <div className="w-5 text-end">05</div>
-                    <div className="w-32 text-end text-nowrap">Discord</div>
+                    <div className="w-32 text-end text-nowrap"  
+                      onClick={() => {
+                        window.open("https://discord.gg/D5ewSJxuQM", "_blank");
+                      }}>Discord</div>
                   </div>
                 </motion.div>
               )
@@ -125,11 +128,17 @@ function Navigator({ isMobile }) {
               className="z-10 h-auto w-6 2xl:w-full"
             />
           </Button>
-          <Button  kls="w-12 2xl:w-16 px-2 2xl:px-3">
+          <Button  kls="w-12 2xl:w-16 px-2 2xl:px-3"
+             onClick={() => {
+              window.open("https://discord.gg/D5ewSJxuQM", "_blank");
+            }}
+          >
             <img src={DiscordLogo} alt='discord' className="z-10 h-auto w-6 2xl:w-full" />
           </Button>
           <Button kls="px-2 2xl:px-3">whitepaper</Button>
-          <Button kls="px-2 2xl:px-3">launch app</Button>
+          <Button kls="px-2 2xl:px-3" 
+          
+          >launch app</Button>
         </div>
       )}
     </header>

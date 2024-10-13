@@ -11,7 +11,8 @@ function usePosition(btnRef, parentElementId) {
     const bottomDistance = parentRect.bottom - boxRect.bottom;
     const leftDistance = boxRect.left - parentRect.left;
     const rightDistance = parentRect.right - boxRect.right;
-    const x = (parentRect.width - boxRect.width) / 2 - boxRect.left + parentRect.left;
+    const isBig = window.innerWidth > 1537
+    const x = (parentRect.width - boxRect.width / 4) / 2 - boxRect.left + parentRect.left + (isBig ? 65 : 0);
     const y = (parentRect.height - boxRect.height) / 2 - boxRect.top + parentRect.top;
     setTranslate({ x, y });
     const insetValues = `inset(${topDistance}px ${rightDistance}px ${bottomDistance}px ${leftDistance}px)`;
