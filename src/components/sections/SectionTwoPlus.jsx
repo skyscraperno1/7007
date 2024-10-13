@@ -160,6 +160,14 @@ const SectionTwoPlus = ({ isMobile, currentSection }) => {
     }
   }, [currentSection, isMobile])
 
+  const keepControls = () => {
+    setShowControls(true)
+    if (timer) {
+      clearTimeout(timer);
+      setTimer(null)
+    }
+  }
+
   return (
     <div
       className={cn(
@@ -176,13 +184,16 @@ const SectionTwoPlus = ({ isMobile, currentSection }) => {
       <AnimatePresence>
         {(showControls) && (
           <motion.div
+            id="video-controls"
             className="absolute bottom-16 right-0 left-0 px-[35%] z-100 opacity-50"
             initial={{ opacity: 0, display: "none" }}
             animate={{ opacity: 0.5, display: "block" }}
             exit={{ opacity: 0, display: "none", duration: exitDuration }}
             transition={{ duration: 0.3 }}
             style={ isMobile ? { marginBottom: '10%', padding: '0 20%' } : {}}
-            onMouseEnter={() => setShowControls(true)}
+            onMouseEnter={keepControls}
+            onMouseMove={keepControls}
+            onClick={keepControls}
           >
             <div className="flex items-center justify-between h-8 gap-4 text-slate-50 text-base overflow-hidden">
               <div className="flex bg-[#151515] flex-1 h-full items-center p-2 rounded">
