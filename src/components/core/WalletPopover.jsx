@@ -54,9 +54,9 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
           animate={{ display: 'flex' }}
           exit={{ display: 'none' }}
         >
-        <motion.div className="w-[330px] h-[440px] flex flex-col justify-center items-center py-6 px-6 border-black bg-white"
-          initial={{ opacity: 0, x: 100, display: 'none' }}
-          animate={{ opacity: 1, x: 0, display: 'block'}}
+        <motion.div className={cn("w-[380px] h-[440px] flex flex-col justify-center items-center py-6 px-6 border-black bg-white", { "w-[330px]": isMobile})}
+          initial={{ opacity: 0, x: 100, display: 'none', scale: isMobile ? 0.8 : 1 }}
+          animate={{ opacity: 1, x: 0, display: 'block', scale: isMobile ? 0.8 : 1 }}
           exit={{ opacity: 0, x: 100, rotate: [0], display: 'none' }}
           transition={{
             x: { duration: 0.5 },

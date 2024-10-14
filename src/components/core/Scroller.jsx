@@ -98,7 +98,7 @@ export default function Scroll({ sections, isMobile, isLoading }) {
             <Popover ref={ref} isLoading={isLoading} isMobile={isMobile} isScrolling={isScrolling} currentSection={currentSection} showWallet={() => {
                 setShowWallet(true)
             }}/>
-            <WalletPopover show={showWallet} onClose={handleClose}/>
+            <WalletPopover show={showWallet} onClose={handleClose} isMobile={false}/>
         </div>
 
     )
