@@ -21,6 +21,11 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
   ]
 
   useEffect(() => {
+    if (show) {
+      sessionStorage.setItem('walletPopover', 'true')
+    } else {
+      sessionStorage.removeItem('walletPopover')
+    }
     if (isMobile) return;
     if (show) {
       document.body.style.overflow = 'hidden';

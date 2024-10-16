@@ -21,6 +21,11 @@ const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection, 
       _timer = null;
     }
     if (!isLoading && !isScrolling && !_timer) {
+      const walletPopover = sessionStorage.getItem('walletPopover')
+      if (walletPopover) {
+        _timer && clearTimeout(_timer)
+        return;
+      }
       if (currentSection === 1) {
         _timer = setTimeout(() => {
           setConfig(_config[0])
