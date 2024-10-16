@@ -31,7 +31,7 @@ const MobileScroller = ({ isLoading, sections, isMobile }) => {
     if (!target.current) return
     target.current?.addEventListener('scroll', handleScroll)
   }, [])
-  
+
   const [showWallet, setShowWallet] = useState(false)
   const handleClose = () => {
     sessionStorage.removeItem('last_pop')
@@ -62,9 +62,9 @@ const MobileScroller = ({ isLoading, sections, isMobile }) => {
           })
         }
         <Popover ref={ref} isLoading={isLoading} isMobile={isMobile} isScrolling={isScrolling} currentSection={currentSection} showWallet={() => {
-          setShowWallet(true)
+          setShowWallet(false)
         }}/>
-        <WalletPopover show={showWallet} onClose={handleClose} isMobile={true} />
+        <WalletPopover show={false} onClose={handleClose} isMobile={true} />
       </div>
     </div>
   )
