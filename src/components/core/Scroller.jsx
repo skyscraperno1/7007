@@ -67,7 +67,7 @@ export default function Scroll({ sections, isMobile, isLoading }) {
         ? { position: 'relative', zIndex: 90 }
         : {})
     const [showWallet, setShowWallet] = useState(false)
-    
+
     const lastPageShowWallet = () => {
         sessionStorage.setItem('last_pop', 'true')
         setShowWallet(true)
@@ -96,9 +96,9 @@ export default function Scroll({ sections, isMobile, isLoading }) {
                 </div>
             </div>
             <Popover ref={ref} isLoading={isLoading} isMobile={isMobile} isScrolling={isScrolling} currentSection={currentSection} showWallet={() => {
-                setShowWallet(true)
+                setShowWallet(false)
             }}/>
-            <WalletPopover show={showWallet} onClose={handleClose} isMobile={false}/>
+            <WalletPopover show={false} onClose={handleClose} isMobile={false}/>
         </div>
 
     )
