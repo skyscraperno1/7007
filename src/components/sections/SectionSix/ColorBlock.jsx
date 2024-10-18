@@ -5,7 +5,7 @@ import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 import AnimatedBlock from "./AnimatedBlock"
 import usePosition from "./useAnimations";
 import { makeCoverAnimation, makeBtnAnimation, BoxContainer } from './useConfig'
-const ColorBlock = ({ onClick = null }) => {
+const ColorBlock = () => {
   const btnRef = useRef(null);
   const wrapperRef = useRef(null)
   const [isHovering, setIsHovering] = useState(false);
@@ -38,7 +38,7 @@ const ColorBlock = ({ onClick = null }) => {
   const handleClick = () => {
     if (!isHovering || isAnimating) return;
     setIsHovering(false)
-    onClick && onClick()
+    window.open('https://app.uniswap.org/swap?outputCurrency=0x75eC618A817EB0A4a7E44aC3dFc64c963DAf921A&chain=arbitrum')
   }
 
   const handleMouseEnter = () => {

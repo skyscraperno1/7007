@@ -8,7 +8,7 @@ import usePosition from './SectionSix/useAnimations'
 import { makeCoverAnimation, makeBtnAnimation, MobileBoxContainer } from './SectionSix/useConfig'
 import AnimatedBlock from './SectionSix/AnimatedBlock'
 import { usePhoneCal } from '../../hook/useContext'
-const SectionSix = ({ isMobile, updateShowWallet = () => {} }) => {
+const SectionSix = ({ isMobile }) => {
   const btnRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
   const bg = useResourceByName('$7007.png', RESOURCE_TYPES.IMAGE)
@@ -35,7 +35,7 @@ const SectionSix = ({ isMobile, updateShowWallet = () => {} }) => {
     if (isAnimating) return;
     setIsHovering(prev => {
       if (prev) {
-        updateShowWallet()
+        window.open('https://app.uniswap.org/swap?outputCurrency=0x75eC618A817EB0A4a7E44aC3dFc64c963DAf921A&chain=arbitrum')
       } else {
         sessionStorage.setItem('last_pop', 'true')
       }
@@ -90,7 +90,7 @@ const SectionSix = ({ isMobile, updateShowWallet = () => {} }) => {
             </motion.div>
           </div>) : (
             <div id="color-block" className="w-[70%] h-[70%] 2xl:w-[75%] 2xl:h-[75%]">
-              <ColorBlock onClick={updateShowWallet} />
+              <ColorBlock />
             </div>
           )
         }

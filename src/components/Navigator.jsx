@@ -60,8 +60,8 @@ function Navigator({ isMobile }) {
   useEffect(() => {
     if (isMobile) {
       setLinks([
-        {url: '#', content: '01_launch app'},
-        {url: '#', content: '02_whitepaper'},
+        {url: null, content: '01_launch app'},
+        {url: null, content: '02_whitepaper'},
         {url: 'https://x.com/lab7007?s=21', content: '03_X'},
         {url: 'https://t.me/lab7007', content: '04_Telegram'},
         {url: 'https://discord.gg/D5ewSJxuQM', content: '05_Discord'},
@@ -69,11 +69,11 @@ function Navigator({ isMobile }) {
     } else {
       if (!XLogo || !TgLogo || !DiscordLogo) return;
       setLinks([
-        {url: 'https://x.com/lab7007?s=21', content: XLogo, name: 'X'},
-        {url: 'https://t.me/lab7007', content: TgLogo, name: 'Telegram'},
-        {url: 'https://discord.gg/D5ewSJxuQM', content: DiscordLogo, name: 'Discord'},
-        {url: '#', content: 'whitepaper', name: ''},
-        {url: '#', content: 'launch app', name: ''},
+        {url: 'https://x.com/lab7007?s=21', content: XLogo, name: 'X', disabled: false},
+        {url: 'https://t.me/lab7007', content: TgLogo, name: 'Telegram', disabled: false},
+        {url: 'https://discord.gg/D5ewSJxuQM', content: DiscordLogo, name: 'Discord', disabled: false},
+        {url: '#', content: 'whitepaper', name: '', disabled: true},
+        {url: '#', content: 'launch app', name: '', disabled: true},
       ])
     }
   }, [isMobile, XLogo, TgLogo, DiscordLogo])
@@ -105,7 +105,7 @@ function Navigator({ isMobile }) {
                     return (
                       <a
                         key={name}
-                        className="flex justify-between items-center uppercase w-screen px-4 h-12 text-lg"
+                        className={cn("flex justify-between items-center uppercase w-screen px-4 h-12 text-lg", {'opacity-60': url === null})}
                         href={url}
                         target='_blank'
                         rel='noopener noreferrer'
@@ -123,7 +123,7 @@ function Navigator({ isMobile }) {
       ) : (
         <div className="h-full flex items-center gap-5">
           {
-            links.map(({ url, content, name }) => {
+            links.map(({ url, content, name, disabled }) => {
               const isImg = content.startsWith('/')
               const kls = isImg ? 'w-12 2xl:w-16 px-2 2xl:px-3' : 'px-2 2xl:px-3'
               return (
@@ -131,6 +131,7 @@ function Navigator({ isMobile }) {
                   key={content}
                   kls={kls}
                   onClick={() => handleClick(url)}
+                  disabled={disabled}
                 >
                   {renderBtn(content, isImg, name)}
                 </Button>
