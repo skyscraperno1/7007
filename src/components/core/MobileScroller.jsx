@@ -62,9 +62,9 @@ const MobileScroller = ({ isLoading, sections, isMobile }) => {
           })
         }
         <Popover ref={ref} isLoading={isLoading} isMobile={isMobile} isScrolling={isScrolling} currentSection={currentSection} showWallet={() => {
-          setShowWallet(false)
+          setShowWallet(true)
         }}/>
-        <WalletPopover show={false} onClose={handleClose} isMobile={true} />
+        <WalletPopover show={showWallet} onClose={handleClose} isMobile={true} />
       </div>
     </div>
   )

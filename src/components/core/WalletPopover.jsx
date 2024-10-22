@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "../../lib/utils";
 import useResourceByName, { RESOURCE_TYPES } from "../../hook/useResourceByName";
+import { BrowserProvider } from 'ethers';
+import { SiweMessage } from 'siwe';
+
 const WalletPopover = ({ show, onClose, isMobile }) => {
   const RAINBOW = useResourceByName('rainbow.svg', RESOURCE_TYPES.IMAGE);
   const COINBASE = useResourceByName('coinbase_wallet.svg', RESOURCE_TYPES.IMAGE);
@@ -12,6 +15,8 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
   const WALLET_CONNECT = useResourceByName('wallet_connect.svg', RESOURCE_TYPES.IMAGE);
   const [check, setCheck] = useState(false)
   const [active, setActive] = useState('')
+
+  const provider = new BrowserProvider(window.ethereum);
   
   const links = [
     {url: '#', content: 'rainbow', logo: RAINBOW},
@@ -45,11 +50,44 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
     onClose();
   }
 
-  const handleNext = () => {
-    const wallet = active.substring(3)
-    console.log('link to your next step', wallet);
-    handleClose()
+  function createSiweMessage(address, statement) {
+    const scheme = window.location.protocol.slice(0, -1);
+    const domain = window.location.host;
+    const origin = window.location.origin;
+
+    const message = new SiweMessage({
+      scheme,
+      domain,
+      address,
+      statement,
+      uri: origin,
+      version: '1',
+      chainId: '1',
+    });
+    return message.prepareMessage();
   }
+
+  const handleNext = async () => {
+    try {
+      // Connect wallet (e.g., for MetaMask)
+      await provider.send('eth_requestAccounts', []);
+
+      const signer = await provider.getSigner();
+      const message = createSiweMessage(
+        signer.address, 
+        'Sign in with Ethereum to the app.'
+      );
+      const signature = await signer.signMessage(message);
+
+      console.log('Signed Message:', signature);
+      console.log('Active Wallet:', active);
+
+      // Proceed with the next step, e.g., binding account or sending data
+      handleClose();
+    } catch (error) {
+      console.log('Error connecting or signing in:', error);
+    }
+  };
   return (
    <AnimatePresence>
     {

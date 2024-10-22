@@ -44,7 +44,7 @@ export default function Scroll({ sections, isMobile, isLoading }) {
             animation: tween,
             // ease: 'none',
             pin: true,
-            scrub: 0.05,
+            scrub: 0.02,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
                 handleScroll()
@@ -96,9 +96,9 @@ export default function Scroll({ sections, isMobile, isLoading }) {
                 </div>
             </div>
             <Popover ref={ref} isLoading={isLoading} isMobile={isMobile} isScrolling={isScrolling} currentSection={currentSection} showWallet={() => {
-                setShowWallet(false)
+                setShowWallet(true)
             }}/>
-            <WalletPopover show={false} onClose={handleClose} isMobile={false}/>
+            <WalletPopover show={showWallet} onClose={handleClose} isMobile={false}/>
         </div>
 
     )
