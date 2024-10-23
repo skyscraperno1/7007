@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 import BottomNav from './BottomNav';
 import Popover from './Popover'
 import WalletPopover from './WalletPopover';
-export default function Scroll({ sections, isMobile, isLoading }) {
+export default function Scroll({ sections, isLoading }) {
     const sectionRef = useRef(null)
     const triggerRef = useRef(null)
     const ref = useRef(null)
@@ -32,8 +32,8 @@ export default function Scroll({ sections, isMobile, isLoading }) {
         }
         const tween = gsap.to(sectionRef.current, {
             x: getScrollAmount,
-            duration: 1,
-            ease: "none",
+            duration: 0.4,
+            ease: "linear",
         });
 
         let scrollTween = ScrollTrigger.create({
@@ -42,9 +42,9 @@ export default function Scroll({ sections, isMobile, isLoading }) {
             end: () => `+=${getScrollAmount() * -1}`,
             snap: 1 / (sections.length - 1),
             animation: tween,
-            ease: 'expo.in',
+            ease: 'linear',
             pin: true,
-            scrub: 0.05,
+            scrub: 0.5,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
                 handleScroll()
@@ -59,9 +59,7 @@ export default function Scroll({ sections, isMobile, isLoading }) {
     }, [])
 
     const getWrapperStyle = (flag) => {
-        return isMobile
-            ? { height: 'calc(100% - 123px)', width: '100vw', marginTop: '123px' }
-            : flag ? { height: '90vh', width: '100%', marginTop: '10vh' } : { height: '90vh', width: 'calc(100% - 65px)', marginTop: '10vh', marginLeft: '65px' }
+        return flag ? { height: '90vh', width: '100%', marginTop: '10vh' } : { height: '90vh', width: 'calc(100% - 65px)', marginTop: '10vh', marginLeft: '65px' }
     }
     const getPageIndex = (page) => (page === 1
         ? { position: 'relative', zIndex: 90 }
@@ -86,20 +84,20 @@ export default function Scroll({ sections, isMobile, isLoading }) {
                             return (
                                 <section key={page} className='relative w-screen h-screen' id={`section-${page}`} style={getPageIndex(page)}>
                                     <div className='h-full w-full relative z-40' style={getWrapperStyle(page === 3)}>
-                                        <Component currentSection={currentSection} isMobile={isMobile} updateShowWallet={lastPageShowWallet}/>
+                                        <Component currentSection={currentSection} isMobile={false} updateShowWallet={lastPageShowWallet}/>
                                     </div>
-                                    <BottomNav page={page} isMobile={isMobile} />
+                                    <BottomNav page={page} isMobile={false} />
                                 </section>
                             )
                         })
                     }
                 </div>
             </div>
-            <Popover ref={ref} isLoading={isLoading} isMobile={isMobile} isScrolling={isScrolling} currentSection={currentSection} showWallet={() => {
+            <Popover ref={ref} isLoading={isLoading} isMobile={false} isScrolling={isScrolling} currentSection={currentSection} showWallet={() => {
                 setShowWallet(true)
             }}/>
             <WalletPopover show={showWallet} onClose={handleClose} isMobile={false}/>
         </div>
-
+        
     )
 }

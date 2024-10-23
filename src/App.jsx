@@ -37,8 +37,8 @@ const AppContent = () => {
       <LoadingScreen isLoading={isLoading} progress={progress} isMobile={isMobile}/>
       <Navigator isMobile={isMobile} />
       {isMobile 
-        ? <MobileScroller sections={sections} isMobile={isMobile} isLoading={isLoading} /> 
-        : <Scroller sections={sections} isMobile={isMobile} isLoading={isLoading} />
+        ? <MobileScroller sections={sections} isLoading={isLoading} /> 
+        : <Scroller sections={sections} isLoading={isLoading} />
       }
       <ScrollBar baseVelocity={2} isMobile={isMobile}>Ultimate AIGC Exchange&nbsp;</ScrollBar>
       {!isLoading && !isMobile && <Cursor />}

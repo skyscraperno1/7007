@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Popover from './Popover'
 import WalletPopover from './WalletPopover'
 
-const MobileScroller = ({ isLoading, sections, isMobile }) => {
+const MobileScroller = ({ isLoading, sections }) => {
   const target = useRef(null)
   const ref = useRef(null)
   const [currentSection, setCurrentSection] = useState(1)
@@ -56,12 +56,12 @@ const MobileScroller = ({ isLoading, sections, isMobile }) => {
                   scrollSnapAlign: 'start',
                   scrollBehavior: 'smooth'
                 }}>
-                <Component currentSection={currentSection} isMobile={isMobile} updateShowWallet={() => setShowWallet(true)}/>
+                <Component currentSection={currentSection} isMobile={true} updateShowWallet={() => setShowWallet(true)}/>
               </section>
             )
           })
         }
-        <Popover ref={ref} isLoading={isLoading} isMobile={isMobile} isScrolling={isScrolling} currentSection={currentSection} showWallet={() => {
+        <Popover ref={ref} isLoading={isLoading} isMobile={true} isScrolling={isScrolling} currentSection={currentSection} showWallet={() => {
           setShowWallet(true)
         }}/>
         <WalletPopover show={showWallet} onClose={handleClose} isMobile={true} />
