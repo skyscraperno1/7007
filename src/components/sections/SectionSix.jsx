@@ -77,8 +77,7 @@ const SectionSix = ({ isMobile }) => {
             </MobileBoxContainer>
             <div className='flex justify-start flex-col items-start w-full'>
               <BoldTitle content='Total supply:' size='small' color="#FF0501" italic xs={true} />
-              <BoldTitle content='Total allocation from' size='small' color="#FF0501" italic xs />
-              <BoldTitle content='ƒ(A.I.)ℝ launch / 0.7007' size='small' color="#FF0501" italic xs />
+              <BoldTitle content='112,001,800' size='small' color="#FF0501" italic xs />
             </div>
             <motion.div
               ref={btnRef}

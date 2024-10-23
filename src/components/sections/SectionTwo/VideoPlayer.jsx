@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import useResourceByName, { RESOURCE_TYPES } from "../../../hook/useResourceByName";
 import { cn } from '../../../lib/utils';
 const VideoPlayer = ({ isMobile }) => {
-  const Video = useResourceByName('video.mp4', RESOURCE_TYPES.VIDEO);
+  const Video = useResourceByName('full_video.mp4', RESOURCE_TYPES.VIDEO);
   const videoRef = useRef(null);
   return <>
     <video

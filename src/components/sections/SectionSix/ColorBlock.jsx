@@ -86,8 +86,7 @@ const ColorBlock = () => {
           </div>
           <div className='flex justify-start flex-col items-start absolute bottom-[-24px] left-[-50px]'>
             <BoldTitle content='Total supply:' size='small' color="#FF0501" italic />
-            <BoldTitle content='Total allocation from' size='small' color="#FF0501" italic />
-            <BoldTitle content='ƒ(A.I.)ℝ launch / 0.7007' size='small' color="#FF0501" italic />
+            <BoldTitle content='112,001,800' size='small' color="#FF0501" italic />
           </div>
         </AnimatedBlock>
         <div className="right h-full grid">
