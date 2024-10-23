@@ -32,7 +32,7 @@ export default function Scroll({ sections, isMobile, isLoading }) {
         }
         const tween = gsap.to(sectionRef.current, {
             x: getScrollAmount,
-            duration: 3,
+            duration: 1,
             ease: "none",
         });
 
@@ -42,9 +42,9 @@ export default function Scroll({ sections, isMobile, isLoading }) {
             end: () => `+=${getScrollAmount() * -1}`,
             snap: 1 / (sections.length - 1),
             animation: tween,
-            // ease: 'none',
+            ease: 'expo.in',
             pin: true,
-            scrub: 0.02,
+            scrub: 0.05,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
                 handleScroll()
