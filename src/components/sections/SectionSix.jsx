@@ -35,7 +35,7 @@ const SectionSix = ({ isMobile }) => {
     if (isAnimating) return;
     setIsHovering(prev => {
       if (prev) {
-        window.open('https://app.uniswap.org/swap?outputCurrency=0x75eC618A817EB0A4a7E44aC3dFc64c963DAf921A&chain=arbitrum')
+        window.open('https://dexscreener.com/ethereum/0x364af9c1d154e6d62c64f37811a7f31961e035f1')
       } else {
         sessionStorage.setItem('last_pop', 'true')
       }
