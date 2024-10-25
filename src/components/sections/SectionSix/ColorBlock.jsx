@@ -38,7 +38,7 @@ const ColorBlock = () => {
   const handleClick = () => {
     if (!isHovering || isAnimating) return;
     setIsHovering(false)
-    window.open('https://dexscreener.com/ethereum/0x364af9c1d154e6d62c64f37811a7f31961e035f1')
+    window.open('https://app.uniswap.org/swap?outputcurrency=0x77a4b0bfe5c7257f67a1de1b99aa7e157035b1b2&chain=ethereum&utm_source=dexscreener&utm_medium=app')
   }
 
   const handleMouseEnter = () => {
