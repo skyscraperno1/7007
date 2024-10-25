@@ -1,4 +1,10 @@
-## node version 18.17.1
+# 7007 Landing Page
+
+```
+# node version 18.17.1
+pnpm run build
+pnpm run dev
+```
 
 ## 主要适配了PC端大屏（innerWidth > 1537px） 、PC端小屏(innerWidth < 1537px)、移动端
 
