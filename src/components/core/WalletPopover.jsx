@@ -7,7 +7,7 @@ import { cn } from "../../lib/utils";
 import useResourceByName, { RESOURCE_TYPES } from "../../hook/useResourceByName";
 import { BrowserProvider } from 'ethers';
 import { SiweMessage } from 'siwe';
-import { OAuthDiscord } from '../../apis/requests';
+import axios from "axios";
 
 const BASE_URL = 'https://7007.ai';
 
@@ -52,11 +52,7 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
 
   const handleCheckboxChange = () => {
     setCheck(!check);
-    OAuthDiscord().then((res) => {
-      console.log(res);
-    }).catch((e) => {
-      console.log(e);
-    });
+    // window.location = `${BASE_URL}/auth/discord/login`
   };
 
   const handleClick = (content) => {
@@ -70,7 +66,7 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
   };
 
   const createSiweMessage = async (address, statement) => {
-    const res = await fetch(`${BASE_URL}/nonce`, {
+    const res = await axios(`${BASE_URL}/nonce`, {
       credentials: 'include',
     });
     const _nonce = await res.text();
@@ -116,7 +112,7 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
         },
       };
 
-      const response = await fetch(`${BASE_URL}/waitlist`, {
+      const response = await axios(`${BASE_URL}/waitlist`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -193,7 +189,8 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
                 </div>
                 <div className="uppercase underline select-none">binding my account to discord</div>
               </div>
-              <Button kls="w-full text-sm max-h-12" isMobile={isMobile} noShadow={true} disabled={!check || !active} onClick={handleNext}>NEXT</Button>
+              {/* <Button kls="w-full text-sm max-h-12" isMobile={isMobile} noShadow={true} disabled={!check || !active} onClick={handleNext}>coming soon</Button> */}
+              <Button kls="w-full text-sm max-h-12" isMobile={isMobile} noShadow={true} disabled={true} onClick={handleNext}>coming soon</Button>
             </motion.div>
           </motion.div>
         )

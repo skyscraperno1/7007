@@ -15,7 +15,7 @@ const ButtonWrapper = styled(motion.div)`
     ${({ $noShadow }) => $noShadow && 'box-shadow: none;'}
   }
   ${({ $noShadow }) => $noShadow && 'box-shadow: none;'}
-  ${({ $disabled }) => $disabled && 'pointer-events: none; background: rgb(156 163 175); color: white; opacity: 0.5;'}
+  ${({ $disabled }) => $disabled && 'pointer-events: none; opacity: 0.5;'}
   span {
     position: relative;
     z-index: 1;

@@ -29,12 +29,12 @@ const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection, 
       if (currentSection === 1) {
         _timer = setTimeout(() => {
           setConfig(_config[0])
-          // setShow(true);
+          setShow(true);
         }, 2000);
       } else if ((!isMobile && currentSection === 5) || (isMobile && currentSection === 4)) {
         _timer = setTimeout(() => {
           setConfig(_config[1])
-          // setShow(true);
+          setShow(true);
         }, 2000);
 
       } else if ((!isMobile && currentSection === 6) || (isMobile && currentSection === 5)) {
@@ -45,7 +45,7 @@ const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection, 
             return;
           }
           setConfig(_config[2])
-          // setShow(true);
+          setShow(true);
         }, 2000);
 
       }
