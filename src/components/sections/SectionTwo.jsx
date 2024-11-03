@@ -1,14 +1,12 @@
 import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import BoldTitle from "../core/BoldTitle";
 import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName';
-import SmoothScroll from 'smooth-scroll';
 import VideoPlayer from "./SectionTwo/VideoPlayer";
 import { cn } from "../../lib/utils";
 import SectionTwoPlus from "./SectionTwoPlus";
 
-const SectionTwo = ({ currentSection, isMobile }) => {
+const SectionTwo = ({ currentSection, isMobile, toNextPage, scrollDistance }) => {
   const RedStar = useResourceByName('RedStar.png', RESOURCE_TYPES.IMAGE);
   const PlayBtn = useResourceByName('PlayBtn.png', RESOURCE_TYPES.IMAGE)
   const Cover = useResourceByName('Cover.gif', RESOURCE_TYPES.IMAGE)
@@ -16,11 +14,49 @@ const SectionTwo = ({ currentSection, isMobile }) => {
     if (isMobile) {
       setShowVideo(true)
     } else {
-      const scroll = new SmoothScroll();
-      const duration = 1000; 
-      scroll.animateScroll(window.innerWidth * 2, { speed: duration });
+      toNextPage()
     }
   }
+
+  useEffect(() => {
+    const sc = Math.abs(scrollDistance);
+    const startScroll = window.innerWidth; 
+    const endScroll = window.innerWidth * 2; 
+    if (sc <= startScroll) {
+      gsap.set(sectionRef.current, { x: 0, y: 0 });
+      gsap.set(imageRef.current, {
+        clipPath: "inset(25% 25% 25% 25% round 2px)",
+      });
+      setShowVideo(false)
+    } else if (sc > startScroll && sc < endScroll) {
+      setShowVideo(false)
+      const width = window.innerWidth;
+      // 计算 progress
+      const progress = (sc - startScroll) / window.innerWidth;
+      gsap.set(sectionRef.current, {
+        x: progress * width,
+      });
+      if (imageRef.current) {
+        const insetValue = 25 - 25 * progress;
+        gsap.set(imageRef.current, {
+          clipPath: `inset(${insetValue}% ${insetValue}% ${insetValue}% ${insetValue}% round 2px)`,
+        });
+      }
+      if (titleLeftRef.current && titleRightRef.current) {
+        const leftMoveDistance = progress * (width / 4 + leftTitleWidth / 2);
+        const rightMoveDistance =
+          progress * (width / 4 + rightTitleWidth / 2);
+        gsap.set(titleLeftRef.current, {
+          x: -leftMoveDistance,
+        });
+        gsap.set(titleRightRef.current, {
+          x: rightMoveDistance,
+        });
+      }
+    } else if (sc >= endScroll) {
+      setShowVideo(true)
+    }
+  }, [scrollDistance]);
   
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
@@ -48,55 +84,7 @@ const SectionTwo = ({ currentSection, isMobile }) => {
       } 
       return
     }
-    if (currentSection === 3) {
-      gsap.set(sectionRef.current, {
-        x: window.innerWidth,
-      });
-      setShowVideo(true);
-    } else {
-      setShowVideo(false);
-    }
   }, [currentSection]);
-  useEffect(() => {
-    if (isMobile) return;
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.set(sectionRef.current, { x: 0, y: 0 });
-    gsap.set(imageRef.current, {
-      clipPath: "inset(25% 25% 25% 25% round 2px)",
-    });
-    const width = window.innerWidth;
-    const headerHeight = window.innerHeight * 0.1;
-    if (!sectionRef.current) return;
-    ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: `${width - headerHeight} top`,
-      end: `${2 * width - headerHeight} top`,
-      scrub: 1,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        gsap.set(sectionRef.current, {
-          x: progress * width,
-        });
-        if (imageRef.current) {
-          const insetValue = 25 - 25 * progress;
-          gsap.set(imageRef.current, {
-            clipPath: `inset(${insetValue}% ${insetValue}% ${insetValue}% ${insetValue}% round 2px)`,
-          });
-        }
-        if (titleLeftRef.current && titleRightRef.current) {
-          const leftMoveDistance = progress * (width / 4 + leftTitleWidth / 2);
-          const rightMoveDistance =
-            progress * (width / 4 + rightTitleWidth / 2);
-          gsap.set(titleLeftRef.current, {
-            x: -leftMoveDistance,
-          });
-          gsap.set(titleRightRef.current, {
-            x: rightMoveDistance,
-          });
-        }
-      },
-    });
-  }, [leftTitleWidth, rightTitleWidth]);
 
   const _height = isMobile 
    ? { height: 'auto'}

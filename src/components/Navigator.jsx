@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import useResourceByName, { RESOURCE_TYPES } from "../hook/useResourceByName";
 import { cn } from "../lib/utils";
 import { useEffect, useState } from 'react'
-import SmoothScroll from 'smooth-scroll';
 const renderBtn = (content, isImg, name) => {
   return (
     isImg ? (
@@ -13,7 +12,7 @@ const renderBtn = (content, isImg, name) => {
     )
   )
 }
-const RotatingImage = ({ src, alt, isMobile }) => {
+const RotatingImage = ({ src, alt, isMobile, toHome }) => {
   const whileInteractive = isMobile ? { whileTap: { rotate: -20 } } : { whileHover: { rotate: -20 } };
   
   const backTop = () => {
@@ -24,9 +23,7 @@ const RotatingImage = ({ src, alt, isMobile }) => {
         behavior: 'smooth'
       });
     } else {
-      const scroll = new SmoothScroll();
-      const duration = 1000; 
-      scroll.animateScroll(0, { speed: duration });
+      toHome();
     }
   }
   return (
@@ -45,7 +42,7 @@ const RotatingImage = ({ src, alt, isMobile }) => {
     </div>
   );
 };
-function Navigator({ isMobile }) {
+function Navigator({ isMobile, toHome }) {
   const logo = useResourceByName("GreenLogo.png", RESOURCE_TYPES.IMAGE);
   const XLogo = useResourceByName("X-logo.svg", RESOURCE_TYPES.IMAGE);
   const TgLogo = useResourceByName(
@@ -86,7 +83,7 @@ function Navigator({ isMobile }) {
     <header
       className={cn("top-0 z-40 w-full flex justify-between items-center py-2 select-none bg-white fixed border-b-4 border-black", isMobile ? 'h-[74px]' : 'h-[10vh] pr-6 pl-24')}
     >
-      <RotatingImage src={logo} alt="7007" isMobile={isMobile}/>
+      <RotatingImage src={logo} alt="7007" isMobile={isMobile} toHome={toHome}/>
       {isMobile ? (
         <>
           <Button kls="w-24 mr-4" onClick={() => setShowMenu(!showMenu)} isMobile={isMobile}>menu</Button>

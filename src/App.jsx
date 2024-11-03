@@ -12,6 +12,7 @@ import ResourcesProvider from "./hook/ResourcesProvider";
 import { useResources } from "./hook/useContext";
 import LoadingScreen from "./components/core/LoadingScreen";
 import MobileScroller from "./components/core/MobileScroller";
+import { useState } from "react";
 let sections = [
   { Component: SectionOne, page: 1 },
   { Component: SectionTwo, page: 2 },
@@ -31,16 +32,20 @@ const AppContent = () => {
   if (isMobile || /Safari/.test(ua) && !/CriOS/.test(ua) && !/FxiOS/.test(ua)) {
     import ('./fonts.css');
   }
-  
+  const [scrollDistance, setScrollDistance] = useState(0);
+  const [triggerHome, setTrigger] = useState(0)
+  const toHome = () => {
+    setTrigger(triggerHome + 1)
+  }
   return (
     <>
       <LoadingScreen isLoading={isLoading} progress={progress} isMobile={isMobile}/>
-      <Navigator isMobile={isMobile} />
+      <Navigator isMobile={isMobile} toHome={toHome}/>
       {isMobile 
-        ? <MobileScroller sections={sections} isLoading={isLoading} /> 
-        : <Scroller sections={sections} isLoading={isLoading} />
+        ? <MobileScroller sections={sections} isLoading={isLoading}  setScrollDistance={setScrollDistance}/> 
+        : <Scroller sections={sections} isLoading={isLoading} setScrollDistance={setScrollDistance} scrollDistance={scrollDistance} triggerHome={triggerHome}/>
       }
-      <ScrollBar baseVelocity={2} isMobile={isMobile}>Ultimate AIGC Exchange&nbsp;</ScrollBar>
+      <ScrollBar baseVelocity={isMobile ? 2: 4} isMobile={isMobile} scrollDistance={scrollDistance}>Ultimate AIGC Exchange&nbsp;</ScrollBar>
       {!isLoading && !isMobile && <Cursor />}
     </>
   );

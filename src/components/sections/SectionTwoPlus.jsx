@@ -8,30 +8,16 @@ import VideoPlayer from "./SectionTwo/VideoPlayer";
 import { usePhoneCal } from "../../hook/useContext";
 
 
-const SectionTwoPlus = ({ isMobile, currentSection }) => {
+const SectionTwoPlus = ({ isMobile, currentSection, isScrolling }) => {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [mute, setMute] = useState(true)
   const [showControls, setShowControls] = useState(false);
-
   // control_scroll
   let timeoutId = null;
-  const [isScrolling, setIsScrolling] = useState(false);
-  const handleScroll = () => {
-    setIsScrolling(true);
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      timeoutId = null
-    }
-    timeoutId = setTimeout(() => {
-      setIsScrolling(false);
-    }, 800);
-  }
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
     return () => {
       timeoutId && clearTimeout(timeoutId);
-      window.removeEventListener('scroll', handleScroll)
     }
   }, [])
 
@@ -96,7 +82,10 @@ const SectionTwoPlus = ({ isMobile, currentSection }) => {
     if (isScrolling) {
       setExitDuration(0.3)
       setShowControls(false)
-      videoRef.current = null;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null
+      }
     } else {
       setExitDuration(0)
     }
@@ -137,7 +126,7 @@ const SectionTwoPlus = ({ isMobile, currentSection }) => {
 
   const getPointer =() => {
     if (isMobile) return false;
-    return !showControls && videoRef.current === null && document.getElementById('video-7007') && currentSection === 3 
+    return !showControls && videoRef.current === null && document.getElementById('video-7007') && currentSection === 2 
   }
   // for mobile
   const flag = usePhoneCal()
@@ -145,14 +134,9 @@ const SectionTwoPlus = ({ isMobile, currentSection }) => {
     height: "calc(100% - 10vh)",
   } : {})
 
-  const [showVideo, setShowVideo] = useState(false);
-
   useEffect(() => {
-    if (!isMobile) return;
-    if (currentSection === 3) {
-      setShowVideo(true);
-    } else {
-      setShowVideo(false);
+    if (!isMobile && currentSection !== 2) {
+      videoRef.current?.pause()
       videoRef.current = null;
       setShowControls(false);
       setIsPlaying(false);
@@ -178,7 +162,7 @@ const SectionTwoPlus = ({ isMobile, currentSection }) => {
       onMouseMove={handleMouseMove}
       style={getStyle()}
     >
-      {(showVideo || isMobile) && <div className="w-full h-full flex justify-center items-center">
+      {isMobile && <div className="w-full h-full flex justify-center items-center">
         <VideoPlayer isMobile={isMobile}/>
         </div>}
       <AnimatePresence>

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Popover from './Popover'
 import WalletPopover from './WalletPopover'
 
-const MobileScroller = ({ isLoading, sections }) => {
+const MobileScroller = ({ isLoading, sections, setScrollDistance }) => {
   const target = useRef(null)
   const ref = useRef(null)
   const [currentSection, setCurrentSection] = useState(1)
@@ -11,7 +11,7 @@ const MobileScroller = ({ isLoading, sections }) => {
 
   const handleScroll = () => {
     setIsScrolling(true);
-    ref.current.clearTimer()
+    ref.current?.clearTimer()
     if (timeoutId) {
       clearTimeout(timeoutId);
       timeoutId = null
@@ -21,6 +21,7 @@ const MobileScroller = ({ isLoading, sections }) => {
     }, 1000);
     if (target.current) {
       const scrollPosition = target.current.scrollTop;
+      setScrollDistance(scrollPosition)
       const height = window.innerHeight - 123
       const _currentSection = Math.floor(scrollPosition / height) + 1
       setCurrentSection(_currentSection)
@@ -30,6 +31,9 @@ const MobileScroller = ({ isLoading, sections }) => {
   useEffect(() => {
     if (!target.current) return
     target.current?.addEventListener('scroll', handleScroll)
+    return () => {
+      target.current?.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   const [showWallet, setShowWallet] = useState(false)

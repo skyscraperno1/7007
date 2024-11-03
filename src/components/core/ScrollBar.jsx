@@ -1,35 +1,40 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import {
   motion,
-  useScroll,
   useSpring,
   useTransform,
   useMotionValue,
-  useVelocity,
   useAnimationFrame
 } from "framer-motion";
 import { wrap } from "@motionone/utils";
 
-export default function ScrollBar({ children, baseVelocity = 100, isMobile }) {
+export default function ScrollBar({ children, baseVelocity = 100, isMobile, scrollDistance }) {
   const baseX = useMotionValue(0);
-  const { scrollY } = useScroll();
-  const scrollVelocity = useVelocity(scrollY);
-  const smoothVelocity = useSpring(scrollVelocity, {
+  const previousScrollDistanceRef = useRef(scrollDistance);
+  const smoothVelocity = useSpring(0, {
     damping: 50,
     stiffness: 400
   });
+
+  useEffect(() => {
+    const scalingFactor = -40; 
+    const delta = (scrollDistance - previousScrollDistanceRef.current) * scalingFactor; 
+    smoothVelocity.set(delta);
+    previousScrollDistanceRef.current = scrollDistance;
+  }, [scrollDistance, smoothVelocity, isMobile]);
+
   const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
     clamp: false
   });
 
- 
+
   const x = useTransform(baseX, (v) => `${wrap(-20, -45, v)}%`);
 
   const directionFactor = useRef(1);
   useAnimationFrame((t, delta) => {
     let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
 
-   
+
     if (velocityFactor.get() < 0) {
       directionFactor.current = -1;
     } else if (velocityFactor.get() > 0) {
@@ -48,9 +53,9 @@ export default function ScrollBar({ children, baseVelocity = 100, isMobile }) {
   ));
 
   const mainStyle = isMobile 
-  ? { borderBottomWidth: '4px', height: '49px', marginTop: '74px'}
-  : { width: '65px', borderRightWidth: '4px' }
-  
+    ? { borderBottomWidth: '4px', height: '49px', marginTop: '74px'}
+    : { width: '65px', borderRightWidth: '4px' }
+
   return (
     <div className="fixed top-0 left-0 z-[999] bg-white overflow-hidden leading-[0.8] flex flex-nowrap m-0 whitespace-nowrap select-none border-black" style={mainStyle}>
       <motion.div 

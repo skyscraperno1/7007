@@ -10,35 +10,38 @@ const _config = [
 ]
 const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection, showWallet }, ref) => {
   const [show, setShow] = useState(false)
-  let _timer = null
+  const [timer, setTimer] = useState(null)
   const [config, setConfig] = useState({
     bg: 'themeGreen',
     text: ''
   })
   useEffect(() => {
-    if ((isLoading || isScrolling) && _timer) {
-      clearTimeout(_timer)
-      _timer = null;
-    }
-    if (!isLoading && !isScrolling && !_timer) {
+    console.log(isLoading, isScrolling, currentSection);
+    
+    if ((isLoading || isScrolling)) {
+      timer && clearTimeout(timer)
+      setTimer(null)
+      setShow(false)
+    } else {
       const walletPopover = sessionStorage.getItem('walletPopover')
       if (walletPopover) {
-        _timer && clearTimeout(_timer)
+        timer && clearTimeout(timer)
         return;
       }
-      if (currentSection === 1) {
-        _timer = setTimeout(() => {
+      if ((!isMobile && currentSection === 0) || (isMobile && currentSection === 1)) {
+        const _timer = setTimeout(() => {
           setConfig(_config[0])
           setShow(true);
-        }, 2000);
-      } else if ((!isMobile && currentSection === 5) || (isMobile && currentSection === 4)) {
-        _timer = setTimeout(() => {
+        }, 1500);
+        setTimer(_timer)
+      } else if (currentSection === 4) {
+        const _timer = setTimeout(() => {
           setConfig(_config[1])
           setShow(true);
-        }, 2000);
-
-      } else if ((!isMobile && currentSection === 6) || (isMobile && currentSection === 5)) {
-         _timer = setTimeout(() => {
+        }, 1500);
+        setTimer(_timer)
+      } else if (currentSection === 5) {
+          const _timer = setTimeout(() => {
           const last_pop = sessionStorage.getItem('last_pop')
           if (last_pop) {
             _timer && clearTimeout(_timer)
@@ -46,21 +49,17 @@ const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection, 
           }
           setConfig(_config[2])
           setShow(true);
-        }, 2000);
+        }, 1500);
 
       }
-    } else {
-      clearTimeout(_timer)
-      _timer = null
-      setShow(false)
     }
   }, [isLoading, isScrolling, currentSection])
 
   useImperativeHandle(ref, () => ({
     clearTimer: () => {
-      if (_timer) {
-        clearTimeout(_timer)
-        _timer = null
+      if (timer) {
+        clearTimeout(timer)
+        setTimer(null)
       }
     }
   }))

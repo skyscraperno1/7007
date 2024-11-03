@@ -72,16 +72,15 @@ const colors = [
     const [isAnimating, setIsAnimating] = useState(false)
     const [lastSection, setLastSection] = useState(0)
     useEffect(() => {
-        const _currentSection = isMobile ? currentSection + 1 : currentSection
-        if (_currentSection === 4) {
+        if (currentSection === 3) {
             setInView(true);
         } else {
             setInView(false);
         }
-        if (_currentSection === 3 && lastSection === 4) {
+        if (currentSection === 2 && lastSection === 3) {
             ref.current?.removeBox();
         }
-        setLastSection(_currentSection);
+        setLastSection(currentSection);
     }, [currentSection]);
 
     const [colorIndex, setColorIndex] = useState(0);
