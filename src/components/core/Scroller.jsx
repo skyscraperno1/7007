@@ -63,8 +63,8 @@ export default function Scroll({ sections, isLoading, setScrollDistance, scrollD
         }
     }, [currentSection, isScrolling])
 
-    const getWrapperStyle = (flag) => {
-        return flag ? { height: '90vh', width: '100%', marginTop: '10vh' } : { height: '90vh', width: 'calc(100% - 65px)', marginTop: '10vh', marginLeft: '65px' }
+    const getWrapperStyle = (page) => {
+        return page === 3 ? { height: '90vh', width: '100%', marginTop: '10vh' } : { height: '90vh', width: 'calc(100% - 65px)', marginTop: '10vh', marginLeft: '65px', zIndex: page === 2.1 ? -10 : undefined }
     }
     const getPageIndex = (page) => (page === 1
         ? { position: 'relative', zIndex: 90 }
@@ -86,7 +86,7 @@ export default function Scroll({ sections, isLoading, setScrollDistance, scrollD
                     const { Component, page } = section;
                     return (
                         <section key={page} className='relative w-screen h-screen' id={`section-${page}`} style={getPageIndex(page)}>
-                            <div className='h-full w-full relative z-40' style={getWrapperStyle(page === 3)}>
+                            <div className='h-full w-full relative z-40' style={getWrapperStyle(page)}>
                                 <Component scrollDistance={scrollDistance} currentSection={currentSection} isMobile={false} isScrolling={isScrolling} updateShowWallet={lastPageShowWallet} toNextPage={toNextPage}/>
                             </div>
                             <BottomNav page={page} isMobile={false} />

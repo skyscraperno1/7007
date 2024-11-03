@@ -2,7 +2,6 @@ import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import BoldTitle from "../core/BoldTitle";
 import useResourceByName, { RESOURCE_TYPES } from '../../hook/useResourceByName';
-import VideoPlayer from "./SectionTwo/VideoPlayer";
 import { cn } from "../../lib/utils";
 import SectionTwoPlus from "./SectionTwoPlus";
 
@@ -19,9 +18,11 @@ const SectionTwo = ({ currentSection, isMobile, toNextPage, scrollDistance }) =>
   }
 
   useEffect(() => {
+    if (isMobile) return;
     const sc = Math.abs(scrollDistance);
     const startScroll = window.innerWidth; 
     const endScroll = window.innerWidth * 2; 
+    const endVideo = window.innerWidth * 3; 
     if (sc <= startScroll) {
       gsap.set(sectionRef.current, { x: 0, y: 0 });
       gsap.set(imageRef.current, {
@@ -53,10 +54,12 @@ const SectionTwo = ({ currentSection, isMobile, toNextPage, scrollDistance }) =>
           x: rightMoveDistance,
         });
       }
-    } else if (sc >= endScroll) {
+    } else if (sc >= endScroll && sc < endVideo) {
       setShowVideo(true)
+    } else {
+      setShowVideo(false)
     }
-  }, [scrollDistance]);
+  }, [scrollDistance, isMobile]);
   
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
@@ -93,15 +96,9 @@ const SectionTwo = ({ currentSection, isMobile, toNextPage, scrollDistance }) =>
   return (
     <div ref={sectionRef} className="w-full h-full" style={{ willChange: 'transform' }} id="section-two">
       {showVideo ? (
-        isMobile ? (
-          <div className="w-full h-full relative flex items-center justify-center">
-            <SectionTwoPlus isMobile={isMobile}></SectionTwoPlus>
-          </div>
-        ) : (
         <div className="w-full h-full relative flex items-center justify-center">
-          <VideoPlayer isMobile={isMobile} />
+          <SectionTwoPlus isMobile={isMobile}></SectionTwoPlus>
         </div>
-        )
       ) : (
         <div className="w-full h-full relative flex items-center">
           {!isMobile && (

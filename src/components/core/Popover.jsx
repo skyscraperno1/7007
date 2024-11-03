@@ -16,8 +16,6 @@ const Popover = forwardRef(({ isLoading, isMobile, isScrolling, currentSection, 
     text: ''
   })
   useEffect(() => {
-    console.log(isLoading, isScrolling, currentSection);
-    
     if ((isLoading || isScrolling)) {
       timer && clearTimeout(timer)
       setTimer(null)
