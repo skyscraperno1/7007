@@ -1,18 +1,19 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import BoldTitle from '../../core/BoldTitle'
 import Button from "../../core/Button";
-import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import { motion } from 'framer-motion'
 import AnimatedBlock from "./AnimatedBlock"
 import usePosition from "./useAnimations";
 import { makeCoverAnimation, makeBtnAnimation, BoxContainer } from './useConfig'
-const ColorBlock = () => {
+const ColorBlock = ({ isScrolling }) => {
   const btnRef = useRef(null);
   const wrapperRef = useRef(null)
   const [isHovering, setIsHovering] = useState(false);
-  const { scrollY } = useScroll();
-  useMotionValueEvent(scrollY, "change", () => {
-    setIsHovering(false)
-  })
+  useEffect(() => {
+    if (isScrolling) {
+      setIsHovering(false)
+    }
+  }, [isScrolling])
   const { translate, inset } = usePosition(btnRef, 'section-six');
 
   const getRight = () => {

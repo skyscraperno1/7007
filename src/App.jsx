@@ -11,7 +11,7 @@ import ResourcesProvider from "./hook/ResourcesProvider";
 import { useResources } from "./hook/useContext";
 import LoadingScreen from "./components/core/LoadingScreen";
 import MobileScroller from "./components/core/MobileScroller";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const sectionTwoSlot = () => {
   return (
@@ -28,8 +28,17 @@ let sections = [
 ];
 
 const AppContent = () => {
-  const { isLoading, progress, isMobile } = useResources();
-  isMobile 
+  const { isLoading, progress, isMobile } = useResources(); 
+  const [hasDiscord, setHasDiscord] = useState(false)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('user_id');
+    const error = urlParams.get('error');
+    if (userId || error) {
+      setHasDiscord(true)
+    }
+  }, []);
+ 
   if (isMobile) {
     sections = sections.filter((section) => section.page !== 2.1)
   }
@@ -47,8 +56,8 @@ const AppContent = () => {
       <LoadingScreen isLoading={isLoading} progress={progress} isMobile={isMobile}/>
       <Navigator isMobile={isMobile} toHome={toHome}/>
       {isMobile 
-        ? <MobileScroller sections={sections} isLoading={isLoading}  setScrollDistance={setScrollDistance}/> 
-        : <Scroller sections={sections} isLoading={isLoading} setScrollDistance={setScrollDistance} scrollDistance={scrollDistance} triggerHome={triggerHome}/>
+        ? <MobileScroller sections={sections} isLoading={isLoading}  setScrollDistance={setScrollDistance} hasDiscord={hasDiscord}/> 
+        : <Scroller sections={sections} isLoading={isLoading} setScrollDistance={setScrollDistance} scrollDistance={scrollDistance} triggerHome={triggerHome} hasDiscord={hasDiscord}/>
       }
       <ScrollBar baseVelocity={isMobile ? 2: 4} isMobile={isMobile} scrollDistance={scrollDistance}>Ultimate AIGC Exchange&nbsp;</ScrollBar>
       {!isLoading && !isMobile && <Cursor />}

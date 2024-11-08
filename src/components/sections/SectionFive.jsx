@@ -10,7 +10,7 @@ const titles = [
   "0G LABS",
   "Arbitrum",
   "Story Protocol",
-  "RARI CHAIN",
+  // "RARI CHAIN",
   "Eth storage",
   "Ora protocol",
 ];

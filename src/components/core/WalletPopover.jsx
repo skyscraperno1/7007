@@ -9,8 +9,6 @@ import { BrowserProvider } from 'ethers';
 import { SiweMessage } from 'siwe';
 import axios from "axios";
 
-const BASE_URL = 'https://7007.ai';
-
 const WalletPopover = ({ show, onClose, isMobile }) => {
   const RAINBOW = useResourceByName('rainbow.svg', RESOURCE_TYPES.IMAGE);
   const COINBASE = useResourceByName('coinbase_wallet.svg', RESOURCE_TYPES.IMAGE);
@@ -18,11 +16,13 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
   const WALLET_CONNECT = useResourceByName('wallet_connect.svg', RESOURCE_TYPES.IMAGE);
   const [check, setCheck] = useState(false);
   const [active, setActive] = useState('');
-  const [nonce, setNonce] = useState('');
-  const [provider, setProvider] = useState(null); 
-
+  
   const domain = window.location.host;
-  const origin = window.location.origin;
+  const uri = window.location.origin;
+  const statement = 'Hello, 7007'
+  const nonce = 'HELLOWORLD'
+  const version = '1'
+  const chain_id = 1
 
   const links = [
     { url: '#', content: 'rainbow', logo: RAINBOW },
@@ -30,29 +30,42 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
     { url: '#', content: 'metamask', logo: METAMASK },
     { url: '#', content: 'wallet connect', logo: WALLET_CONNECT },
   ];
-
+  
+  const [bindingText, setBindingText] = useState('binding my account to discord')
+  const [discordUser, setDiscordUser] = useState(null)
   useEffect(() => {
     if (show) {
       sessionStorage.setItem('walletPopover', 'true');
+      // get user discord info
+      const urlParams = new URLSearchParams(window.location.search);
+      const user_id = urlParams.get('user_id');
+      const username = urlParams.get('username');
+      const token = urlParams.get('token');
+      const error = urlParams.get('error');
+      if (user_id && username && token) {
+        setCheck(true)
+        setDiscordUser({
+          user_id: Number(user_id),
+          token,
+          username
+        })
+        setBindingText("you've bound discord already")
+      } else if (error) {
+        setBindingText("try again after join the role")
+      }
+      
     } else {
       sessionStorage.removeItem('walletPopover');
     }
-    if (!isMobile) {
-      document.body.style.overflow = show ? 'hidden' : '';
-    }
-
-    // 检查以太坊提供程序
-    if (window.ethereum) {
-      const newProvider = new BrowserProvider(window.ethereum);
-      setProvider(newProvider);
-    } else {
-      console.error('Ethereum provider not found. Please install MetaMask.');
-    }
-  }, [isMobile, show]);
+  }, [show]);
 
   const handleCheckboxChange = () => {
-    setCheck(!check);
-    // window.location = `${BASE_URL}/auth/discord/login`
+    if (loading) return;
+    if (!check) {
+      window.location = `https://discord.com/oauth2/authorize?client_id=1295299417452056658&response_type=code&redirect_uri=https%3A%2F%2Fnewwaitlist-gray.vercel.app%2Fcallback&scope=identify+guilds+guilds.members.read`
+    } else {
+      // setCheck(false)
+    }
   };
 
   const handleClick = (content) => {
@@ -65,80 +78,55 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
     onClose();
   };
 
-  const createSiweMessage = async (address, statement) => {
-    const res = await axios(`${BASE_URL}/nonce`, {
-      credentials: 'include',
-    });
-    const _nonce = await res.text();
-    setNonce(_nonce);
+  const createSiweMessage = async (address) => {
     const message = new SiweMessage({
       domain,
       address,
       statement,
-      uri: origin,
-      version: '1',
-      chainId: '1',
-      nonce: _nonce,
+      uri,
+      version,
+      chain_id,
+      nonce,  
     });
     return message.prepareMessage();
   };
-
-  const signInWithEthereum = async (discordUser) => {
-    try {
-      if (!provider) throw new Error('Provider is not available.');
-
-      const signer = await provider.getSigner();
-      const address = await signer.getAddress();
-      const message = await createSiweMessage(address, 'Sign in with Ethereum to the app.');
-      const signature = await signer.signMessage(message);
-
-      const siweMessage = {
+  const [loading, setLoading] = useState(false)
+  const handleBind = (address, issued_at, signature) => {
+    const params = {
+      guild_member_req: discordUser,
+      siwe_message_req: {
         domain,
         address,
-        statement: 'Sign in with Ethereum to the app.',
-        uri: origin,
-        version: '1',
-        chain_id: 1,
+        statement,
+        uri,
+        version,
+        chain_id,
         nonce,
-        issued_at: new Date().toISOString(),
-        signature,
-      };
-
-      const body = {
-        siwe_message: siweMessage,
-        discord_user: {
-          user_id: discordUser.userId,
-          token: discordUser.token,
-        },
-      };
-
-      const response = await axios(`${BASE_URL}/waitlist`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to sign in with Ethereum');
+        issued_at,
+        signature
       }
-
-      const result = await response.json();
-      console.log('Successfully signed in:', result);
-    } catch (error) {
-      console.error('Error during sign-in:', error);
     }
-  };
+    axios.post('/bind', params).then(() => {
+      setLoading(false)
+    }).catch(() => {
+      setLoading(false)
+    })
+  }
+
 
   const handleNext = async () => {
-    const discordUser = {
-      userId: 'your_discord_user_id',
-      token: 'your_discord_token',
-    };
-
-    await signInWithEthereum(discordUser);
-    handleClose();
+    if (window.ethereum) {
+      setLoading(true)
+      const newProvider = new BrowserProvider(window.ethereum);
+      const signer = await newProvider.getSigner();
+      const address = await signer.getAddress();
+      const message = await createSiweMessage(address);
+      const signature = await signer.signMessage(message);
+      const issue_at = new Date().toISOString()
+      handleBind(address, issue_at, signature)
+    } else {
+      console.error('Ethereum provider not found.');
+    }
   };
 
   return (
@@ -187,10 +175,9 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
                 <div className="h-inherit flex items-center mr-4">
                   <CheckBox checked={check} onChange={handleCheckboxChange} />
                 </div>
-                <div className="uppercase underline select-none">binding my account to discord</div>
+                <div className="uppercase underline select-none">{bindingText}</div>
               </div>
-              {/* <Button kls="w-full text-sm max-h-12" isMobile={isMobile} noShadow={true} disabled={!check || !active} onClick={handleNext}>coming soon</Button> */}
-              <Button kls="w-full text-sm max-h-12" isMobile={isMobile} noShadow={true} disabled={true} onClick={handleNext}>coming soon</Button>
+              <Button kls="w-full text-sm max-h-12" loading={loading} isMobile={isMobile} noShadow={true} disabled={!check || !active} onClick={handleNext}>next</Button>
             </motion.div>
           </motion.div>
         )

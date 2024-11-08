@@ -1,7 +1,7 @@
 # 7007 Landing Page
 
 ```
-# node version 18.17.1
+# node version 20.16.0
 pnpm run build
 pnpm run dev
 ```

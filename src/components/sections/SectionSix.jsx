@@ -8,7 +8,7 @@ import usePosition from './SectionSix/useAnimations'
 import { makeCoverAnimation, makeBtnAnimation, MobileBoxContainer } from './SectionSix/useConfig'
 import AnimatedBlock from './SectionSix/AnimatedBlock'
 import { usePhoneCal } from '../../hook/useContext'
-const SectionSix = ({ isMobile }) => {
+const SectionSix = ({ isMobile, isScrolling }) => {
   const btnRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
   const bg = useResourceByName('$7007.png', RESOURCE_TYPES.IMAGE)
@@ -89,7 +89,7 @@ const SectionSix = ({ isMobile }) => {
             </motion.div>
           </div>) : (
             <div id="color-block" className="w-[70%] h-[70%] 2xl:w-[75%] 2xl:h-[75%]">
-              <ColorBlock />
+              <ColorBlock isScrolling={isScrolling}/>
             </div>
           )
         }

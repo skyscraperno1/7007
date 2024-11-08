@@ -41,10 +41,7 @@ export const _resources = {
     '/Section4/Img9.png',
     '/Section4/circle_black.png',
     '/Section4/circle_white.png',
-    '/Section4/eth_lg.png', //440 * 547
-    '/Section4/eth_sm.png', //299 * 369
-    '/Section4/eth_lg_gray.png', //442 * 547
-    '/Section4/eth_sm_gray.png', //294 * 355
+    '/Section4/eth_sm.png',
 
     // Section5
     '/Section5/Frames/Frame1.png',

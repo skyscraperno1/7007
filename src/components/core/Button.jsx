@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
-import { cn } from '../../lib/utils'
+import { cn } from '../../lib/utils';
 
 const ButtonWrapper = styled(motion.div)`
   position: relative;
@@ -36,37 +36,66 @@ const HoverBackground = styled(motion.div)`
   will-change: 'transform';
 `;
 
-function Button({ children, duration = 0.4, kls, onClick = () => {}, isMobile, isActive, noShadow = false, disabled = false }) {
+const spinAnimation = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+const Spinner = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  border: 3px solid rgba(255, 255, 255, 0.6);
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: ${spinAnimation} 1s linear infinite;
+  z-index: 2;
+`;
+
+function Button({ 
+  children, 
+  duration = 0.4, 
+  kls, 
+  onClick = () => {}, 
+  isMobile, 
+  isActive, 
+  noShadow = false, 
+  disabled = false, 
+  loading = false 
+}) {
   const isText = useMemo(() => typeof children === 'string', [children]);
   const whileInteractive = isMobile ? { whileTap: "hover" } : { whileHover: "hover" };
-  const getDuration = () => {
-    return isMobile ? 0.15 : duration;
-  };
+  const getDuration = () => (isMobile ? 0.15 : duration);
   const currentState = isActive ? "hover" : "rest";
+
   return (
     <ButtonWrapper
       initial="rest"
       $noShadow={noShadow}
-      $disabled={disabled}
+      $disabled={disabled || loading}
       animate={currentState}
       {...(!isActive && whileInteractive)}
-      onClick={onClick}
-      className={cn("h-12 2xl:h-16 flex items-center justify-center uppercase text-nowrap bg-themeYellow text-2xl", 
-        {'m-pointer': !disabled},
+      onClick={!loading ? onClick : undefined}
+      className={cn(
+        "h-12 2xl:h-16 flex items-center justify-center uppercase text-nowrap bg-themeYellow text-2xl",
+        { 'm-pointer': !disabled && !loading },
         kls
       )}
     >
-      {
-        !!duration && 
+      {loading && <Spinner />}
+      {!!duration && 
         <HoverBackground
-         variants={{
-           rest: { x: '-100%' },
-           hover: { x: 0 },
-         }}
-         transition={{ duration: getDuration(), ease: 'easeInOut' }}
-       />
+          variants={{
+            rest: { x: '-100%' },
+            hover: { x: 0 },
+          }}
+          transition={{ duration: getDuration(), ease: 'easeInOut' }}
+        />
       }
-      {isText ? <span className='select-none'>{children}</span> : children}
+      {isText ? <span className="select-none">{children}</span> : children}
     </ButtonWrapper>
   );
 }

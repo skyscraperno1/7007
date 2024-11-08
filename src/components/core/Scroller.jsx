@@ -3,7 +3,7 @@ import { gsap } from 'gsap'
 import BottomNav from './BottomNav';
 import Popover from './Popover'
 import WalletPopover from './WalletPopover';
-export default function Scroll({ sections, isLoading, setScrollDistance, scrollDistance, triggerHome }) {
+export default function Scroll({ sections, isLoading, setScrollDistance, scrollDistance, triggerHome, hasDiscord }) {
     const sectionRef = useRef(null)
     const [currentSection, setCurrentSection] = useState(0)
     const [isScrolling, setIsScrolling] = useState(false)
@@ -26,6 +26,7 @@ export default function Scroll({ sections, isLoading, setScrollDistance, scrollD
                 }, 500)
             },
             onUpdate: () => {
+                setShowWallet(false)
                 const currentX = gsap.getProperty(sectionRef.current, "x"); 
                 setScrollDistance(currentX)
             }
@@ -34,7 +35,7 @@ export default function Scroll({ sections, isLoading, setScrollDistance, scrollD
     const listenScroll = (e) => {
         e.preventDefault();
         scrollDelta += e.deltaY
-        if (isScrolling) return
+        if (isScrolling || !!sessionStorage.getItem('walletPopover')) return
         if (Math.abs(scrollDelta) >= 1) {
             const direction = scrollDelta > 0 ? 1 : -1
             let newSection = currentSection + direction
@@ -69,7 +70,19 @@ export default function Scroll({ sections, isLoading, setScrollDistance, scrollD
     const getPageIndex = (page) => (page === 1
         ? { position: 'relative', zIndex: 90 }
         : {})
+
+    const popoverRef = useRef(null)
     const [showWallet, setShowWallet] = useState(false)
+    
+    useEffect(() => {
+        if (!isLoading && hasDiscord) {
+            // wait for loading animation finish
+            setTimeout(() => {
+                popoverRef.current?.clearTimer()
+                setShowWallet(true)
+            }, 1000)
+        }
+    }, [isLoading, hasDiscord])
 
     const lastPageShowWallet = () => {
         sessionStorage.setItem('last_pop', 'true')
@@ -94,7 +107,7 @@ export default function Scroll({ sections, isLoading, setScrollDistance, scrollD
                     )
                 })}
             </div>
-            <Popover isLoading={isLoading} isMobile={false} isScrolling={isScrolling} currentSection={currentSection} showWallet={() => {
+            <Popover ref={popoverRef} isLoading={isLoading} isMobile={false} isScrolling={isScrolling} currentSection={currentSection} showWallet={() => {
                 setShowWallet(true)
             }}/>
             <WalletPopover show={showWallet} onClose={handleClose} isMobile={false}/>
