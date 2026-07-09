@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import BottomNav from './BottomNav';
 import Popover from './Popover'
-import WalletPopover from './WalletPopover';
+// import WalletPopover from './WalletPopover';
 export default function Scroll({ sections, isLoading, setScrollDistance, scrollDistance, triggerHome, hasDiscord }) {
     const sectionRef = useRef(null)
     const [currentSection, setCurrentSection] = useState(0)
@@ -110,7 +110,7 @@ export default function Scroll({ sections, isLoading, setScrollDistance, scrollD
             <Popover ref={popoverRef} isLoading={isLoading} isMobile={false} isScrolling={isScrolling} currentSection={currentSection} showWallet={() => {
                 setShowWallet(true)
             }}/>
-            <WalletPopover show={showWallet} onClose={handleClose} isMobile={false}/>
+            {/* <WalletPopover show={showWallet} onClose={handleClose} isMobile={false}/> */}
         </div>
     )
 }

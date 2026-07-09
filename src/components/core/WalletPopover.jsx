@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "../../lib/utils";
 import useResourceByName, { RESOURCE_TYPES } from "../../hook/useResourceByName";
-import { BrowserProvider } from 'ethers';
+// import { BrowserProvider } from 'ethers';
 import { SiweMessage } from 'siwe';
 import axios from "axios";
 
@@ -116,14 +116,14 @@ const WalletPopover = ({ show, onClose, isMobile }) => {
 
   const handleNext = async () => {
     if (window.ethereum) {
-      setLoading(true)
-      const newProvider = new BrowserProvider(window.ethereum);
-      const signer = await newProvider.getSigner();
-      const address = await signer.getAddress();
-      const message = await createSiweMessage(address);
-      const signature = await signer.signMessage(message);
-      const issue_at = new Date().toISOString()
-      handleBind(address, issue_at, signature)
+      // setLoading(true)
+      // const newProvider = new BrowserProvider(window.ethereum);
+      // const signer = await newProvider.getSigner();
+      // const address = await signer.getAddress();
+      // const message = await createSiweMessage(address);
+      // const signature = await signer.signMessage(message);
+      // const issue_at = new Date().toISOString()
+      // handleBind(address, issue_at, signature)
     } else {
       console.error('Ethereum provider not found.');
     }
