@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
-export const _resources = {
+const withBase = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+
+const publicResources = {
   images: [
     // Wallet
     '/Logo/rainbow.svg',
@@ -80,6 +82,15 @@ export const _resources = {
       weight: 'bold'
     },
   ],
+};
+
+export const _resources = {
+  images: publicResources.images.map(withBase),
+  videos: publicResources.videos.map(withBase),
+  fonts: publicResources.fonts.map((font) => ({
+    ...font,
+    url: withBase(font.url),
+  })),
 };
 
 const useLoading = (isMobile) => {
