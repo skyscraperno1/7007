@@ -198,7 +198,7 @@ const SectionTwoPlus = ({ isMobile, currentSection, isScrolling }) => {
                 className="bg-[#151515] h-full rounded w-8 flex items-center m-pointer justify-center"
                 onClick={handleMuteClick}
               >
-                <AnimatedIconSwitch flag={mute} IconA={<FaVolumeMute className="m-pointer"/>} IconB={<FaVolumeUp className="m-pointer"/>}></AnimatedIconSwitch>
+                <AnimatedIconSwitch flag={mute} IconA={<FaVolumeUp className="m-pointer"/>} IconB={<FaVolumeMute className="m-pointer"/>}></AnimatedIconSwitch>
               </div>
             </div>
           </motion.div>

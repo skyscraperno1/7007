@@ -24,7 +24,6 @@ export default defineConfig(({ mode }) => {
             
             // 其他大型库
             'lottie': ['react-lottie'],
-            'axios': ['axios'],
             'styled-components': ['styled-components'],
             
             // 工具库
