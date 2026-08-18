@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "homepage": "https://skyscraperno1.github.io/7007/",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
